@@ -1,0 +1,29 @@
+# dependencies
+/node_modules
+
+# environment variables
+.env
+
+# IDE
+/.idea
+/.awcache
+/.vscode
+
+# logs
+!logs/.gitkeep
+logs
+
+# misc
+.DS_Store
+npm-debug.log
+
+# example
+/quick-start
+
+# tests
+/test
+/coverage
+/.nyc_output
+
+# dist
+/dist
