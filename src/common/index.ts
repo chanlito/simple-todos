@@ -3,7 +3,7 @@ import { ParseNumberPipe } from './pipes/parse-number.pipe';
 
 export { Validate } from '../lib/indicative';
 export { AuthUser, Auth } from '../lib/auth';
-export { logger } from '../lib/logger';
+export { LoggerToken } from '../lib/logger';
 
 export const isNumber = new ParseNumberPipe();
 

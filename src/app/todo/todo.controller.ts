@@ -1,8 +1,9 @@
 import { BadRequestException, Body, Controller, Delete, Get, Inject, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { EntityManager } from 'typeorm';
+import { LoggerInstance } from 'winston';
 
-import { Auth, AuthUser, isNumber, logger, Roles } from '../../common';
+import { Auth, AuthUser, isNumber, LoggerToken, Roles } from '../../common';
 import { Todo, User } from '../../entity';
 import { InjectCustomReposity } from '../../lib/typeorm';
 import { TodoRepository, UserRepository } from '../../repository';
@@ -12,6 +13,7 @@ import { CreateTodoDtoIndicative } from './todo.dto';
 @Controller('todos')
 export class TodoController {
   constructor(
+    @Inject(LoggerToken) private logger: LoggerInstance,
     @Inject(EntityManager) private readonly em: EntityManager,
     @InjectCustomReposity(Todo) private readonly todoRepository: TodoRepository,
     @InjectCustomReposity(User) private readonly userRepository: UserRepository
@@ -35,7 +37,7 @@ export class TodoController {
     offset: number = 0,
     @AuthUser() authUser: User
   ) {
-    logger.info('Auth User', authUser);
+    this.logger.info('Auth User', authUser);
     const todos = await this.todoRepository.find({ take: limit, skip: offset });
     return { data: todos };
   }
@@ -54,7 +56,10 @@ export class TodoController {
   async update() {}
 
   @Delete(':id')
-  async delete(@Param('id', isNumber) id: number) {
+  async delete(
+    @Param('id', isNumber)
+    id: number
+  ) {
     return await this.userRepository.findUserInfo(id);
   }
 }

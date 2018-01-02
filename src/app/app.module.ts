@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 
 import * as entities from '../entity';
+import { LoggerModule } from '../lib/logger';
 import { TypeOrmModule } from '../lib/typeorm';
 import * as repositories from '../repository';
 import { AppController } from './app.controller';
@@ -21,6 +22,7 @@ const {
   modules: [
     AuthModule,
     TodoModule,
+    LoggerModule,
     TypeOrmModule.forRoot({
       entities: Object.keys(entities).map(i => entities[i]),
       customRepositories: Object.keys(repositories).map(i => repositories[i]),
