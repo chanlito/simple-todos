@@ -21,7 +21,6 @@ npm-debug.log
 /quick-start
 
 # tests
-/test
 /coverage
 /.nyc_output
 
