@@ -7,12 +7,12 @@ userRole.name = Roles.User;
 
 export const jamesBondProfile = new Profile();
 jamesBondProfile.id = 1;
-jamesBondProfile.lastName = 'bond';
-jamesBondProfile.firstName = 'james';
+jamesBondProfile.lastName = 'Bond';
+jamesBondProfile.firstName = 'James';
 
 export const jamesBond = new User();
 jamesBond.id = 1;
-jamesBond.email = 'jamebond@test.com';
+jamesBond.email = 'james.bond@mailinator.com';
 jamesBond.role = userRole;
 jamesBond.password = '123456';
 jamesBond.profile = jamesBondProfile;

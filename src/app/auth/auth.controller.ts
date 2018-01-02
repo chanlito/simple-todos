@@ -37,7 +37,6 @@ export class AuthController {
       profile.user = user;
 
       // persist to db
-      await em.save(User, user);
       await em.save(Profile, profile);
     });
     return { message: 'OK' };
