@@ -32,7 +32,7 @@ export class TodoController {
     await this.em.save(Todo, todo);
     this.redisClient.setex('todo', 300, JSON.stringify(todo), (err, reply) => {
       if (err) return this.logger.error('SETEX', err.message);
-      this.logger.log('SETEX', 'OK');
+      this.logger.info('SETEX', 'OK');
     });
     this.mailer.send({
       to: [authUser.email],
