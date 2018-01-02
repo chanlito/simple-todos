@@ -3,7 +3,7 @@ import * as request from 'supertest';
 import { getConnection } from 'typeorm';
 
 import { getServer } from '../../../test';
-import { JamesBond } from '../../../test/mocks';
+import { jamesBond } from '../../../test/mocks';
 import { User } from '../../entity';
 
 let server;
@@ -17,7 +17,7 @@ describe('Auth APIs', () => {
       .createQueryBuilder()
       .delete()
       .from(User)
-      .where('email = :email', { email: JamesBond.email })
+      .where('email = :email', { email: jamesBond.email })
       .execute();
   });
 
@@ -26,8 +26,8 @@ describe('Auth APIs', () => {
       res = await request(server)
         .post('/auth/register')
         .send({
-          email: JamesBond.email,
-          password: JamesBond.password,
+          email: jamesBond.email,
+          password: jamesBond.password,
           firstName: 'James',
           lastName: 'Bond'
         })
@@ -44,8 +44,8 @@ describe('Auth APIs', () => {
       res = await request(server)
         .post('/auth/login')
         .send({
-          email: JamesBond.email,
-          password: JamesBond.password
+          email: jamesBond.email,
+          password: jamesBond.password
         })
         .expect(201);
     });
