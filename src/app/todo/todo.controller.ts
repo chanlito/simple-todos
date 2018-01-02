@@ -19,11 +19,12 @@ export class TodoController {
 
   @Auth('User')
   @Post()
-  async create(@Body() body: CreateTodoDtoIndicative) {
+  async create(@Body() body: CreateTodoDtoIndicative, @AuthUser() authUser: User) {
     const todo = new Todo();
     todo.title = body.title;
     todo.description = body.description;
-    return this.em.getCustomRepository(TodoRepository).save(todo);
+    todo.user = authUser;
+    return this.em.save(Todo, todo);
   }
 
   @Get()

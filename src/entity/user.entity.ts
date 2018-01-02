@@ -34,11 +34,7 @@ export class User {
   @JoinColumn()
   profile: Profile;
 
-  @OneToOne(type => Role, role => role.user, {
-    nullable: false,
-    cascadeAll: true,
-    onDelete: 'CASCADE'
-  })
+  @OneToOne(type => Role, role => role.user, { nullable: false })
   @JoinColumn()
   role: Role;
 

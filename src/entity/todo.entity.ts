@@ -1,4 +1,12 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
+} from 'typeorm';
 
 import { User } from './user.entity';
 
@@ -20,5 +28,5 @@ export class Todo {
 
   @OneToOne(type => User, user => user.todos, { nullable: false })
   @JoinColumn()
-  user: User
+  user: User;
 }

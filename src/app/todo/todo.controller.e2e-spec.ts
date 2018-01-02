@@ -19,8 +19,7 @@ describe('Auth APIs', () => {
       .send({
         email: JamesBond.email,
         password: JamesBond.password
-      })
-      .expect(201);
+      });
     token = `Bearer ` + res.body.token;
   });
 
