@@ -3,7 +3,7 @@ import * as request from 'supertest';
 import { getRepository } from 'typeorm';
 
 import { getServer } from '../../../test';
-import { JamesBond } from '../../../test/mocks';
+import { jamesBond } from '../../../test/mocks';
 import { Todo } from '../../entity';
 
 let server;
@@ -17,8 +17,8 @@ describe('Auth APIs', () => {
     res = await request(server)
       .post('/auth/login')
       .send({
-        email: JamesBond.email,
-        password: JamesBond.password
+        email: jamesBond.email,
+        password: jamesBond.password
       });
     token = `Bearer ` + res.body.token;
   });

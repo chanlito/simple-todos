@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, Get, Inject, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Inject, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { RedisClient } from 'redis';
 import { EntityManager } from 'typeorm';
@@ -8,6 +8,7 @@ import { Auth, AuthUser, isNumber, LoggerToken, RedisClientToken, Roles } from '
 import { Todo, User } from '../../entity';
 import { InjectCustomReposity } from '../../lib/typeorm';
 import { TodoRepository } from '../../repository';
+import { TodoFromParam } from './todo.decorator';
 import { CreateTodoDtoIndicative, UpdateTodoDto } from './todo.dto';
 
 @ApiUseTags('todos')
@@ -52,10 +53,9 @@ export class TodoController {
   @Get(':id')
   async readOne(
     @Param('id', isNumber)
-    id: number
+    id: number,
+    @TodoFromParam() todo: Todo
   ) {
-    const todo = await this.todoRepository.findOneById(id);
-    if (!todo) throw new BadRequestException('Todo was not found.');
     return { data: todo };
   }
 
@@ -63,10 +63,9 @@ export class TodoController {
   async update(
     @Param('id', isNumber)
     id: number,
-    @Body() body: UpdateTodoDto
+    @Body() body: UpdateTodoDto,
+    @TodoFromParam() todo: Todo
   ) {
-    let todo = await this.todoRepository.findOneById(id);
-    if (!todo) throw new BadRequestException('Todo was not found.');
     todo = { ...todo, ...body };
     return this.em.save(Todo, todo);
   }
@@ -74,10 +73,9 @@ export class TodoController {
   @Delete(':id')
   async delete(
     @Param('id', isNumber)
-    id: number
+    id: number,
+    @TodoFromParam() todo: Todo
   ) {
-    const todo = await this.todoRepository.findOneById(id);
-    if (!todo) throw new BadRequestException('Todo was not found.');
     await this.todoRepository.deleteById(id);
     return { message: 'OK' };
   }

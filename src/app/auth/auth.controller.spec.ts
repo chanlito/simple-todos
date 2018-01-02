@@ -2,7 +2,7 @@ import * as bcryptjs from 'bcryptjs';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 
-import { JamesBond } from '../../../test/mocks';
+import { jamesBond } from '../../../test/mocks';
 import { User } from '../../entity';
 import { AuthController } from './auth.controller';
 
@@ -29,8 +29,8 @@ describe('Auth Controller', () => {
     userRepositoryMock = sinon.stub(userRepository, 'findByEmail').callsFake(() => {
       const u = new User();
       u.id = 1;
-      u.email = JamesBond.email;
-      u.password = JamesBond.password;
+      u.email = jamesBond.email;
+      u.password = jamesBond.password;
       return u;
     });
   });
@@ -56,8 +56,8 @@ describe('Auth Controller', () => {
   describe('#login', () => {
     it('should return an object with a token', async () => {
       const r = await authController.login({
-        email: JamesBond.email,
-        password: JamesBond.password
+        email: jamesBond.email,
+        password: jamesBond.password
       });
       expect(r.token).to.be.string;
       expect(r.token).to.not.be.null;
