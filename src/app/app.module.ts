@@ -62,7 +62,7 @@ const {
         password: TYPEORM_PASSWORD,
         type: TYPEORM_CONNECTION,
         logging: TYPEORM_LOGGING === 'true',
-        synchronize: false
+        synchronize: true
       }
     })
   ],

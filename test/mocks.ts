@@ -2,7 +2,7 @@ import { Roles } from '../src/common';
 import { User, Role, Profile } from "../src/entity";
 
 export const userRole = new Role();
-userRole.id = 2;
+userRole.id = 3;
 userRole.name = Roles.User;
 
 export const jamesBondProfile = new Profile();

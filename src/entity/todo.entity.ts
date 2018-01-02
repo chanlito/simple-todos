@@ -26,7 +26,7 @@ export class Todo {
 
   @UpdateDateColumn() updatedDate: Date;
 
-  @OneToOne(type => User, user => user.todos, { nullable: false })
+  @OneToOne(type => User, user => user.todos, { onDelete: 'SET NULL' })
   @JoinColumn()
   user: User;
 }

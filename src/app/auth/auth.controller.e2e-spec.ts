@@ -62,7 +62,7 @@ describe('Auth APIs', () => {
         .post(loginURL)
         .send({
           email: 'incorrect@email.com',
-          password: JamesBond.password
+          password: jamesBond.password
         })
         .expect(400);
     });
@@ -71,7 +71,7 @@ describe('Auth APIs', () => {
       res = await request(server)
         .post(loginURL)
         .send({
-          email: JamesBond.email,
+          email: jamesBond.email,
           password: '12345678'
         })
         .expect(400);
