@@ -11,10 +11,15 @@ import { AuthModule } from './auth/auth.module';
 import { TodoModule } from './todo/todo.module';
 
 const {
+  MAILER_TYPE,
+  MAILER_GMAIL_CLIENTID,
+  MAILER_GMAIL_CLIENTSECRET,
+  MAILER_GMAIL_REFRESHTOKEN,
+  MAILER_GMAIL_USER,
+  MAILER_MANDRILL_API_KEY,
   REDIS_HOST,
   REDIS_PORT,
   REDIS_AUTH_PASS,
-
   TYPEORM_CONNECTION,
   TYPEORM_HOST,
   TYPEORM_PORT,
@@ -22,13 +27,7 @@ const {
   TYPEORM_USERNAME,
   TYPEORM_PASSWORD,
   TYPEORM_LOGGING,
-
-  MAILER_TYPE,
-  MAILER_GMAIL_CLIENTID,
-  MAILER_GMAIL_CLIENTSECRET,
-  MAILER_GMAIL_REFRESHTOKEN,
-  MAILER_GMAIL_USER,
-  MAILER_MANDRILL_API_KEY
+  TYPEORM_SYNCHRONIZE
 } = process.env as any;
 
 @Module({
@@ -62,7 +61,7 @@ const {
         password: TYPEORM_PASSWORD,
         type: TYPEORM_CONNECTION,
         logging: TYPEORM_LOGGING === 'true',
-        synchronize: true
+        synchronize: TYPEORM_SYNCHRONIZE === 'true'
       }
     })
   ],
