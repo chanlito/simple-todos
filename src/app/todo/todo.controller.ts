@@ -27,7 +27,12 @@ export class TodoController {
     todo.title = body.title;
     todo.description = body.description;
     todo.user = authUser;
-    this.redisClient.setex('todo', 300, JSON.stringify(todo), e => this.logger.error('Error', e));
+
+    this.redisClient.setex('todo', 300, JSON.stringify(todo), (err, reply) => {
+      if (err) return this.logger.error('SETEX', err.message);
+      this.logger.log('SETEX', 'OK');
+    });
+
     return this.em.save(Todo, todo);
   }
 
@@ -71,7 +76,7 @@ export class TodoController {
     @Param('id', isNumber)
     id: number
   ) {
-    let todo = await this.todoRepository.findOneById(id);
+    const todo = await this.todoRepository.findOneById(id);
     if (!todo) throw new BadRequestException('Todo was not found.');
     await this.todoRepository.deleteById(id);
     return { message: 'OK' };
