@@ -11,7 +11,7 @@ export class Profile {
   @Column({ nullable: true })
   lastName?: string;
 
-  @OneToOne(type => User, user => user.profile, { cascadeAll: true })
+  @OneToOne(type => User, user => user.profile)
   user: User;
 
   @CreateDateColumn() createdDate: Date;
