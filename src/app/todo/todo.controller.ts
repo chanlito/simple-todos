@@ -8,7 +8,7 @@ import { Auth, AuthUser, isNumber, LoggerToken, RedisClientToken, Roles } from '
 import { Todo, User } from '../../entity';
 import { InjectCustomReposity } from '../../lib/typeorm';
 import { TodoRepository } from '../../repository';
-import { CreateTodoDtoIndicative } from './todo.dto';
+import { CreateTodoDtoIndicative, UpdateTodoDto } from './todo.dto';
 
 @ApiUseTags('todos')
 @Controller('todos')
@@ -60,11 +60,25 @@ export class TodoController {
   }
 
   @Put(':id')
-  async update() {}
+  async update(
+    @Param('id', isNumber)
+    id: number,
+    @Body() body: UpdateTodoDto
+  ) {
+    let todo = await this.todoRepository.findOneById(id);
+    if (!todo) throw new BadRequestException('Todo was not found.');
+    todo = { ...todo, ...body };
+    return this.em.save(Todo, todo);
+  }
 
   @Delete(':id')
   async delete(
     @Param('id', isNumber)
     id: number
-  ) {}
+  ) {
+    const todo = await this.todoRepository.findOneById(id);
+    if (!todo) throw new BadRequestException('Todo was not found.');
+    await this.todoRepository.deleteById(id);
+    return { message: 'OK' };
+  }
 }
