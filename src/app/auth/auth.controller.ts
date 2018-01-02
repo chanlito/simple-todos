@@ -26,18 +26,19 @@ export class AuthController {
       const userRole = await em.findOne(Role, { where: { name: 'user' } });
       if (!userRole) throw new Error();
 
-      const profile = new Profile();
-      profile.firstName = body.firstName;
-      profile.lastName = body.lastName;
-
       const user = new User();
       user.email = body.email;
       user.password = await genSalt().then(s => hash(body.password, s));
-      user.profile = profile;
       user.role = userRole;
+
+      const profile = new Profile();
+      profile.firstName = body.firstName;
+      profile.lastName = body.lastName;
+      profile.user = user;
 
       // persist to db
       await em.save(User, user);
+      await em.save(Profile, profile);
     });
     return { message: 'OK' };
   }

@@ -2,7 +2,7 @@ import { BadRequestException, Body, Controller, Delete, Get, Inject, Param, Post
 import { ApiUseTags } from '@nestjs/swagger';
 import { EntityManager } from 'typeorm';
 
-import { Auth, AuthUser, isNumber, logger } from '../../common';
+import { Auth, AuthUser, isNumber, logger, Roles } from '../../common';
 import { Todo, User } from '../../entity';
 import { InjectCustomReposity } from '../../lib/typeorm';
 import { TodoRepository, UserRepository } from '../../repository';
@@ -17,7 +17,7 @@ export class TodoController {
     @InjectCustomReposity(User) private readonly userRepository: UserRepository
   ) {}
 
-  @Auth('User')
+  @Auth(Roles.User)
   @Post()
   async create(@Body() body: CreateTodoDtoIndicative, @AuthUser() authUser: User) {
     const todo = new Todo();
@@ -54,7 +54,7 @@ export class TodoController {
   async update() {}
 
   @Delete(':id')
-  async delete() {
-    return await this.userRepository.findUserInfo(2);
+  async delete(@Param('id', isNumber) id: number) {
+    return await this.userRepository.findUserInfo(id);
   }
 }

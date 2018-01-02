@@ -26,15 +26,10 @@ export class User {
 
   @UpdateDateColumn() updatedDate: Date;
 
-  @OneToOne(type => Profile, profile => profile.user, {
-    nullable: false,
-    cascadeAll: true,
-    onDelete: 'CASCADE'
-  })
-  @JoinColumn()
+  @OneToOne(type => Profile, profile => profile.user)
   profile: Profile;
 
-  @OneToOne(type => Role, role => role.user, { nullable: false })
+  @OneToOne(type => Role, role => role.user, { nullable: false, cascadeInsert: true, cascadeUpdate: true })
   @JoinColumn()
   role: Role;
 

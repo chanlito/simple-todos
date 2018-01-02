@@ -1,4 +1,12 @@
-import { Column, CreateDateColumn, Entity, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
+} from 'typeorm';
 
 import { User } from './user.entity';
 
@@ -15,6 +23,7 @@ export class Profile {
 
   @UpdateDateColumn() updatedDate: Date;
 
-  @OneToOne(type => User, user => user.profile)
+  @OneToOne(type => User, user => user.profile, { onDelete: 'CASCADE', cascadeAll: true })
+  @JoinColumn()
   user: User;
 }

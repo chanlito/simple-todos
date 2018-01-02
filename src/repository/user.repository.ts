@@ -12,17 +12,18 @@ export class UserRepository extends Repository<User> {
     args: number | { id?: number; role?: string; firstName?: string }
   ): Promise<Pick<Partial<User>, 'id'> | undefined> {
     const opts = typeof args === 'number' ? { id: args } : args;
-    return this.manager
-      .createQueryBuilder()
-      .select(['u.id', 'u.email', 'r.id', 'r.name'])
-      .from(User, 'u')
-      .innerJoin('u.role', 'r')
-      .where('u.id IS NOT NULL')
-      .andWhere(opts.id ? `u.id = :id` : 'true', { id: opts.id })
-      .andWhere(opts.role ? `r.name = :role` : 'true', { role: opts.role })
-      .andWhere(opts.firstName ? `u.firstName like :firstName` : 'true', { firstName: `%${opts.firstName}%` })
-      .limit(1)
-      .getOne();
+    return (
+      this.manager
+        .createQueryBuilder()
+        // .select(['u.id', 'u.email', 'r.id', 'r.name'])
+        .from(User, 'u')
+        .innerJoin('u.profile', 'p')
+        .where('u.id IS NOT NULL')
+        .andWhere(opts.id ? `u.id = :id` : 'true', { id: opts.id })
+        .andWhere(opts.firstName ? `u.firstName like :firstName` : 'true', { firstName: `%${opts.firstName}%` })
+        .limit(1)
+        .getOne()
+    );
 
     // console.log('data', data);
 
