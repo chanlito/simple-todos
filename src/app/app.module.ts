@@ -12,6 +12,8 @@ import { TodoModule } from './todo/todo.module';
 
 const {
   MAILER_TYPE,
+  MAILER_ETHEREAL_USERNAME,
+  MAILER_ETHEREAL_PASSWORD,
   MAILER_GMAIL_CLIENTID,
   MAILER_GMAIL_CLIENTSECRET,
   MAILER_GMAIL_REFRESHTOKEN,
@@ -37,13 +39,17 @@ const {
     LoggerModule,
     MailerModule.forRoot({
       type: MAILER_TYPE,
-      mandrillOptions: { apiKey: MAILER_MANDRILL_API_KEY },
-      gmailOptions: {
+      ethreal: {
+        username: MAILER_ETHEREAL_USERNAME,
+        password: MAILER_ETHEREAL_PASSWORD
+      },
+      gmail: {
         clientId: MAILER_GMAIL_CLIENTID,
         clientSecret: MAILER_GMAIL_CLIENTSECRET,
         refreshToken: MAILER_GMAIL_REFRESHTOKEN,
         user: MAILER_GMAIL_USER
-      }
+      },
+      mandrill: { apiKey: MAILER_MANDRILL_API_KEY }
     }),
     RedisModule.forRoot({
       host: REDIS_HOST,

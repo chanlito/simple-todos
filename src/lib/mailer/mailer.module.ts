@@ -1,11 +1,12 @@
 import { DynamicModule, Global, Module } from '@nestjs/common';
 
-import { CreateMailerProviders, createMailerProviders } from './mailer.providers';
+import { MailerConfiguration } from './mailer';
+import { createMailerProviders } from './mailer.providers';
 
 @Global()
 @Module({})
 export class MailerModule {
-  static forRoot(options: CreateMailerProviders): DynamicModule {
+  static forRoot(options: MailerConfiguration): DynamicModule {
     const providers = createMailerProviders(options);
     return {
       module: MailerModule,

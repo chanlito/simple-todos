@@ -4,7 +4,7 @@ import { RedisClient } from 'redis';
 import { EntityManager } from 'typeorm';
 import { LoggerInstance } from 'winston';
 
-import { Auth, AuthUser, isNumber, LoggerToken, RedisClientToken, Roles } from '../../common';
+import { Auth, AuthUser, isNumber, LoggerToken, Mailer, MailerToken, RedisClientToken, Roles } from '../../common';
 import { Todo, User } from '../../entity';
 import { InjectCustomReposity } from '../../lib/typeorm';
 import { TodoRepository } from '../../repository';
@@ -17,6 +17,7 @@ export class TodoController {
   constructor(
     @Inject(LoggerToken) private readonly logger: LoggerInstance,
     @Inject(RedisClientToken) private readonly redisClient: RedisClient,
+    @Inject(MailerToken) private readonly mailer: Mailer,
     @Inject(EntityManager) private readonly em: EntityManager,
     @InjectCustomReposity(Todo) private readonly todoRepository: TodoRepository
   ) {}
@@ -28,13 +29,23 @@ export class TodoController {
     todo.title = body.title;
     todo.description = body.description;
     todo.user = authUser;
-
+    await this.em.save(Todo, todo);
     this.redisClient.setex('todo', 300, JSON.stringify(todo), (err, reply) => {
       if (err) return this.logger.error('SETEX', err.message);
       this.logger.log('SETEX', 'OK');
     });
-
-    return this.em.save(Todo, todo);
+    this.mailer.send({
+      to: [authUser.email],
+      fromEmail: 'simpletodos@mail.com',
+      fromName: 'Simple Todos Team',
+      subject: 'Thank you for creating a todo.',
+      html: `
+        <p>Hi there,</p>
+        <p>Thank you, your todo is ready to be used.</p>
+        <p><b>Simple Todos</b> Team</p>
+      `
+    });
+    return todo;
   }
 
   @Get()
