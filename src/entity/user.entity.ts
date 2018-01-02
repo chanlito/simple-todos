@@ -3,6 +3,7 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn
@@ -10,6 +11,7 @@ import {
 
 import { Profile } from './profile.entity';
 import { Role } from './role.entity';
+import { Todo } from './todo.entity';
 
 @Entity()
 export class User {
@@ -39,4 +41,7 @@ export class User {
   })
   @JoinColumn()
   role: Role;
+
+  @OneToMany(type => Todo, todo => todo.user)
+  todos: Todo[];
 }
