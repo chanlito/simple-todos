@@ -17,6 +17,7 @@
     "@nestjs/testing": "^4.5.4",
     "@nestjs/websockets": "^4.5.3",
     "bcryptjs": "^2.4.3",
+    "bluebird": "^3.5.1",
     "class-transformer": "^0.1.8",
     "class-validator": "^0.7.3",
     "cors": "^2.8.4",
@@ -41,6 +42,7 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.1",
+    "@types/bluebird": "^3.5.19",
     "@types/chai": "^4.0.10",
     "@types/cors": "^2.8.3",
     "@types/dotenv": "^4.0.2",

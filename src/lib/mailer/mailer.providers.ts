@@ -1,7 +1,10 @@
+import { Logger } from '@nestjs/common';
 import { Mandrill } from 'mandrill-api';
 import * as nodemailer from 'nodemailer';
 
 import { MailerToken } from './mailer.constants';
+
+const logger = new Logger('MailerModule');
 
 interface MailerOption {
   subject: string;
@@ -16,11 +19,7 @@ export class Mailer {
 
   constructor(private readonly option: CreateMailerProviders) {
     this.mandrillClient = new Mandrill(option.mandrillOptions.apiKey);
-    this.mandrillClient.users.ping(
-      {},
-      result => console.log('Mandrill OK!', result),
-      e => console.log('Mandrill BOOM!', e)
-    );
+    this.mandrillClient.users.ping({}, result => logger.log('Mandrill OK!'), e => logger.error('Mandrill BOOM!'));
 
     this.transporter = nodemailer.createTransport({
       service: 'gmail',
