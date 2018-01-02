@@ -1,22 +1,23 @@
 import { BadRequestException, Body, Controller, Delete, Get, Inject, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
+import { RedisClient } from 'redis';
 import { EntityManager } from 'typeorm';
 import { LoggerInstance } from 'winston';
 
-import { Auth, AuthUser, isNumber, LoggerToken, Roles } from '../../common';
+import { Auth, AuthUser, isNumber, LoggerToken, RedisClientToken, Roles } from '../../common';
 import { Todo, User } from '../../entity';
 import { InjectCustomReposity } from '../../lib/typeorm';
-import { TodoRepository, UserRepository } from '../../repository';
+import { TodoRepository } from '../../repository';
 import { CreateTodoDtoIndicative } from './todo.dto';
 
 @ApiUseTags('todos')
 @Controller('todos')
 export class TodoController {
   constructor(
-    @Inject(LoggerToken) private logger: LoggerInstance,
+    @Inject(LoggerToken) private readonly logger: LoggerInstance,
+    @Inject(RedisClientToken) private readonly redisClient: RedisClient,
     @Inject(EntityManager) private readonly em: EntityManager,
-    @InjectCustomReposity(Todo) private readonly todoRepository: TodoRepository,
-    @InjectCustomReposity(User) private readonly userRepository: UserRepository
+    @InjectCustomReposity(Todo) private readonly todoRepository: TodoRepository
   ) {}
 
   @Auth(Roles.User)
@@ -26,6 +27,7 @@ export class TodoController {
     todo.title = body.title;
     todo.description = body.description;
     todo.user = authUser;
+    this.redisClient.setex('todo', 300, JSON.stringify(todo), e => this.logger.error('Error', e));
     return this.em.save(Todo, todo);
   }
 
@@ -60,6 +62,5 @@ export class TodoController {
     @Param('id', isNumber)
     id: number
   ) {
-    return await this.userRepository.findUserInfo(id);
   }
 }
