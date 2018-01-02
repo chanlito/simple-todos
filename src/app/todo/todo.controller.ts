@@ -28,7 +28,12 @@ export class TodoController {
     todo.title = body.title;
     todo.description = body.description;
     todo.user = authUser;
-    this.redisClient.setex('todo', 300, JSON.stringify(todo), e => this.logger.error('Error', e));
+
+    this.redisClient.setex('todo', 300, JSON.stringify(todo), (err, reply) => {
+      if (err) return this.logger.error('SETEX', err.message);
+      this.logger.log('SETEX', 'OK');
+    });
+
     return this.em.save(Todo, todo);
   }
 
