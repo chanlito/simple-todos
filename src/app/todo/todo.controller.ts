@@ -5,16 +5,15 @@ import { EntityManager } from 'typeorm';
 import { Auth, AuthUser, isNumber, logger, Roles } from '../../common';
 import { Todo, User } from '../../entity';
 import { InjectCustomReposity } from '../../lib/typeorm';
-import { TodoRepository, UserRepository } from '../../repository';
-import { CreateTodoDtoIndicative } from './todo.dto';
+import { TodoRepository } from '../../repository';
+import { CreateTodoDtoIndicative, UpdateTodoDto } from './todo.dto';
 
 @ApiUseTags('todos')
 @Controller('todos')
 export class TodoController {
   constructor(
     @Inject(EntityManager) private readonly em: EntityManager,
-    @InjectCustomReposity(Todo) private readonly todoRepository: TodoRepository,
-    @InjectCustomReposity(User) private readonly userRepository: UserRepository
+    @InjectCustomReposity(Todo) private readonly todoRepository: TodoRepository
   ) {}
 
   @Auth(Roles.User)
@@ -51,10 +50,25 @@ export class TodoController {
   }
 
   @Put(':id')
-  async update() {}
+  async update(
+    @Param('id', isNumber)
+    id: number,
+    @Body() body: UpdateTodoDto
+  ) {
+    let todo = await this.todoRepository.findOneById(id);
+    if (!todo) throw new BadRequestException('Todo was not found.');
+    todo = { ...todo, ...body };
+    return this.em.save(Todo, todo);
+  }
 
   @Delete(':id')
-  async delete(@Param('id', isNumber) id: number) {
-    return await this.userRepository.findUserInfo(id);
+  async delete(
+    @Param('id', isNumber)
+    id: number
+  ) {
+    let todo = await this.todoRepository.findOneById(id);
+    if (!todo) throw new BadRequestException('Todo was not found.');
+    await this.todoRepository.deleteById(id);
+    return { message: 'OK' };
   }
 }
