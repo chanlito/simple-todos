@@ -1,8 +1,10 @@
 import { BadRequestException, Body, Controller, Delete, Get, Inject, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
+import { RedisClient } from 'redis';
 import { EntityManager } from 'typeorm';
+import { LoggerInstance } from 'winston';
 
-import { Auth, AuthUser, isNumber, logger, Roles } from '../../common';
+import { Auth, AuthUser, isNumber, LoggerToken, RedisClientToken, Roles } from '../../common';
 import { Todo, User } from '../../entity';
 import { InjectCustomReposity } from '../../lib/typeorm';
 import { TodoRepository } from '../../repository';
@@ -12,6 +14,8 @@ import { CreateTodoDtoIndicative, UpdateTodoDto } from './todo.dto';
 @Controller('todos')
 export class TodoController {
   constructor(
+    @Inject(LoggerToken) private readonly logger: LoggerInstance,
+    @Inject(RedisClientToken) private readonly redisClient: RedisClient,
     @Inject(EntityManager) private readonly em: EntityManager,
     @InjectCustomReposity(Todo) private readonly todoRepository: TodoRepository
   ) {}
@@ -23,6 +27,7 @@ export class TodoController {
     todo.title = body.title;
     todo.description = body.description;
     todo.user = authUser;
+    this.redisClient.setex('todo', 300, JSON.stringify(todo), e => this.logger.error('Error', e));
     return this.em.save(Todo, todo);
   }
 
@@ -34,7 +39,7 @@ export class TodoController {
     offset: number = 0,
     @AuthUser() authUser: User
   ) {
-    logger.info('Auth User', authUser);
+    this.logger.info('Auth User', authUser);
     const todos = await this.todoRepository.find({ take: limit, skip: offset });
     return { data: todos };
   }

@@ -1,15 +1,21 @@
+import { Logger } from '@nestjs/common';
 import { Connection, ConnectionOptions, createConnection } from 'typeorm';
 
 import { getRepositoryToken } from './typeorm.utils';
 
+const logger = new Logger('TypeOrmModule');
+
 export function createTypeOrmProviders(options: CreateTypeOrmProviders) {
   const connectionProvider = {
     provide: Connection,
-    useFactory: async () =>
-      await createConnection(options.connectionOptions).catch(e => {
+    useFactory: async () => {
+      const connection = await createConnection(options.connectionOptions).catch(e => {
         console.error(e);
         process.exit(1);
-      })
+      });
+      logger.log('database connected');
+      return connection;
+    }
   };
   const entityManagerProvider = {
     provide: `EntityManager`,

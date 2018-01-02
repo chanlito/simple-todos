@@ -18,7 +18,6 @@ describe('Auth APIs', () => {
       .delete()
       .from(User)
       .where('email = :email', { email: JamesBond.email })
-      .printSql()
       .execute();
   });
 
