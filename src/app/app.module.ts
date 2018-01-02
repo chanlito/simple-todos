@@ -39,7 +39,7 @@ const {
     LoggerModule,
     MailerModule.forRoot({
       type: MAILER_TYPE,
-      ethreal: {
+      ethereal: {
         username: MAILER_ETHEREAL_USERNAME,
         password: MAILER_ETHEREAL_PASSWORD
       },

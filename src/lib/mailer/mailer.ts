@@ -67,8 +67,8 @@ export class Mailer {
 }
 
 export interface MailerConfiguration {
-  type: 'ethreal' | 'gmail' | 'mandrill';
-  ethreal?: {
+  type: 'ethereal' | 'gmail' | 'mandrill';
+  ethereal?: {
     username: string;
     password: string;
   };
