@@ -2,7 +2,7 @@
 
 ## Description
 
-"Simple Todos" is a project to show how REST APIs are built using some cool techs. 😎
+**Simple Todos** is a project to show how REST APIs are built, it is powered by Nest Framework 😻 & Typescript 💙
 
 ## Environment Variables
 
@@ -24,4 +24,10 @@ npm start
 
 ```bash
 npm run dev
+```
+
+## Test
+
+```bash
+npm test
 ```
