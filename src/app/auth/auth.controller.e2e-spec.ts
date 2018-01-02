@@ -39,10 +39,12 @@ describe('Auth APIs', () => {
     });
   });
 
-  describe('POST /auth/login', () => {
+  const loginURL = '/auth/login';
+
+  describe(`POST ${loginURL}`, () => {
     it('should respond with 201', async () => {
       res = await request(server)
-        .post('/auth/login')
+        .post(loginURL)
         .send({
           email: JamesBond.email,
           password: JamesBond.password
@@ -53,6 +55,26 @@ describe('Auth APIs', () => {
     it('should respond with a string token & not null', () => {
       expect(res.body.token).to.be.string;
       expect(res.body.token).to.not.be.null;
+    });
+
+    it('should respond with 400 when incorrect email', async () => {
+      res = await request(server)
+        .post(loginURL)
+        .send({
+          email: 'incorrect@email.com',
+          password: JamesBond.password
+        })
+        .expect(400);
+    });
+
+    it('should respond with 400 when incorrect password', async () => {
+      res = await request(server)
+        .post(loginURL)
+        .send({
+          email: JamesBond.email,
+          password: '12345678'
+        })
+        .expect(400);
     });
   });
 });

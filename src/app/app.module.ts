@@ -42,7 +42,7 @@ const {
         username: TYPEORM_USERNAME,
         password: TYPEORM_PASSWORD,
         type: TYPEORM_CONNECTION,
-        logging: !!TYPEORM_LOGGING,
+        logging: TYPEORM_LOGGING === 'true',
         synchronize: false
       }
     })
