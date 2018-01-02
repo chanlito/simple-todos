@@ -10,10 +10,10 @@ export class Role {
   @Column({ type: 'enum', enum: ['user', 'admin'] })
   name: RoleNames;
 
-  @OneToOne(type => User, user => user.role)
-  user: User;
-
   @CreateDateColumn() createdDate: Date;
 
   @UpdateDateColumn() updatedDate: Date;
+
+  @OneToOne(type => User, user => user.role)
+  user: User;
 }

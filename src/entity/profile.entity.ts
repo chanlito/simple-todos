@@ -11,10 +11,10 @@ export class Profile {
   @Column({ nullable: true })
   lastName?: string;
 
-  @OneToOne(type => User, user => user.profile)
-  user: User;
-
   @CreateDateColumn() createdDate: Date;
 
   @UpdateDateColumn() updatedDate: Date;
+
+  @OneToOne(type => User, user => user.profile)
+  user: User;
 }
