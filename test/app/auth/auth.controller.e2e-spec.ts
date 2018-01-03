@@ -2,9 +2,9 @@ import { expect } from 'chai';
 import * as request from 'supertest';
 import { getConnection } from 'typeorm';
 
+import { User } from '../../../src/entity';
 import { getServer } from '../../../test';
 import { jamesBond } from '../../../test/mocks';
-import { User } from '../../entity';
 
 let server;
 

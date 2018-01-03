@@ -2,9 +2,9 @@ import * as bcryptjs from 'bcryptjs';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 
+import { AuthController } from '../../../src/app/auth/auth.controller';
+import { User } from '../../../src/entity';
 import { jamesBond } from '../../../test/mocks';
-import { User } from '../../entity';
-import { AuthController } from './auth.controller';
 
 let authController: AuthController;
 let compareMock;

@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "cross-env nodemon",
     "prestart": "rimraf dist && tsc",
-    "start": "cross-env node dist",
+    "start": "cross-env pm2 start dist -i max --attach",
     "test": "cross-env NODE_ENV=test nyc mocha --require test/index.ts --opts test/mocha.opts",
     "types": "typesync && npm i"
   },
@@ -31,6 +31,7 @@
     "morgan": "^1.9.0",
     "mysql": "^2.15.0",
     "nodemailer": "^4.4.1",
+    "pm2": "^2.9.1",
     "redis": "^2.8.0",
     "reflect-metadata": "^0.1.10",
     "rimraf": "^2.6.2",

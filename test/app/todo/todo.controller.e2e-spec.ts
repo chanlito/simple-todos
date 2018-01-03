@@ -2,9 +2,9 @@ import { expect } from 'chai';
 import * as request from 'supertest';
 import { getRepository } from 'typeorm';
 
+import { Todo } from '../../../src/entity';
 import { getServer } from '../../../test';
 import { jamesBond } from '../../../test/mocks';
-import { Todo } from '../../entity';
 
 let server;
 let token;
