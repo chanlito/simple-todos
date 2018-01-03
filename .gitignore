@@ -25,3 +25,7 @@ npm-debug.log
 
 # dist
 /dist
+
+# public
+public/*
+!public/.gitkeep

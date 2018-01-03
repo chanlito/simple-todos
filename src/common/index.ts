@@ -1,6 +1,7 @@
 import { ParseBooleanPipe } from './pipes/parse-boolean.pipe';
 import { ParseNumberPipe } from './pipes/parse-number.pipe';
 
+export * from './decorators/files.decorator';
 export { Validate } from '../lib/indicative';
 export { AuthUser, Auth } from '../lib/auth';
 export { LoggerToken } from '../lib/logger';
