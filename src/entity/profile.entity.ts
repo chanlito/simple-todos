@@ -23,7 +23,10 @@ export class Profile {
 
   @UpdateDateColumn() updatedDate: Date;
 
-  @OneToOne(type => User, user => user.profile, { onDelete: 'CASCADE', cascadeAll: true })
+  @OneToOne(type => User, user => user.profile, {
+    onDelete: 'SET NULL',
+    cascadeAll: true
+  })
   @JoinColumn()
   user: User;
 }
