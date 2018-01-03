@@ -2,4 +2,4 @@
 --require source-map-support/register
 --recursive
 --timeout 30000
-src/**/*{.test.ts,.spec.ts,.e2e-spec.ts}
+test/**/*{.test.ts,.spec.ts,.e2e-spec.ts}
