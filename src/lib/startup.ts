@@ -3,12 +3,11 @@ import { NestFactory, Reflector } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as cors from 'cors';
 import * as express from 'express';
-import { Messages } from 'indicative';
 import * as morgan from 'morgan';
 
 import { AuthGuard, authorizationChecker, AuthorizationCheckerFn } from './auth';
 import { ErrorFilter } from './error';
-import { IndicativePipe } from './indicative';
+import { IndicativePipe, IndicativePipeConfiguration } from './indicative';
 
 export class Startup {
   private reflector = new Reflector();
@@ -38,9 +37,7 @@ export class Startup {
   }
 
   private async configureNestGlobals(app: INestApplication) {
-    app.useGlobalPipes(
-      new IndicativePipe(this.config.indicative ? this.config.indicative.messages : {}, this.reflector)
-    );
+    app.useGlobalPipes(new IndicativePipe(this.config.indicative, this.reflector));
     app.useGlobalFilters(new ErrorFilter());
     app.useGlobalGuards(new AuthGuard(this.config.authorizationChecker || authorizationChecker, this.reflector));
   }
@@ -58,8 +55,5 @@ export class Startup {
 export interface StartupConfiguration {
   ApplicationModule: any;
   authorizationChecker?: AuthorizationCheckerFn;
-  indicative?: {
-    messages?: Messages;
-    customRules?: any[];
-  };
+  indicative?: IndicativePipeConfiguration;
 }

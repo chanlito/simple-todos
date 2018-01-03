@@ -4,7 +4,7 @@ import { Validate } from '../../common';
 
 @Validate({
   rules: {
-    email: 'required|string|email|max:255',
+    email: 'required|string|email|unique_email|max:255',
     password: 'required|string|min:6|max:255',
     firstName: 'required|string|max:255',
     lastName: 'string|max:255'

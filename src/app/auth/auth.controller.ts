@@ -56,7 +56,7 @@ export class AuthController {
       },
       JWT_SECRET,
       {
-        expiresIn: '1 day',
+        expiresIn: '1 hour',
         issuer: 'API League Team'
       }
     );
