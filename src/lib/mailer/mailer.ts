@@ -28,8 +28,8 @@ export class Mailer {
         host: 'smtp.ethereal.email',
         port: 587,
         auth: {
-          user: config.ethreal.username,
-          pass: config.ethreal.password
+          user: config.ethereal.username,
+          pass: config.ethereal.password
         }
       });
     }
