@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "cross-env nodemon",
     "prestart": "rimraf dist && tsc",
-    "start": "cross-env pm2 start dist -i max --attach",
+    "start": "cross-env NODE_ENV=production pm2 start dist -i max --attach",
     "test": "cross-env NODE_ENV=test nyc mocha --require test/index.ts --opts test/mocha.opts",
     "types": "typesync && npm i"
   },
@@ -75,23 +75,10 @@
     "typesync": "^0.2.5"
   },
   "nyc": {
-    "include": [
-      "src/**/*.ts",
-      "test/**/*"
-    ],
-    "extension": [
-      ".ts"
-    ],
-    "exclude": [
-      "**/*.d.ts",
-      "**/*.test.ts",
-      "**/*.spec.ts",
-      "**/*.e2e-spec.ts"
-    ],
-    "reporter": [
-      "html",
-      "text"
-    ],
+    "include": ["src/**/*.ts", "test/**/*"],
+    "extension": [".ts"],
+    "exclude": ["**/*.d.ts", "**/*.test.ts", "**/*.spec.ts", "**/*.e2e-spec.ts"],
+    "reporter": ["html", "text"],
     "all": true,
     "report-dir": "./coverage"
   }
