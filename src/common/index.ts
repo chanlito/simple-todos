@@ -7,6 +7,7 @@ export { AuthUser, Auth } from '../lib/auth';
 export { LoggerToken } from '../lib/logger';
 export { MailerToken, Mailer } from '../lib/mailer';
 export { RedisClientToken } from '../lib/redis';
+export { WebsocketsExceptionFilter } from '../lib/ws';
 
 export const isNumber = new ParseNumberPipe();
 
