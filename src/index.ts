@@ -2,6 +2,8 @@ import 'dotenv/config';
 import 'reflect-metadata';
 import 'source-map-support/register';
 
+import { WsException } from '@nestjs/websockets';
+
 import { ApplicationModule } from './app/app.module';
 import { uniqueEmail } from './common/rules';
 import { Startup, StartupConfiguration } from './lib/startup';
@@ -32,3 +34,11 @@ new Startup(config).main().then(
     process.exit(1);
   }
 );
+
+process.on('unhandledRejection', e => {
+  if (e instanceof WsException) {
+    console.error(`[WsException]`, e.getError());
+  } else {
+    console.error(`[UnhandledRejection]`, e);
+  }
+});

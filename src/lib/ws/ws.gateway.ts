@@ -20,23 +20,23 @@ export class WsGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayD
   private logger = new Logger('WsGateway');
   @WebSocketServer() private readonly io: SocketIO.Server;
 
-  afterInit(io: SocketIO.Server) {
+  async afterInit(io: SocketIO.Server) {
     const options: redis.ClientOpts = { host: REDIS_HOST, port: REDIS_PORT, auth_pass: REDIS_AUTH_PASS };
     const pubClient = redis.createClient(options);
     const subClient = redis.createClient(options);
     io.adapter(socketIoRedis({ pubClient, subClient }));
   }
 
-  handleConnection(socket: SocketIO.Socket) {
+  async handleConnection(socket: SocketIO.Socket) {
     this.logger.log(`${socket.id} connected!`);
   }
 
-  handleDisconnect(socket: SocketIO.Socket) {
+  async handleDisconnect(socket: SocketIO.Socket) {
     this.logger.log(`${socket.id} disconnected!`);
   }
 
   @SubscribeMessage('WELCOME')
-  onWelcome(socket: SocketIO.Socket, data: any) {
+  async onWelcome(socket: SocketIO.Socket, data: any) {
     this.io.emit('WELCOME', `Welcome ${socket.id}.`);
   }
 }

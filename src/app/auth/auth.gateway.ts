@@ -1,22 +1,33 @@
 import { Logger, UseFilters } from '@nestjs/common';
-import { OnGatewayConnection, OnGatewayDisconnect, WebSocketGateway, WsException } from '@nestjs/websockets';
+import {
+  OnGatewayConnection,
+  OnGatewayDisconnect,
+  SubscribeMessage,
+  WebSocketGateway,
+  WebSocketServer,
+  WsException
+} from '@nestjs/websockets';
 
 import { WebsocketsExceptionFilter } from '../../common';
 import { AuthGatewayMiddleware } from './auth.gateway-middleware';
 
+@UseFilters(new WebsocketsExceptionFilter())
 @WebSocketGateway({ namespace: 'auth', middlewares: [AuthGatewayMiddleware] })
 export class AuthGateway implements OnGatewayConnection, OnGatewayDisconnect {
   private logger = new Logger('AuthGateway');
-  // @WebSocketServer() private readonly io: SocketIO.Server;
+  @WebSocketServer() private readonly io: SocketIO.Server;
 
-  @UseFilters(new WebsocketsExceptionFilter())
   async handleConnection(socket: SocketIO.Socket) {
     this.logger.log(`${socket.id} connected!`);
-    throw new WsException('WTF'); // <----- Like this one!
-    // console.log(this.io);
   }
 
-  handleDisconnect(socket: SocketIO.Socket) {
+  async handleDisconnect(socket: SocketIO.Socket) {
     this.logger.log(`${socket.id} disconnected!`);
+  }
+
+  @SubscribeMessage('WELCOME')
+  async onWelcome(socket: SocketIO.Socket, data: any) {
+    this.io.emit('WELCOME', `Welcome ${socket.id}.`);
+    throw new WsException('Oops');
   }
 }
