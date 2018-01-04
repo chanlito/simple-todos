@@ -26,4 +26,6 @@ npm-debug.log
 /dist
 
 # public
-public
+public/*
+public/uploads/*
+!public/uploads/.gitkeep
