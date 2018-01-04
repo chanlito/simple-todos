@@ -9,7 +9,6 @@
 /.awcache
 
 # logs
-!logs/.gitkeep
 logs
 
 # misc
@@ -27,5 +26,4 @@ npm-debug.log
 /dist
 
 # public
-public/*
-!public/.gitkeep
+public

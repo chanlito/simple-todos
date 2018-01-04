@@ -1,7 +1,9 @@
 import { BadRequestException, createRouteParamDecorator } from '@nestjs/common';
 import { Request } from 'express';
+import * as mime from 'mime-types';
 import * as multer from 'multer';
 import * as path from 'path';
+import * as uuid from 'uuid';
 
 /**
  * Injects all uploaded files.
@@ -18,7 +20,7 @@ export const Files = createRouteParamDecorator(
       },
       storage: multer.diskStorage({
         destination: (req, file, cb) => cb(null, defaultDestination),
-        filename: (req, file, cb) => cb(null, file.fieldname + '-' + Date.now())
+        filename: (req, file, cb) => cb(null, `${uuid.v4().replace(/-/g, '')}.${mime.extension(file.mimetype)}`)
       }),
       fileFilter: (req, file, cb) => cb(null, true) // allow any files to be uploaded
     };
