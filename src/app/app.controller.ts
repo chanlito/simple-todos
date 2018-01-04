@@ -11,6 +11,7 @@ export class AppController {
 
   @Post('images')
   async uploadImage(@Files() files: Express.Multer.File[]) {
+    // TODO: resizing
     return files;
   }
 }
