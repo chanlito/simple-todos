@@ -16,7 +16,7 @@ export class AppController {
 
   @Post('images')
   async uploadImage(@Files() files: Express.Multer.File[], @Query() query) {
-    const { tw = 20, th = 50, sw = 40, sh = 100, mw = 80, mh = 200, lw = 160, lh = 400 } = query;
+    const { tw, th, sw, sh, mw, mh, lw, lh } = query;
 
     return Promise.all(
       _(files)
