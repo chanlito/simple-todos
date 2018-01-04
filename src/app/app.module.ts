@@ -5,6 +5,7 @@ import { LoggerModule } from '../lib/logger';
 import { MailerModule } from '../lib/mailer';
 import { RedisModule } from '../lib/redis/redis.module';
 import { TypeOrmModule } from '../lib/typeorm';
+import { WsModule } from '../lib/ws';
 import * as repositories from '../repository';
 import { AppController } from './app.controller';
 import { AuthModule } from './auth/auth.module';
@@ -37,6 +38,7 @@ const {
     AuthModule,
     TodoModule,
     LoggerModule,
+    WsModule,
     MailerModule.forRoot({
       type: MAILER_TYPE,
       ethereal: {
