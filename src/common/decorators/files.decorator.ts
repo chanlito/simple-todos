@@ -11,7 +11,7 @@ import * as uuid from 'uuid';
  */
 export const Files = createRouteParamDecorator(
   async (args: string | { fieldName: string; multerOptions: multer.Options }, request: Request) => {
-    // const extensionAllowed = [];
+    const extensionAllowed: any = ['jpg', 'png', 'jpeg'];
     const defaultDestination = path.resolve('.', 'public', 'uploads');
     const defaultMulterOptions: multer.Options = {
       dest: defaultDestination,
@@ -24,9 +24,7 @@ export const Files = createRouteParamDecorator(
         filename: (req, file, cb) => cb(null, `${uuid.v4().replace(/-/g, '')}.${mime.extension(file.mimetype)}`)
       }),
       fileFilter: (req, file, cb) => {
-        cb(null, true); // pass
-        // cb(null, false); // stop
-        // cb(new Error('Wtf'), null); // throw
+        extensionAllowed.includes(mime.extension(file.mimetype)) ? cb(null, true) : cb(new Error('Extension not allowed'), null)
       } // allow any files to be uploaded // TODO:
     };
     args =
