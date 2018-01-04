@@ -54,6 +54,7 @@
     "@types/cors": "^2.8.3",
     "@types/dotenv": "^4.0.2",
     "@types/express": "^4.11.0",
+    "@types/gm": "^1.17.33",
     "@types/jsonwebtoken": "^7.2.5",
     "@types/lodash": "^4.14.91",
     "@types/mandrill-api": "^1.0.30",
