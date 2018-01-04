@@ -4,6 +4,7 @@ import * as mime from 'mime-types';
 import * as multer from 'multer';
 import * as path from 'path';
 import * as uuid from 'uuid';
+import * as _ from 'lodash';
 
 /**
  * Injects all uploaded files.
@@ -11,7 +12,7 @@ import * as uuid from 'uuid';
  */
 export const Files = createRouteParamDecorator(
   async (args: string | { fieldName: string; multerOptions: multer.Options }, request: Request) => {
-    // const extensionAllowed = [];
+    const extensionAllowed: any = ['jpg', 'png', 'jpeg'];
     const defaultDestination = path.resolve('.', 'public', 'uploads');
     const defaultMulterOptions: multer.Options = {
       dest: defaultDestination,
@@ -23,11 +24,23 @@ export const Files = createRouteParamDecorator(
         destination: (req, file, cb) => cb(null, defaultDestination),
         filename: (req, file, cb) => cb(null, `${uuid.v4().replace(/-/g, '')}.${mime.extension(file.mimetype)}`)
       }),
-      fileFilter: (req, file, cb) => {
-        cb(null, true); // pass
-        // cb(null, false); // stop
-        // cb(new Error('Wtf'), null); // throw
-      } // allow any files to be uploaded // TODO:
+      fileFilter: (req: Request, file, cb) => {
+        if (!extensionAllowed.includes(mime.extension(file.mimetype))) {
+          return cb(new Error('Extension not allowed'), null);
+        }
+
+        const defaultDimension = { tw: 20, th: 50, sw: 40, sh: 100, mw: 80, mh: 200, lw: 160, lh: 400 };
+        const newDimension = { ...defaultDimension, ...req.query };
+
+        req.query = newDimension;
+
+        const failedKeys = _(newDimension)
+          .map((v, k) => (v > defaultDimension[k] ? k : undefined))
+          .compact()
+          .value();
+
+        return failedKeys.length > 0 ? cb(new Error(`${failedKeys.join(', ')} in query params are not acceptable.`), null) : cb(null, true);
+      }
     };
     args =
       typeof args === 'string'
