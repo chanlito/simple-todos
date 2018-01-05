@@ -28,11 +28,11 @@ export class WsGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayD
   }
 
   async handleConnection(socket: SocketIO.Socket) {
-    this.logger.log(`${socket.id} connected!`);
+    this.logger.log(`Socket ID: ${socket.id} connected!`);
   }
 
   async handleDisconnect(socket: SocketIO.Socket) {
-    this.logger.log(`${socket.id} disconnected!`);
+    this.logger.log(`Socket ID: ${socket.id} disconnected!`);
   }
 
   @SubscribeMessage('WELCOME')

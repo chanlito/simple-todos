@@ -18,10 +18,10 @@ export function createRedisProviders(options: CreateRedisProvidersOptions) {
         port: options.port,
         auth_pass: options.auth_pass
       });
-      redisClient.on('connect', () => logger.log('connecting'));
-      redisClient.on('ready', () => logger.log('connected'));
-      redisClient.on('reconnecting', () => logger.log('reconnecting'));
-      redisClient.on('end', () => logger.warn('ended.'));
+      redisClient.on('connect', () => logger.log('Connecting'));
+      redisClient.on('ready', () => logger.log('Connected'));
+      redisClient.on('reconnecting', () => logger.log('Reconnecting'));
+      redisClient.on('end', () => logger.warn('Ended'));
       redisClient.on('error', e => logger.error(e.message, e.stack));
       return redisClient;
     }

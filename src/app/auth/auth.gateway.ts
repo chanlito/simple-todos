@@ -4,8 +4,7 @@ import {
   OnGatewayDisconnect,
   SubscribeMessage,
   WebSocketGateway,
-  WebSocketServer,
-  WsException
+  WebSocketServer
 } from '@nestjs/websockets';
 
 import { WebsocketsExceptionFilter } from '../../common';
@@ -18,16 +17,15 @@ export class AuthGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() private readonly io: SocketIO.Server;
 
   async handleConnection(socket: SocketIO.Socket) {
-    this.logger.log(`${socket.id} connected!`);
+    this.logger.log(`Socket ID: ${socket.id} connected!`);
   }
 
   async handleDisconnect(socket: SocketIO.Socket) {
-    this.logger.log(`${socket.id} disconnected!`);
+    this.logger.log(`Socket ID: ${socket.id} disconnected!`);
   }
 
   @SubscribeMessage('WELCOME')
   async onWelcome(socket: SocketIO.Socket, data: any) {
     this.io.emit('WELCOME', `Welcome ${socket.id}.`);
-    throw new WsException('Oops');
   }
 }

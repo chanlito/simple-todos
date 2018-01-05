@@ -9,7 +9,7 @@ export class Mailer {
 
   constructor(private readonly config: MailerConfiguration) {
     if (config.type === 'mandrill') {
-      this.logger.log('using "mandrill"');
+      this.logger.log('Using "mandrill"');
       this.mandrillClient = new Mandrill(config.mandrill.apiKey);
       this.mandrillClient.users.ping(
         {},
@@ -17,13 +17,13 @@ export class Mailer {
         e => this.logger.error('ping "mandrill" failed')
       );
     } else if (config.type === 'gmail') {
-      this.logger.log('using "gmail"');
+      this.logger.log('Using "gmail"');
       this.transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: { type: 'OAuth2', ...config.gmail }
       });
     } else {
-      this.logger.log('using "ethereal"');
+      this.logger.log('Using "ethereal"');
       this.transporter = nodemailer.createTransport({
         host: 'smtp.ethereal.email',
         port: 587,
@@ -50,7 +50,7 @@ export class Mailer {
         this.mandrillClient.messages.send(
           { message, async: true },
           result => {
-            this.logger.log(`mail sent to ${opts.to}`);
+            this.logger.log(`Mail sent to ${opts.to}`);
           },
           (error: any) => {
             this.logger.error(error.message, error.stack);
@@ -58,7 +58,7 @@ export class Mailer {
         );
       } else {
         await this.transporter.sendMail(opts);
-        this.logger.log(`mail sent to ${opts.to}`);
+        this.logger.log(`Mail sent to ${opts.to}`);
       }
     } catch (error) {
       this.logger.error(error.message, error.stack);

@@ -13,7 +13,7 @@ export function createTypeOrmProviders(options: CreateTypeOrmProviders) {
         console.error(e);
         process.exit(1);
       });
-      logger.log('database connected');
+      logger.log('Database connected');
       return connection;
     }
   };
