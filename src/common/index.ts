@@ -8,7 +8,6 @@ export { LoggerToken } from '../lib/logger';
 export { MailerToken, Mailer } from '../lib/mailer';
 export { RedisClientToken } from '../lib/redis';
 export { WebsocketsExceptionFilter } from '../lib/ws';
-export { InjectCustomReposity, InjectRepository } from '../lib/typeorm';
 
 export const isNumber = new ParseNumberPipe();
 
