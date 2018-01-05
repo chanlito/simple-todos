@@ -1,6 +1,5 @@
 import { IsOptional, IsString } from 'class-validator';
-
-import { Validate } from '../../common';
+import { Validate } from 'nestjs-extensions';
 
 @Validate({
   rules: {

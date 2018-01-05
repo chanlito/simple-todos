@@ -4,10 +4,10 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as cors from 'cors';
 import * as express from 'express';
 import * as morgan from 'morgan';
+import { IndicativePipe, IndicativePipeConfiguration } from 'nestjs-extensions';
 
 import { AuthGuard, authorizationChecker, AuthorizationCheckerFn } from './auth';
 import { ErrorFilter } from './error';
-import { IndicativePipe, IndicativePipeConfiguration } from './indicative';
 
 export class Startup {
   private reflector = new Reflector();

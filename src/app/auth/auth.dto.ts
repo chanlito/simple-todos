@@ -1,6 +1,5 @@
 import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
-
-import { Validate } from '../../common';
+import { Validate } from 'nestjs-extensions';
 
 @Validate({
   rules: {

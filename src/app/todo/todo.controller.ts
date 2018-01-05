@@ -1,11 +1,10 @@
 import { Body, Controller, Delete, Get, Inject, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
-import { OrmCustomRepository, OrmEntityManager } from 'nestjs-extensions';
-import { RedisClient } from 'redis';
+import { InjectRedisClient, OrmCustomRepository, OrmEntityManager, RedisClient } from 'nestjs-extensions';
 import { EntityManager } from 'typeorm';
 import { LoggerInstance } from 'winston';
 
-import { Auth, AuthUser, isNumber, LoggerToken, Mailer, MailerToken, RedisClientToken, Roles } from '../../common';
+import { Auth, AuthUser, isNumber, LoggerToken, Mailer, MailerToken, Roles } from '../../common';
 import { Todo, User } from '../../entity';
 import { TodoRepository } from '../../repository';
 import { TodoFromParam } from './todo.decorator';
@@ -16,8 +15,8 @@ import { CreateTodoDto, UpdateTodoDto } from './todo.dto';
 export class TodoController {
   constructor(
     @Inject(LoggerToken) private readonly logger: LoggerInstance,
-    @Inject(RedisClientToken) private readonly redisClient: RedisClient,
     @Inject(MailerToken) private readonly mailer: Mailer,
+    @InjectRedisClient() private readonly redisClient: RedisClient,
     @OrmEntityManager() private readonly em: EntityManager,
     @OrmCustomRepository(Todo) private readonly todoRepository: TodoRepository
   ) {}
