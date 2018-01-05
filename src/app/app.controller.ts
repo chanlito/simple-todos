@@ -47,8 +47,6 @@ export class AppController {
     }
   ) {
     return new Promise((resolve, reject) => {
-      console.log('w typeof', typeof options.w);
-      console.log('h typeof', typeof options.h);
       const readableStream = createReadStream(src);
       const writableStream = createWriteStream(dest);
 
