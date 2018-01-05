@@ -1,10 +1,10 @@
 import { BadRequestException, createRouteParamDecorator } from '@nestjs/common';
 import { Request } from 'express';
+import * as _ from 'lodash';
 import * as mime from 'mime-types';
 import * as multer from 'multer';
 import * as path from 'path';
 import * as uuid from 'uuid';
-import * as _ from 'lodash';
 
 /**
  * Injects all uploaded files.
@@ -30,9 +30,9 @@ export const Files = createRouteParamDecorator(
         }
 
         const { tw, th, sw, sh, mw, mh, lw, lh } = req.query;
-
         const maxDimension = { tw: 2000, th: 2000, sw: 2000, sh: 2000, mw: 2000, mh: 2000, lw: 2000, lh: 2000 };
-        const newDimension = {
+
+        req.query = {
           ...maxDimension,
           tw: +tw || 50,
           th: +th || 50,
@@ -44,11 +44,7 @@ export const Files = createRouteParamDecorator(
           lh: +lh || 500
         };
 
-        console.log('newDimension', newDimension);
-
-        req.query = newDimension;
-
-        const failedKeys = _(newDimension)
+        const failedKeys = _(req.query)
           .map((v, k) => (v > maxDimension[k] ? k : undefined))
           .compact()
           .value();
