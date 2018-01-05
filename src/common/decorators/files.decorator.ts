@@ -29,17 +29,33 @@ export const Files = createRouteParamDecorator(
           return cb(new Error('Extension not allowed'), null);
         }
 
-        const defaultDimension = { tw: 20, th: 50, sw: 40, sh: 100, mw: 80, mh: 200, lw: 160, lh: 400 };
-        const newDimension = { ...defaultDimension, ...req.query };
+        const { tw, th, sw, sh, mw, mh, lw, lh } = req.query;
+
+        const maxDimension = { tw: 2000, th: 2000, sw: 2000, sh: 2000, mw: 2000, mh: 2000, lw: 2000, lh: 2000 };
+        const newDimension = {
+          ...maxDimension,
+          tw: +tw || 50,
+          th: +th || 50,
+          sw: +sw || 300,
+          sh: +sh || 150,
+          mw: +mw || 600,
+          mh: +mh || 300,
+          lw: +lw || 1000,
+          lh: +lh || 500
+        };
+
+        console.log('newDimension', newDimension);
 
         req.query = newDimension;
 
         const failedKeys = _(newDimension)
-          .map((v, k) => (v > defaultDimension[k] ? k : undefined))
+          .map((v, k) => (v > maxDimension[k] ? k : undefined))
           .compact()
           .value();
 
-        return failedKeys.length > 0 ? cb(new Error(`${failedKeys.join(', ')} in query params are not acceptable.`), null) : cb(null, true);
+        return failedKeys.length > 0
+          ? cb(new Error(`${failedKeys.join(', ')} in query params are not acceptable.`), null)
+          : cb(null, true);
       }
     };
     args =

@@ -1,7 +1,10 @@
-import { Controller, Get, Post, Query } from '@nestjs/common';
+import { Controller, Get, Post, Req } from '@nestjs/common';
 import * as Promises from 'bluebird';
+import { Request } from 'express';
+import { createReadStream, createWriteStream } from 'fs';
 import * as gm from 'gm';
 import * as _ from 'lodash';
+import * as sharp from 'sharp';
 
 import { Files } from '../common';
 
@@ -15,17 +18,18 @@ export class AppController {
   }
 
   @Post('images')
-  async uploadImage(@Files() files: Express.Multer.File[], @Query() query) {
-    const { tw, th, sw, sh, mw, mh, lw, lh } = query;
+  async uploadImage(@Files() files: Express.Multer.File[], @Req() req: Request) {
+    const { tw, th, sw, sh, mw, mh, lw, lh } = req.query;
+    console.log('query', req.query);
 
     return Promise.all(
       _(files)
         .map(({ path }) => {
           return [
-            this.resizeImage(path, path.replace('.', '_t.'), { w: tw, h: th }),
-            this.resizeImage(path, path.replace('.', '_s.'), { w: sw, h: sh }),
-            this.resizeImage(path, path.replace('.', '_m.'), { w: mw, h: mh }),
-            this.resizeImage(path, path.replace('.', '_l.'), { w: lw, h: lh })
+            this.sharpResizeImage(path, path.replace('.', '_t.'), { w: tw, h: th }),
+            this.sharpResizeImage(path, path.replace('.', '_s.'), { w: sw, h: sh }),
+            this.sharpResizeImage(path, path.replace('.', '_m.'), { w: mw, h: mh }),
+            this.sharpResizeImage(path, path.replace('.', '_l.'), { w: lw, h: lh })
           ];
         })
         .flatten()
@@ -33,7 +37,7 @@ export class AppController {
     );
   }
 
-  private resizeImage(
+  private sharpResizeImage(
     src: string,
     dest: string,
     options: {
@@ -43,13 +47,19 @@ export class AppController {
     }
   ) {
     return new Promise((resolve, reject) => {
-      gm(src)
-        .resize(options.w, options.h)
-        .quality(options.quality || 90)
-        .write(dest, err => {
-          if (err) return reject(err);
-          resolve(dest);
-        });
+      console.log('w typeof', typeof options.w);
+      console.log('h typeof', typeof options.h);
+      const readableStream = createReadStream(src);
+      const writableStream = createWriteStream(dest);
+
+      readableStream
+        .pipe(
+          sharp()
+            .resize(options.w, options.h)
+            .on('end', () => resolve(dest))
+            .on('error', e => reject(e))
+        )
+        .pipe(writableStream);
     });
   }
 }
