@@ -1,16 +1,6 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
 import { Validate } from '../../common';
-
-export class CreateTodoDto {
-  @IsNotEmpty({ message: 'The title field is required.' })
-  @IsString({ message: 'The title field must be a string.' })
-  title: string;
-
-  @IsOptional()
-  @IsString({ message: 'The description field must be a string.' })
-  description?: string;
-}
 
 @Validate({
   rules: {
@@ -21,7 +11,7 @@ export class CreateTodoDto {
     'title.required': 'The {{field}} field is required.'
   }
 })
-export class CreateTodoDtoIndicative {
+export class CreateTodoDto {
   title: string;
   description?: string;
 }

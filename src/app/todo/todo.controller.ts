@@ -4,12 +4,21 @@ import { RedisClient } from 'redis';
 import { EntityManager } from 'typeorm';
 import { LoggerInstance } from 'winston';
 
-import { Auth, AuthUser, isNumber, LoggerToken, Mailer, MailerToken, RedisClientToken, Roles } from '../../common';
+import {
+  Auth,
+  AuthUser,
+  InjectCustomReposity,
+  isNumber,
+  LoggerToken,
+  Mailer,
+  MailerToken,
+  RedisClientToken,
+  Roles
+} from '../../common';
 import { Todo, User } from '../../entity';
-import { InjectCustomReposity } from '../../lib/typeorm';
 import { TodoRepository } from '../../repository';
 import { TodoFromParam } from './todo.decorator';
-import { CreateTodoDtoIndicative, UpdateTodoDto } from './todo.dto';
+import { CreateTodoDto, UpdateTodoDto } from './todo.dto';
 
 @ApiUseTags('todos')
 @Controller('todos')
@@ -24,7 +33,7 @@ export class TodoController {
 
   @Auth(Roles.User)
   @Post()
-  async create(@Body() body: CreateTodoDtoIndicative, @AuthUser() authUser: User) {
+  async create(@Body() body: CreateTodoDto, @AuthUser() authUser: User) {
     const todo = new Todo();
     todo.title = body.title;
     todo.description = body.description;

@@ -1,13 +1,14 @@
 import { ParseBooleanPipe } from './pipes/parse-boolean.pipe';
 import { ParseNumberPipe } from './pipes/parse-number.pipe';
 
-export * from './decorators/files.decorator';
+export { Files } from './decorators/files.decorator';
 export { Validate } from '../lib/indicative';
 export { AuthUser, Auth } from '../lib/auth';
 export { LoggerToken } from '../lib/logger';
 export { MailerToken, Mailer } from '../lib/mailer';
 export { RedisClientToken } from '../lib/redis';
 export { WebsocketsExceptionFilter } from '../lib/ws';
+export { InjectCustomReposity, InjectRepository } from '../lib/typeorm';
 
 export const isNumber = new ParseNumberPipe();
 
