@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
-import { LoggerModule, RedisModule, TypeOrmModule } from 'nestjs-extensions';
+import { LoggerModule, MailerModule, RedisModule, TypeOrmModule } from 'nestjs-extensions';
 import { resolve as pathResolve } from 'path';
 
 import * as entities from '../entity';
-import { MailerModule } from '../lib/mailer';
 import { WsModule } from '../lib/ws';
 import * as repositories from '../repository';
 import { AppController } from './app.controller';
