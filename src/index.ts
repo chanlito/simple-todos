@@ -5,6 +5,7 @@ import 'source-map-support/register';
 import { WsException } from '@nestjs/websockets';
 
 import { ApplicationModule } from './app/app.module';
+import { authorizationChecker } from './app/auth/auth.resolver';
 import { uniqueEmail } from './common/rules';
 import { Startup, StartupConfiguration } from './lib/startup';
 
@@ -12,6 +13,7 @@ const { PORT = 4200 } = process.env;
 
 const config: StartupConfiguration = {
   ApplicationModule,
+  authorizationChecker,
   indicative: {
     defaultMessages: {
       email: 'The {{field}} field is not valid.',

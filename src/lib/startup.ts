@@ -4,9 +4,8 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as cors from 'cors';
 import * as express from 'express';
 import * as morgan from 'morgan';
-import { IndicativePipe, IndicativePipeConfiguration } from 'nestjs-extensions';
+import { AuthGuard, AuthorizationCheckerFn, IndicativePipe, IndicativePipeConfiguration } from 'nestjs-extensions';
 
-import { AuthGuard, authorizationChecker, AuthorizationCheckerFn } from './auth';
 import { ErrorFilter } from './error';
 
 export class Startup {
@@ -39,7 +38,9 @@ export class Startup {
   private async configureNestGlobals(app: INestApplication) {
     app.useGlobalPipes(new IndicativePipe(this.config.indicative, this.reflector));
     app.useGlobalFilters(new ErrorFilter());
-    app.useGlobalGuards(new AuthGuard(this.config.authorizationChecker || authorizationChecker, this.reflector));
+    if (this.config.authorizationChecker) {
+      app.useGlobalGuards(new AuthGuard(this.config.authorizationChecker, this.reflector));
+    }
   }
 
   private async configureNestSwagger(app: INestApplication) {

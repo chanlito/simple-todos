@@ -2,7 +2,7 @@ import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
 import { ApiOperation, ApiUseTags } from '@nestjs/swagger';
 import { compare, genSalt, hash } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
-import { OrmCustomRepository, OrmEntityManager } from 'nestjs-extensions';
+import { InjectCustomRepository, InjectEntityManager } from 'nestjs-extensions';
 import { EntityManager } from 'typeorm';
 
 import { Profile, Role, User } from '../../entity';
@@ -15,8 +15,8 @@ const { JWT_SECRET = '' } = process.env;
 @Controller('auth')
 export class AuthController {
   constructor(
-    @OrmEntityManager() private readonly em: EntityManager,
-    @OrmCustomRepository(User) private readonly userRepository: UserRepository
+    @InjectEntityManager() private readonly em: EntityManager,
+    @InjectCustomRepository(User) private readonly userRepository: UserRepository
   ) {}
 
   @ApiOperation({ title: 'Register a new User' })

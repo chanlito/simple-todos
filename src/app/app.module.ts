@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { RedisModule, TypeOrmModule } from 'nestjs-extensions';
+import { LoggerModule, RedisModule, TypeOrmModule } from 'nestjs-extensions';
+import { resolve as pathResolve } from 'path';
 
 import * as entities from '../entity';
-import { LoggerModule } from '../lib/logger';
 import { MailerModule } from '../lib/mailer';
 import { WsModule } from '../lib/ws';
 import * as repositories from '../repository';
@@ -36,8 +36,11 @@ const {
   modules: [
     AuthModule,
     TodoModule,
-    LoggerModule,
     WsModule,
+    LoggerModule.forRoot({
+      types: ['console', 'files'],
+      directory: pathResolve('.', 'logs')
+    }),
     MailerModule.forRoot({
       type: MAILER_TYPE,
       ethereal: {

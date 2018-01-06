@@ -2,8 +2,6 @@ import { ParseBooleanPipe } from './pipes/parse-boolean.pipe';
 import { ParseNumberPipe } from './pipes/parse-number.pipe';
 
 export { Files } from './decorators/files.decorator';
-export { AuthUser, Auth } from '../lib/auth';
-export { LoggerToken } from '../lib/logger';
 export { MailerToken, Mailer } from '../lib/mailer';
 export { WebsocketsExceptionFilter } from '../lib/ws';
 

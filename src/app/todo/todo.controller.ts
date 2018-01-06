@@ -1,10 +1,18 @@
 import { Body, Controller, Delete, Get, Inject, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
-import { InjectRedisClient, OrmCustomRepository, OrmEntityManager, RedisClient } from 'nestjs-extensions';
+import {
+  Auth,
+  AuthUser,
+  InjectCustomRepository,
+  InjectEntityManager,
+  InjectLogger,
+  InjectRedisClient,
+  Logger
+} from 'nestjs-extensions';
+import { RedisClient } from 'redis';
 import { EntityManager } from 'typeorm';
-import { LoggerInstance } from 'winston';
 
-import { Auth, AuthUser, isNumber, LoggerToken, Mailer, MailerToken, Roles } from '../../common';
+import { isNumber, Mailer, MailerToken, Roles } from '../../common';
 import { Todo, User } from '../../entity';
 import { TodoRepository } from '../../repository';
 import { TodoFromParam } from './todo.decorator';
@@ -14,11 +22,11 @@ import { CreateTodoDto, UpdateTodoDto } from './todo.dto';
 @Controller('todos')
 export class TodoController {
   constructor(
-    @Inject(LoggerToken) private readonly logger: LoggerInstance,
+    @InjectLogger() private readonly logger: Logger,
     @Inject(MailerToken) private readonly mailer: Mailer,
     @InjectRedisClient() private readonly redisClient: RedisClient,
-    @OrmEntityManager() private readonly em: EntityManager,
-    @OrmCustomRepository(Todo) private readonly todoRepository: TodoRepository
+    @InjectEntityManager() private readonly em: EntityManager,
+    @InjectCustomRepository(Todo) private readonly todoRepository: TodoRepository
   ) {}
 
   @Auth(Roles.User)
@@ -47,13 +55,14 @@ export class TodoController {
     return todo;
   }
 
+  @Auth(Roles.User)
   @Get()
   async read(
     @Query('limit', isNumber)
     limit: number = 10,
     @Query('offset', isNumber)
     offset: number = 0,
-    @AuthUser() authUser: User
+    @AuthUser({ required: true }) authUser?: User
   ) {
     this.logger.info('Auth User', authUser);
     const todos = await this.todoRepository.find({ take: limit, skip: offset });

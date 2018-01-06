@@ -1,4 +1,4 @@
-import { IsOptional, IsString } from 'class-validator';
+import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
 import { Validate } from 'nestjs-extensions';
 
 @Validate({
@@ -11,16 +11,20 @@ import { Validate } from 'nestjs-extensions';
   }
 })
 export class CreateTodoDto {
+  @ApiModelProperty({ required: true })
   title: string;
-  description?: string;
+
+  @ApiModelPropertyOptional() description?: string;
 }
 
+@Validate({
+  rules: {
+    title: 'string',
+    description: 'string'
+  }
+})
 export class UpdateTodoDto {
-  @IsOptional()
-  @IsString({ message: 'The title field must be a string.' })
-  title?: string;
+  @ApiModelPropertyOptional() title?: string;
 
-  @IsOptional()
-  @IsString({ message: 'The description field must be a string.' })
-  description?: string;
+  @ApiModelPropertyOptional() description?: string;
 }

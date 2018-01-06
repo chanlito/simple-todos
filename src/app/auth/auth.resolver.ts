@@ -7,7 +7,11 @@ import { User } from '../../entity';
 
 const { JWT_SECRET } = process.env as any;
 
-export async function authorizationChecker(req: any, roles: string[] = [], required: boolean = true) {
+export async function authorizationChecker(
+  req: any,
+  roles: string[] = [],
+  required: boolean = true
+): Promise<[boolean, User]> {
   const errMissingAuthorization = new UnauthorizedException('Authorization Required');
   const errInvalidBearer = new UnauthorizedException('Invalid Authorization Scheme');
   const errInvalidToken = new UnauthorizedException('Invalid Authorization Token');
@@ -30,12 +34,13 @@ export async function authorizationChecker(req: any, roles: string[] = [], requi
   }
 
   if (required && !user) throw errInvalidToken;
-  (req as any).user = user;
 
   if (user && roles.length) {
     const isRoleAllowed = !!roles.find(role => user.role.name === role);
     if (!isRoleAllowed) throw new ForbiddenException('Access Denied');
   }
 
-  return true;
+  req.user = user;
+
+  return [true, user];
 }
