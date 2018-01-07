@@ -3,11 +3,11 @@ import { LoggerModule, MailerModule, RedisModule, TypeOrmModule } from 'nestjs-e
 import { resolve as pathResolve } from 'path';
 
 import * as entities from '../entity';
-import { WsModule } from '../lib/ws';
 import * as repositories from '../repository';
 import { AppController } from './app.controller';
 import { AuthModule } from './auth/auth.module';
 import { TodoModule } from './todo/todo.module';
+import { WsModule } from './ws/ws.module';
 
 const {
   MAILER_TYPE,

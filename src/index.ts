@@ -7,7 +7,7 @@ import { WsException } from '@nestjs/websockets';
 import { ApplicationModule } from './app/app.module';
 import { authorizationChecker } from './app/auth/auth.resolver';
 import { uniqueEmail } from './common/rules';
-import { Startup, StartupConfiguration } from './lib/startup';
+import { Startup, StartupConfiguration } from './startup';
 
 const { PORT = 4200 } = process.env;
 

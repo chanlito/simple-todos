@@ -7,10 +7,9 @@ import {
   WebSocketGateway,
   WebSocketServer
 } from '@nestjs/websockets';
+import { WebsocketsExceptionFilter } from 'nestjs-extensions';
 import * as redis from 'redis';
 import * as socketIoRedis from 'socket.io-redis';
-
-import { WebsocketsExceptionFilter } from './ws-exception.filter';
 
 const { REDIS_HOST, REDIS_PORT, REDIS_AUTH_PASS } = process.env as any;
 

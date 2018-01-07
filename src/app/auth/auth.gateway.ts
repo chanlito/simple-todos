@@ -6,8 +6,8 @@ import {
   WebSocketGateway,
   WebSocketServer
 } from '@nestjs/websockets';
+import { WebsocketsExceptionFilter } from 'nestjs-extensions';
 
-import { WebsocketsExceptionFilter } from '../../common';
 import { AuthGatewayMiddleware } from './auth.gateway-middleware';
 
 @UseFilters(new WebsocketsExceptionFilter())
