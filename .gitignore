@@ -1,12 +1,12 @@
 # dependencies
-/node_modules
+node_modules
 
 # environment variables
 .env
 
 # IDE
-/.idea
-/.awcache
+.idea
+.awcache
 
 # logs
 logs
@@ -15,15 +15,13 @@ logs
 .DS_Store
 npm-debug.log
 
-# example
-/quick-start
-
 # tests
-/coverage
-/.nyc_output
+coverage
+.nyc_output
 
-# dist
-/dist
+# built files
+dist
+server/nuxt
 
 # public
 public/*

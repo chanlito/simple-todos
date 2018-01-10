@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Req } from '@nestjs/common';
+import { Controller, Post, Req } from '@nestjs/common';
 import { Request } from 'express';
 import { createReadStream, createWriteStream } from 'fs';
 import * as _ from 'lodash';
@@ -8,10 +8,6 @@ import { Files } from '../common';
 
 @Controller()
 export class AppController {
-  @Get()
-  async index() {
-    return 'Simple Todos';
-  }
 
   @Post('images')
   async uploadImage(@Files() files: Express.Multer.File[], @Req() req: Request) {

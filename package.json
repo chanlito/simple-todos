@@ -3,10 +3,11 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon",
-    "prestart": "rimraf dist && tsc",
-    "start": "NODE_ENV=production node dist",
-    "test": "cross-env NODE_ENV=test nyc mocha --require test/index.ts --opts test/mocha.opts",
+    "dev": "cross-env nodemon",
+    "prestart": "rimraf dist && tsc && npm run build",
+    "build": "nuxt build dist",
+    "start": "nuxt start dist",
+    "test": "cross-env nyc mocha --require test/index.ts --opts test/mocha.opts",
     "types": "typesync && npm i"
   },
   "dependencies": {
@@ -30,6 +31,7 @@
     "multer": "^1.3.0",
     "mysql": "^2.15.0",
     "nestjs-extensions": "^0.7.1",
+    "nuxt": "^1.0.0",
     "redis": "^2.8.0",
     "reflect-metadata": "^0.1.10",
     "rimraf": "^2.6.2",
@@ -72,6 +74,7 @@
     "nyc": "^11.4.1",
     "sinon": "^4.1.3",
     "supertest": "^3.0.0",
+    "ts-loader": "^3.2.0",
     "ts-node": "^4.1.0",
     "tslint": "^5.8.0",
     "typescript": "^2.6.2",
