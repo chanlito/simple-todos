@@ -17,6 +17,7 @@
     "@nestjs/swagger": "^1.1.3",
     "@nestjs/testing": "^4.5.4",
     "@nestjs/websockets": "^4.5.7",
+    "@nuxtjs/vuetify": "^0.4.0",
     "bcryptjs": "^2.4.3",
     "bluebird": "^3.5.1",
     "cors": "^2.8.4",
@@ -41,7 +42,8 @@
     "socket.io-redis": "^5.2.0",
     "source-map-support": "^0.5.0",
     "typeorm": "^0.1.9",
-    "uuid": "^3.1.0"
+    "uuid": "^3.1.0",
+    "vuetify": "^1.0.0-beta.2"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.1",

@@ -9,7 +9,6 @@
     "suppressImplicitAnyIndexErrors": true,
     "allowSyntheticDefaultImports": true,
     "outDir": "dist",
-    "rootDir": "server",
     "sourceMap": true,
     "target": "es5",
     "lib": [

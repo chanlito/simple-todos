@@ -7,7 +7,13 @@ module.exports = {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: 'A simple todos project. Built with 💚 using Nuxt & Nest.' }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [
+      // { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'icon', type: 'image/png', sizes: '32x32', href: 'https://vuejs.org/images/icons/favicon-32x32.png' },
+      { rel: 'icon', type: 'image/png', sizes: '96x96', href: 'https://vuejs.org/images/icons/favicon-96x96.png' },
+      { rel: 'icon', type: 'image/png', sizes: '16x16', href: 'https://vuejs.org/images/icons/favicon-16x16.png' }
+    ],
+    script: [{ defer: 'defer', src: 'https://use.fontawesome.com/releases/v5.0.3/js/all.js' }]
   },
   // customize loading
   loading: {
@@ -17,6 +23,10 @@ module.exports = {
   buildDir: 'server/nuxt',
   // specify nuxt source directory
   srcDir: 'client',
+  // configure build
+  build: {
+    vendor: ['vuetify']
+  },
   // specify additional nuxt modules
-  modules: ['~/modules/typescript.ts']
+  modules: ['@nuxtjs/vuetify']
 };
