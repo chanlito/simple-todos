@@ -11,9 +11,9 @@ module.exports = {
       // { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'icon', type: 'image/png', sizes: '32x32', href: 'https://vuejs.org/images/icons/favicon-32x32.png' },
       { rel: 'icon', type: 'image/png', sizes: '96x96', href: 'https://vuejs.org/images/icons/favicon-96x96.png' },
-      { rel: 'icon', type: 'image/png', sizes: '16x16', href: 'https://vuejs.org/images/icons/favicon-16x16.png' }
-    ],
-    script: [{ defer: 'defer', src: 'https://use.fontawesome.com/releases/v5.0.3/js/all.js' }]
+      { rel: 'icon', type: 'image/png', sizes: '16x16', href: 'https://vuejs.org/images/icons/favicon-16x16.png' },
+      { rel: 'stylesheet', href: 'https://use.fontawesome.com/releases/v5.0.3/css/all.css' }
+    ]
   },
   // customize loading
   loading: {
@@ -28,5 +28,5 @@ module.exports = {
     vendor: ['vuetify']
   },
   // specify additional nuxt modules
-  modules: ['@nuxtjs/vuetify']
+  modules: ['@nuxtjs/axios', '@nuxtjs/vuetify']
 };

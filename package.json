@@ -17,6 +17,7 @@
     "@nestjs/swagger": "^1.1.3",
     "@nestjs/testing": "^4.5.4",
     "@nestjs/websockets": "^4.5.7",
+    "@nuxtjs/axios": "^4.5.2",
     "@nuxtjs/vuetify": "^0.4.0",
     "bcryptjs": "^2.4.3",
     "bluebird": "^3.5.1",
