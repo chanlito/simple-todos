@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "cross-env nodemon",
-    "prestart": "rimraf dist && tsc && npm run build",
-    "build": "nuxt build dist",
-    "start": "nuxt start dist",
+    "prestart": "rimraf dist && npm run build && tsc",
+    "build": "nuxt build",
+    "start": "cross-env NODE_ENV=production node dist",
     "test": "cross-env nyc mocha --require test/index.ts --opts test/mocha.opts",
     "types": "typesync && npm i"
   },

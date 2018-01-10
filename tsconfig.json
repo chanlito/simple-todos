@@ -9,6 +9,7 @@
     "suppressImplicitAnyIndexErrors": true,
     "allowSyntheticDefaultImports": true,
     "outDir": "dist",
+    "rootDir": "server",
     "sourceMap": true,
     "target": "es5",
     "lib": [
@@ -19,11 +20,10 @@
     "moduleResolution": "node"
   },
   "include": [
-    "client",
     "server"
   ],
   "exclude": [
     "node_modules",
-    "test"
+    "dist"
   ]
 }

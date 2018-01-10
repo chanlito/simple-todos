@@ -13,7 +13,7 @@ import {
 } from 'nestjs-extensions';
 import { Builder, Nuxt } from 'nuxt';
 
-import * as nuxtConfig from '../nuxt.config';
+const nuxtConfig = require('../nuxt.config');
 
 export class Startup {
   private reflector = new Reflector();
