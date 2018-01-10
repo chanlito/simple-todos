@@ -27,3 +27,7 @@ server/nuxt
 public/*
 public/uploads/*
 !public/uploads/.gitkeep
+
+# uploads
+client/static/uploads
+!client/static/uploads/.gitkeep

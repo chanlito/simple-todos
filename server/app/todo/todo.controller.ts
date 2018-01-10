@@ -64,7 +64,8 @@ export class TodoController {
     limit: number = 10,
     @Query('offset', isNumber)
     offset: number = 0,
-    @AuthUser({ required: true }) authUser?: User
+    @AuthUser({ required: true })
+    authUser?: User
   ) {
     this.logger.info('Auth User', authUser);
     const todos = await this.todoRepository.find({ take: limit, skip: offset });

@@ -11,7 +11,23 @@
     ".nyc_output": true,
     ".vscode": true,
     "node_modules": true,
-    "server/nuxt": true
+    "server/nuxt": false
   },
-  "git.autofetch": true
+  "git.autofetch": true,
+  "vetur.format.defaultFormatter.html": "js-beautify-html",
+  "vetur.format.defaultFormatterOptions": {
+    "js-beautify-html": {
+      "indent_size": 2,
+      "end_with_newline": false,
+      "wrap_attributes": "force-aligned",
+      "wrap_attributes_indent_size": 2,
+      "editorconfig": true
+    }
+  },
+  "prettier.eslintIntegration": true,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "vue"
+  ]
 }

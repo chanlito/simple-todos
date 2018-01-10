@@ -1,5 +1,5 @@
 {
-  "extends": ["tslint:recommended"],
+  "extends": ["tslint:latest", "tslint-config-prettier"],
   "rules": {
     "arrow-parens": false,
     "arrow-return-shorthand": true,
@@ -48,6 +48,7 @@
     "no-string-literal": false,
     "no-string-throw": true,
     "no-switch-case-fall-through": true,
+    "no-submodule-imports": false,
     "no-trailing-whitespace": true,
     "no-unnecessary-initializer": true,
     "no-unused-expression": false,

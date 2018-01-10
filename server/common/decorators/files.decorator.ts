@@ -13,7 +13,7 @@ import * as uuid from 'uuid';
 export const Files = createRouteParamDecorator(
   async (args: string | { fieldName: string; multerOptions: multer.Options }, request: Request) => {
     const extensionAllowed: any = ['jpg', 'png', 'jpeg'];
-    const defaultDestination = path.resolve('.', 'public', 'uploads');
+    const defaultDestination = path.resolve('.', 'client', 'static', 'uploads');
     const defaultMulterOptions: multer.Options = {
       dest: defaultDestination,
       limits: {
