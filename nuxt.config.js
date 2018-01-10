@@ -30,6 +30,9 @@ module.exports = {
   srcDir: 'client',
   // configure build
   build: {
+    babel: {
+      plugins: ['transform-decorators-legacy', 'transform-class-properties']
+    },
     vendor: ['vuetify']
   },
   // specify additional nuxt plugins
