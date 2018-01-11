@@ -1,3 +1,9 @@
-export const FETCH_TODOS = 'todos/FETCH_TODOS';
-export const FETCH_TODOS_SUCCESS = 'todos/FETCH_TODOS_SUCCESS';
-export const FETCH_TODOS_FAILED = 'todos/FETCH_TODOS_FAILED';
+// Auth
+export const REGISTER = 'REGISTER';
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const REGISTER_FAILED = 'REGISTER_FAILED';
+
+// Todo
+export const FETCH_TODOS = 'FETCH_TODOS';
+export const FETCH_TODOS_SUCCESS = 'FETCH_TODOS_SUCCESS';
+export const FETCH_TODOS_FAILED = 'FETCH_TODOS_FAILED';

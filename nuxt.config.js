@@ -33,10 +33,10 @@ module.exports = {
     babel: {
       plugins: ['transform-decorators-legacy', 'transform-class-properties']
     },
-    vendor: ['vuetify']
+    vendor: ['vee-validate', 'vuetify']
   },
   // specify additional nuxt plugins
-  plugins: ['~/plugins/vuetify'],
+  plugins: ['~/plugins/vee-validate', '~/plugins/vuetify'],
   // specify additional nuxt modules
   modules: ['@nuxtjs/axios']
 };
