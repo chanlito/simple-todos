@@ -16,8 +16,7 @@
 </template>
 
 <script>
-import Vue from 'vue';
-import Component, { State } from 'nuxt-class-component';
+import Component, { State, Vue } from 'vue-class';
 
 @Component
 export default class Index extends Vue {

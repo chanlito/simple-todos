@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   // specify header defaults
   head: {
@@ -32,6 +34,9 @@ module.exports = {
   build: {
     babel: {
       plugins: ['transform-decorators-legacy', 'transform-class-properties']
+    },
+    extend(config) {
+      config.resolve.alias['vue-class'] = path.resolve('.', 'client', 'utils', 'vue-class');
     },
     vendor: ['vee-validate', 'vuetify']
   },

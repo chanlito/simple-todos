@@ -26,18 +26,16 @@
 </template>
 
 <script>
-import Vue from 'vue';
+import Component, { Action, State, Vue, namespace } from 'vue-class';
+
+import { AuthForm } from '~/components';
 import { handleError, validateSubmit } from '~/utils';
-import AuthForm from '../components/auth-form.vue';
-import Component, { Action, State, namespace } from 'nuxt-class-component';
 
 const AuthModuleAction = namespace('auth', Action);
 const AuthModuleState = namespace('auth', State);
 
 @Component({
-  components: {
-    'auth-form': AuthForm
-  },
+  components: { AuthForm },
   middleware: ['guest']
 })
 export default class Login extends Vue {

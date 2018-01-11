@@ -17,7 +17,7 @@
             <h1 class="display-1">{{ title }}</h1>
             <v-divider />
             <br>
-            <slot/>
+            <slot />
           </v-card-text>
         </v-card>
       </v-flex>
@@ -27,11 +27,9 @@
 
 
 <script>
-import Vue from 'vue';
-import Component from 'nuxt-class-component';
-import { Prop } from 'vue-property-decorator';
+import Component, { Prop, Vue } from 'vue-class';
 
-@Component({})
+@Component
 export default class AuthForm extends Vue {
   @Prop(String) title;
   @Prop(String) alertMessage;

@@ -17,10 +17,13 @@
     ],
     "module": "commonjs",
     "moduleResolution": "node",
-    "baseUrl": ".",
+    "baseUrl": "./client",
     "paths": {
-      "~/utils": [
-        "./client/utils/*"
+      "vue-class": [
+        "./utils/vue-class"
+      ],
+      "~/*": [
+        "./*"
       ]
     }
   },

@@ -1,11 +1,7 @@
 <template>
-  <div>
-    Logging Out...
-  </div>
+  <div>Logging Out...</div>
 </template>
 
 <script>
-export default {
-  middleware: ['logout']
-};
+export default { middleware: ['logout'] };
 </script>
