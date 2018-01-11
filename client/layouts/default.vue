@@ -1,38 +1,39 @@
 <template>
   <v-app id="default-layout">
-    <TheSidenav />
+    <v-navigation-drawer app
+                         fixed
+                         v-model="drawer">
+      <TheSidenav />
+    </v-navigation-drawer>
     <v-toolbar app
                color="primary"
                dark>
-      <v-toolbar-side-icon @click="toggleSidenav" />
+      <v-toolbar-side-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>{{ appTitle }}</v-toolbar-title>
       <v-spacer />
     </v-toolbar>
     <v-content>
-      {{ isSidenavOpened }}
       <nuxt />
     </v-content>
   </v-app>
 </template>
 
 <script>
-import Component, { Action, Getter, State, Vue, namespace } from 'vue-class';
+import Component, { Getter, State, Vue, namespace } from 'vue-class';
 
 import { TheSidenav } from '~/components';
 
 const AuthGetter = namespace('auth', Getter);
-const UIAction = namespace('ui', Action);
-const UIState = namespace('ui', State);
 
 @Component({
   components: { TheSidenav }
 })
 export default class DefaultLayout extends Vue {
+  @AuthGetter isLoggedIn;
   @State appTitle;
   @State ip;
-  @AuthGetter isLoggedIn;
-  @UIAction toggleSidenav;
-  @UIState isSidenavOpened;
+
+  drawer = false;
 }
 </script>
 

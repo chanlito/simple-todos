@@ -1,8 +1,5 @@
 <template>
-  <v-navigation-drawer app
-                       fixed
-                       v-model="isSidenavOpened">
-
+  <div>
     <v-toolbar v-if="isLoggedIn"
                flat
                class="transparent">
@@ -23,7 +20,7 @@
     </v-toolbar>
 
     <v-list dense>
-      <template v-for="{ icon, title, path, sub } in links">
+      <template v-for="{ icon, title, path, sub } in activeLinks">
         <v-list-group v-if="sub && sub.length"
                       :key="title"
                       :prepend-icon="icon">
@@ -60,9 +57,7 @@
         </v-list-tile>
       </template>
     </v-list>
-
-  </v-navigation-drawer>
-
+  </div>
 </template>
 
 <script>
@@ -70,12 +65,10 @@ import Component, { Getter, State, Vue, namespace } from 'vue-class';
 
 const AuthState = namespace('auth', State);
 const AuthGetter = namespace('auth', Getter);
-const UIState = namespace('ui', State);
 
 @Component
 export default class TheSidenav extends Vue {
-  isOpened = false;
-  allLinks = [
+  links = [
     { icon: 'fa-home', title: 'Home', path: '/', level: 'any' },
     { icon: 'fa-user-plus', title: 'Register', path: '/register', level: 'guest' },
     { icon: 'fa-sign-in-alt', title: 'Log In', path: '/login', level: 'guest' },
@@ -94,10 +87,9 @@ export default class TheSidenav extends Vue {
 
   @AuthGetter isLoggedIn;
   @AuthState authUser;
-  @UIState isSidenavOpened;
 
-  get links() {
-    return this.allLinks.filter(({ level }) => level === 'any' || level === (this.isLoggedIn ? 'auth' : 'guest'));
+  get activeLinks() {
+    return this.links.filter(({ level }) => level === 'any' || level === (this.isLoggedIn ? 'auth' : 'guest'));
   }
 }
 </script>

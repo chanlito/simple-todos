@@ -9,9 +9,7 @@
         <v-alert type="error"
                  :value="!!alertMessage"
                  dismissible
-                 transition="scale-transition">
-          {{ alertMessage }}
-        </v-alert>
+                 transition="scale-transition">{{ alertMessage }}</v-alert>
         <v-card>
           <v-card-text>
             <h1 class="display-1">{{ title }}</h1>
