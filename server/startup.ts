@@ -44,6 +44,19 @@ export class Startup {
   private async configureExpressMiddleware(app: express.Application) {
     app.use(morgan('dev'));
     app.use(cors({ origin: true }));
+    // app.use(
+    //   session({
+    //     name: '__session',
+    //     secret: 'simple-todos',
+    //     resave: false,
+    //     saveUninitialized: true,
+    //     cookie: { secure: true }
+    //   })
+    // );
+    // app.use((req, res, next) => {
+    //   console.log('Session', req.session);
+    //   next();
+    // });
   }
 
   private async configureNestGlobals(app: INestApplication) {

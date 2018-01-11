@@ -16,7 +16,13 @@
       "es2015"
     ],
     "module": "commonjs",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "~/utils": [
+        "./client/utils/*"
+      ]
+    }
   },
   "include": [
     "server"

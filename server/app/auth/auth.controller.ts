@@ -1,6 +1,7 @@
-import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Post, Req, Res } from '@nestjs/common';
 import { ApiOperation, ApiUseTags } from '@nestjs/swagger';
 import { compare, genSalt, hash } from 'bcryptjs';
+import { Request, Response } from 'express';
 import { sign } from 'jsonwebtoken';
 import { InjectCustomRepository, InjectEntityManager } from 'nestjs-extensions';
 import { EntityManager } from 'typeorm';
@@ -44,7 +45,7 @@ export class AuthController {
 
   @ApiOperation({ title: 'Login a user' })
   @Post('login')
-  async login(@Body() body: LoginDto) {
+  async login(@Body() body: LoginDto, @Req() req: Request, @Res() res: Response) {
     const user = await this.userRepository.findByEmail(body.email);
     if (!user) throw new BadRequestException('Email address does not exist.');
     const isCorrectPassword = await compare(body.password, user.password);
@@ -60,6 +61,8 @@ export class AuthController {
         issuer: 'API League Team'
       }
     );
-    return { ...user, token };
+    const response = { ...user, token };
+    res.cookie('auth-user', JSON.stringify(response));
+    res.json({ ...response });
   }
 }

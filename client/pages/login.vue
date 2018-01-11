@@ -1,84 +1,62 @@
 <template>
-  <v-container>
-    <v-layout>
-      <v-flex xs12
-              sm8
-              offset-sm2
-              md6
-              offset-md3>
-        <v-alert :type="alertType"
-                 :value="alert"
-                 dismissible
-                 transition="scale-transition">
-          {{ alertMessage }}
-        </v-alert>
-        <v-card>
-          <v-card-text>
-            <h1 class="display-1">Log In</h1>
-            <v-divider />
-            <br>
-            <form @submit.prevent="handleSubmit"
-                  novalidate>
-              <v-text-field required
-                            label="Email"
-                            name="email"
-                            v-model="email"
-                            v-validate="'required'"
-                            :error-messages="errors.collect('email')" />
-              <v-text-field required
-                            label="Password"
-                            name="password"
-                            v-model="password"
-                            v-validate="'required'"
-                            :error-messages="errors.collect('password')" />
-              <v-btn color="primary"
-                     type="submit">Log In</v-btn>
-              <v-btn outline
-                     type="reset">Forgot Password?</v-btn>
-            </form>
-          </v-card-text>
-        </v-card>
-      </v-flex>
-    </v-layout>
-  </v-container>
+  <auth-form title="Login"
+             :alert-message="alertMessage">
+    <form @submit.prevent="handleSubmit"
+          novalidate>
+      <v-text-field required
+                    label="Email"
+                    name="email"
+                    v-model="email"
+                    v-validate="'required'"
+                    :error-messages="errors.collect('email')" />
+      <v-text-field required
+                    label="Password"
+                    name="password"
+                    v-model="password"
+                    v-validate="'required'"
+                    :error-messages="errors.collect('password')" />
+      <v-btn color="primary"
+             :loading="loading"
+             type="submit">Log In</v-btn>
+      <v-btn outline
+             type="reset">Forgot Password?</v-btn>
+    </form>
+  </auth-form>
+
 </template>
 
 <script>
 import Vue from 'vue';
-import Component from 'nuxt-class-component';
+import { handleError, validateSubmit } from '~/utils';
+import AuthForm from '../components/auth-form.vue';
+import Component, { Action, State, namespace } from 'nuxt-class-component';
 
-@Component
+const AuthModuleAction = namespace('auth', Action);
+const AuthModuleState = namespace('auth', State);
+
+@Component({
+  components: {
+    'auth-form': AuthForm
+  },
+  middleware: ['guest']
+})
 export default class Login extends Vue {
-  alert = false;
   alertMessage = '';
-  alertType = 'error';
   email = '';
   password = '';
 
+  @AuthModuleAction login;
+  @AuthModuleState loading;
+
   async handleSubmit() {
-    this.resetAlert();
-    await this.validateSubmit();
-    console.log('Logging In...');
-  }
-
-  async validateSubmit() {
-    try {
-      const pass = await this.$validator.validateAll();
-      if (!pass) throw new Error('Form Validation Failed');
-    } catch (e) {
-      throw e.message;
-    }
-  }
-
-  showAlert(message, type = 'error') {
-    this.alert = true;
-    this.alertMessage = message;
-    this.alertType = type;
-  }
-
-  resetAlert() {
-    this.alert = false;
     this.alertMessage = '';
+    await validateSubmit(this.$validator);
+    try {
+      await this.login({ email: this.email, password: this.password });
+      this.$router.push('/');
+    } catch (e) {
+      this.alertMessage = handleError(this.errors, e);
+    }
   }
 
   resetForm() {
