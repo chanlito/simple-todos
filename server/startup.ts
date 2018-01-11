@@ -55,12 +55,9 @@ export class Startup {
   }
 
   private async configureNestSwagger(app: INestApplication) {
-    const options = new DocumentBuilder()
-      .setTitle('Simple Todos')
-      .setVersion('1.0')
-      .build();
+    const options = new DocumentBuilder().setTitle('Simple Todos').build();
     const document = SwaggerModule.createDocument(app, options);
-    SwaggerModule.setup('/docs', app, document);
+    SwaggerModule.setup('/api/docs', app, document);
   }
 
   private async configureNuxt() {

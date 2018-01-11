@@ -19,7 +19,7 @@ export class AuthController {
     @InjectCustomRepository(User) private readonly userRepository: UserRepository
   ) {}
 
-  @ApiOperation({ title: 'Register a new User' })
+  @ApiOperation({ title: 'Register a new user' })
   @Post('register')
   async register(@Body() body: RegisterDto) {
     await this.em.transaction(async em => {
