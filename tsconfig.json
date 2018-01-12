@@ -27,6 +27,10 @@
       ]
     }
   },
+  "files": [
+    "client/vue-addons.d.ts",
+    "client/vue-shims.d.ts"
+  ],
   "include": [
     "server",
     "typings"
