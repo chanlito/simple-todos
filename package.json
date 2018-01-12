@@ -56,7 +56,6 @@
     "@types/bcryptjs": "^2.4.1",
     "@types/bluebird": "^3.5.19",
     "@types/chai": "^4.1.0",
-    "@types/cookie-session": "^2.0.34",
     "@types/cors": "^2.8.3",
     "@types/dotenv": "^4.0.2",
     "@types/express": "^4.11.0",
