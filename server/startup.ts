@@ -1,6 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import session = require('cookie-session');
 import * as cors from 'cors';
 import * as express from 'express';
 import * as morgan from 'morgan';
@@ -44,19 +45,13 @@ export class Startup {
   private async configureExpressMiddleware(app: express.Application) {
     app.use(morgan('dev'));
     app.use(cors({ origin: true }));
-    // app.use(
-    //   session({
-    //     name: '__session',
-    //     secret: 'simple-todos',
-    //     resave: false,
-    //     saveUninitialized: true,
-    //     cookie: { secure: true }
-    //   })
-    // );
-    // app.use((req, res, next) => {
-    //   console.log('Session', req.session);
-    //   next();
-    // });
+    app.use(
+      session({
+        name: '__session',
+        keys: [process.env.SECRET, 'no-keys'],
+        maxAge: 24 * 60 * 60 * 1000 // 24 hours
+      })
+    );
   }
 
   private async configureNestGlobals(app: INestApplication) {

@@ -5,7 +5,7 @@ import { promisify } from 'util';
 
 import { User } from '../../entity';
 
-const { JWT_SECRET } = process.env as any;
+const { SECRET } = process.env as any;
 
 export async function authorizationChecker(
   req: any,
@@ -23,7 +23,7 @@ export async function authorizationChecker(
   if (required && bearer.toLowerCase() !== 'bearer') throw errInvalidBearer;
   if (required && !token) throw errInvalidToken;
 
-  const jwtDecoded: any = await promisify(verify)(token, JWT_SECRET).catch(e => {
+  const jwtDecoded: any = await promisify(verify)(token, SECRET).catch(e => {
     if (required) throw new UnauthorizedException(e.message);
   });
 

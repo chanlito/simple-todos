@@ -1,23 +1,25 @@
-import { ActionTree } from 'vuex';
+import { ActionTree, GetterTree } from 'vuex';
 
 import {
   LOGIN,
   LOGIN_FAILED,
   LOGIN_SUCCESS,
+  LOGOUT,
+  LOGOUT_FAILED,
+  LOGOUT_SUCCESS,
   REGISTER,
   REGISTER_FAILED,
-  REGISTER_SUCCESS,
-  SET_AUTH_USER
+  REGISTER_SUCCESS
 } from '../utils/mutation-types';
 import { RootState, State } from './';
 
-export const state = () => ({
+export const state = (): AuthState => ({
   loading: false,
   authUser: null,
   error: null
 });
 
-export const getters = {
+export const getters: GetterTree<AuthState, RootState> = {
   isLoggedIn(state) {
     return !!state.authUser;
   }
@@ -37,6 +39,19 @@ export const mutations = {
     state.loading = false;
     state.error = error;
   },
+  [LOGOUT](state) {
+    state.loading = true;
+    state.error = null;
+  },
+  [LOGOUT_SUCCESS](state) {
+    state.loading = false;
+    state.authUser = null;
+    state.error = null;
+  },
+  [LOGOUT_FAILED](state, error) {
+    state.loading = false;
+    state.error = error;
+  },
   [REGISTER](state) {
     state.loading = true;
     state.error = null;
@@ -48,9 +63,6 @@ export const mutations = {
   [REGISTER_FAILED](state, error) {
     state.loading = false;
     state.error = error;
-  },
-  [SET_AUTH_USER](state, authUser) {
-    state.authUser = authUser;
   }
 };
 
@@ -65,6 +77,15 @@ export const actions: ActionTree<State, RootState> = {
       throw e;
     }
   },
+  async logout({ commit }) {
+    try {
+      commit(LOGOUT);
+      await this.$axios.$post('/auth/logout');
+      commit(LOGOUT_SUCCESS);
+    } catch (e) {
+      commit(LOGOUT_FAILED, e.message);
+    }
+  },
   async register({ commit }, payload: RegisterPayload) {
     try {
       commit(REGISTER);
@@ -76,6 +97,33 @@ export const actions: ActionTree<State, RootState> = {
     }
   }
 };
+
+export interface AuthState {
+  loading: boolean;
+  authUser?: AuthUser;
+  error?: any;
+}
+
+export interface AuthUser {
+  id: number;
+  email: string;
+  createdDate: string;
+  updatedDate: string;
+  profile: Profile;
+  role: Role;
+  accessToken: string;
+}
+
+export interface Role {
+  id: number;
+  name: string;
+}
+
+export interface Profile {
+  id: number;
+  firstName: string;
+  lastName?: string;
+}
 
 export interface LoginPayload {
   email: string;

@@ -10,13 +10,13 @@ import { Validate } from 'nestjs-extensions';
   }
 })
 export class RegisterDto {
-  @ApiModelProperty({ required: true, type: String })
+  @ApiModelProperty()
   email: string;
 
-  @ApiModelProperty({ required: true })
+  @ApiModelProperty()
   password: string;
 
-  @ApiModelProperty({ required: true })
+  @ApiModelProperty()
   firstName: string;
 
   @ApiModelPropertyOptional() lastName?: string;
@@ -29,9 +29,9 @@ export class RegisterDto {
   }
 })
 export class LoginDto {
-  @ApiModelProperty({ required: true })
+  @ApiModelProperty()
   email: string;
 
-  @ApiModelProperty({ required: true })
+  @ApiModelProperty()
   password: string;
 }

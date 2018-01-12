@@ -1,7 +1,7 @@
-import { BadRequestException, Body, Controller, Post, Req, Res } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Post, Req } from '@nestjs/common';
 import { ApiOperation, ApiUseTags } from '@nestjs/swagger';
 import { compare, genSalt, hash } from 'bcryptjs';
-import { Request, Response } from 'express';
+import { Request } from 'express';
 import { sign } from 'jsonwebtoken';
 import { InjectCustomRepository, InjectEntityManager } from 'nestjs-extensions';
 import { EntityManager } from 'typeorm';
@@ -10,7 +10,7 @@ import { Profile, Role, User } from '../../entity';
 import { UserRepository } from '../../repository';
 import { LoginDto, RegisterDto } from './auth.dto';
 
-const { JWT_SECRET = '' } = process.env;
+const { SECRET = '' } = process.env;
 
 @ApiUseTags('auth')
 @Controller('auth')
@@ -25,7 +25,7 @@ export class AuthController {
   async register(@Body() body: RegisterDto) {
     await this.em.transaction(async em => {
       const userRole = await em.findOne(Role, { where: { name: 'user' } });
-      if (!userRole) throw new Error();
+      if (!userRole) throw new Error('Role "user" is missing.');
 
       const user = new User();
       user.email = body.email;
@@ -45,24 +45,37 @@ export class AuthController {
 
   @ApiOperation({ title: 'Login a user' })
   @Post('login')
-  async login(@Body() body: LoginDto, @Req() req: Request, @Res() res: Response) {
+  async login(@Body() body: LoginDto, @Req() req: Request) {
     const user = await this.userRepository.findByEmail(body.email);
     if (!user) throw new BadRequestException('Email address does not exist.');
     const isCorrectPassword = await compare(body.password, user.password);
     if (!isCorrectPassword) throw new BadRequestException('Password is not correct.');
-    const token = await sign(
+    const accessToken = await sign(
       {
         id: user.id,
         email: user.email
       },
-      JWT_SECRET,
+      SECRET,
       {
-        expiresIn: '1 hour',
+        expiresIn: '24 hours',
         issuer: 'API League Team'
       }
     );
-    const response = { ...user, token };
-    res.cookie('auth-user', JSON.stringify(response));
-    res.json({ ...response });
+    const response = (req.session.authUser = {
+      ...user,
+      accessToken
+    });
+    delete response.password;
+    delete response.profile.createdDate;
+    delete response.profile.updatedDate;
+    delete response.role.createdDate;
+    delete response.role.updatedDate;
+    return response;
+  }
+
+  @Post('logout')
+  async logout(@Req() req: Request) {
+    req.session.authUser = null;
+    return { message: 'OK' };
   }
 }

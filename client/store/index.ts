@@ -1,6 +1,8 @@
 import { ActionContext, ActionTree, GetterTree } from 'vuex';
 
-import { SET_AUTH_USER } from '../utils/mutation-types';
+import { AuthUser } from './auth';
+
+import { LOGIN_SUCCESS } from '../utils/mutation-types';
 
 export const state = (): RootState => ({
   appName: 'Simple Todos',
@@ -21,15 +23,9 @@ export const mutations = {
 export const actions: RootActionTree<State, RootState> = {
   async nuxtServerInit({ commit }, { app, req }) {
     const ip = await app.$axios.$get('http://icanhazip.com');
-    commit('SET_IP', ip.trim());
-
-    if (req.headers.cookie && req.headers.cookie.indexOf('auth-user') !== -1) {
-      const [, authUserUndecoded] = req.headers.cookie.split('=');
-      const authUserDecoded = decodeURIComponent(authUserUndecoded);
-      const authUser = JSON.parse(authUserDecoded);
-
-      commit(`auth/${SET_AUTH_USER}`, authUser);
-    }
+    commit('SET_IP', ip);
+    const authUser: AuthUser = req.session.authUser;
+    if (authUser) commit(`auth/${LOGIN_SUCCESS}`, authUser);
   }
 };
 
