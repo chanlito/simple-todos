@@ -38,10 +38,10 @@ module.exports = {
     extend(config) {
       config.resolve.alias['vue-class'] = path.resolve('.', 'client', 'utils', 'vue-class');
     },
-    vendor: ['vee-validate', 'vuetify']
+    vendor: ['nuxt-class-component', 'vue-property-decorator', 'vee-validate', 'vuetify']
   },
   // specify additional nuxt plugins
   plugins: ['~/plugins/vee-validate', '~/plugins/vuetify'],
   // specify additional nuxt modules
-  modules: ['@nuxtjs/axios']
+  modules: ['@nuxtjs/axios', '~/modules/typescript']
 };

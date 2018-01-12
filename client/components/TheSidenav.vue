@@ -60,15 +60,15 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Component, { Getter, State, Vue, namespace } from 'vue-class';
 
 const AuthState = namespace('auth', State);
 const AuthGetter = namespace('auth', Getter);
 
 @Component
-export default class TheSidenav extends Vue {
-  links = [
+export default class TheSideNav extends Vue {
+  links: NavLink[] = [
     { icon: 'fa-home', title: 'Home', path: '/', level: 'any' },
     { icon: 'fa-user-plus', title: 'Register', path: '/register', level: 'guest' },
     { icon: 'fa-sign-in-alt', title: 'Log In', path: '/login', level: 'guest' },
@@ -85,11 +85,19 @@ export default class TheSidenav extends Vue {
     { icon: 'fa-sign-out-alt', title: 'Log Out', path: '/logout', level: 'auth' }
   ];
 
-  @AuthGetter isLoggedIn;
   @AuthState authUser;
+  @AuthGetter isLoggedIn: boolean;
 
   get activeLinks() {
     return this.links.filter(({ level }) => level === 'any' || level === (this.isLoggedIn ? 'auth' : 'guest'));
   }
+}
+
+interface NavLink {
+  title: string;
+  path: string;
+  level: 'any' | 'auth' | 'guest';
+  icon?: string;
+  sub?: NavLink[];
 }
 </script>

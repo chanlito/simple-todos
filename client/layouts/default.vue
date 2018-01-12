@@ -3,13 +3,13 @@
     <v-navigation-drawer app
                          fixed
                          v-model="drawer">
-      <TheSidenav />
+      <TheSideNav />
     </v-navigation-drawer>
     <v-toolbar app
                color="primary"
                dark>
       <v-toolbar-side-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title>{{ appTitle }}</v-toolbar-title>
+      <v-toolbar-title>{{ appName }}</v-toolbar-title>
       <v-spacer />
     </v-toolbar>
     <v-content>
@@ -18,22 +18,17 @@
   </v-app>
 </template>
 
-<script>
-import Component, { Getter, State, Vue, namespace } from 'vue-class';
+<script lang="ts">
+import Component, { Getter, Vue } from 'vue-class';
 
-import { TheSidenav } from '~/components';
-
-const AuthGetter = namespace('auth', Getter);
+import TheSideNav from '../components/TheSideNav.vue';
 
 @Component({
-  components: { TheSidenav }
+  components: { TheSideNav }
 })
 export default class DefaultLayout extends Vue {
-  @AuthGetter isLoggedIn;
-  @State appTitle;
-  @State ip;
-
   drawer = false;
+  @Getter appName: string;
 }
 </script>
 

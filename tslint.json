@@ -41,10 +41,12 @@
     "no-empty": false,
     "no-empty-interface": true,
     "no-eval": true,
+    "no-implicit-dependencies": false,
     "no-inferrable-types": [true, "ignore-params"],
     "no-misused-new": true,
     "no-non-null-assertion": false,
-    "no-shadowed-variable": true,
+    "no-object-literal-type-assertion": false,
+    "no-shadowed-variable": false,
     "no-string-literal": false,
     "no-string-throw": true,
     "no-switch-case-fall-through": true,
@@ -72,7 +74,6 @@
         "variable-declaration": "nospace"
       }
     ],
-    "typeof-compare": true,
     "unified-signatures": true,
     "variable-name": false,
     "whitespace": [true, "check-branch", "check-decl", "check-operator", "check-separator", "check-type"]

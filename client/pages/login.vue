@@ -1,6 +1,6 @@
 <template>
-  <auth-form title="Login"
-             :alert-message="alertMessage">
+  <AppAuthForm title="Login"
+               :alert-message="alertMessage">
     <form @submit.prevent="handleSubmit"
           novalidate>
       <v-text-field required
@@ -18,24 +18,23 @@
       <v-btn color="primary"
              :loading="loading"
              type="submit">Log In</v-btn>
-      <v-btn outline
-             type="reset">Forgot Password?</v-btn>
+      <v-btn outline>Forgot Password?</v-btn>
     </form>
-  </auth-form>
-
+  </AppAuthForm>
 </template>
 
-<script>
+<script lang="ts">
 import Component, { Action, State, Vue, namespace } from 'vue-class';
 
-import { AuthForm } from '~/components';
-import { handleError, validateSubmit } from '~/utils';
+import AppAuthForm from '../components/AppAuthForm.vue';
+import { LoginPayload } from '../store/auth';
+import { handleErrors, validate } from '../utils';
 
-const AuthModuleAction = namespace('auth', Action);
-const AuthModuleState = namespace('auth', State);
+const AuthAction = namespace('auth', Action);
+const AuthState = namespace('auth', State);
 
 @Component({
-  components: { AuthForm },
+  components: { AppAuthForm },
   middleware: ['guest']
 })
 export default class Login extends Vue {
@@ -43,24 +42,21 @@ export default class Login extends Vue {
   email = '';
   password = '';
 
-  @AuthModuleAction login;
-  @AuthModuleState loading;
+  @AuthState loading: boolean;
+  @AuthAction login: (payload: LoginPayload) => void;
 
   async handleSubmit() {
     this.alertMessage = '';
-    await validateSubmit(this.$validator);
+    await validate(this.$validator);
     try {
-      await this.login({ email: this.email, password: this.password });
+      await this.login({
+        email: this.email,
+        password: this.password
+      });
       this.$router.push('/');
     } catch (e) {
-      this.alertMessage = handleError(this.errors, e);
+      this.alertMessage = handleErrors(this.$validator.errors, e);
     }
-  }
-
-  resetForm() {
-    this.email = '';
-    this.password = '';
-    this.$validator.reset();
   }
 }
 </script>

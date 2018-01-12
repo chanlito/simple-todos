@@ -1,12 +1,15 @@
+import { ActionTree } from 'vuex';
+
 import {
   LOGIN,
-  LOGIN_SUCCESS,
   LOGIN_FAILED,
+  LOGIN_SUCCESS,
   REGISTER,
-  REGISTER_SUCCESS,
   REGISTER_FAILED,
+  REGISTER_SUCCESS,
   SET_AUTH_USER
-} from '~/utils/mutation-types';
+} from '../utils/mutation-types';
+import { RootState, State } from './';
 
 export const state = () => ({
   loading: false,
@@ -51,24 +54,21 @@ export const mutations = {
   }
 };
 
-export const actions = {
-  async login({ commit }, payload) {
-    const { email, password } = payload;
+export const actions: ActionTree<State, RootState> = {
+  async login({ commit }, payload: LoginPayload) {
     try {
       commit(LOGIN);
-      const authUser = await this.$axios.$post('/auth/login', { email, password });
-      window.localStorage.setItem('auth-user', JSON.stringify(authUser));
+      const authUser = await this.$axios.$post('/auth/login', payload);
       commit(LOGIN_SUCCESS, authUser);
     } catch (e) {
       commit(LOGIN_FAILED, e.message);
       throw e;
     }
   },
-  async register({ commit }, payload) {
-    const { email, password, firstName, lastName } = payload;
+  async register({ commit }, payload: RegisterPayload) {
     try {
       commit(REGISTER);
-      await this.$axios.$post('/auth/register', { email, password, firstName, lastName });
+      await this.$axios.$post('/auth/register', payload);
       commit(REGISTER_SUCCESS);
     } catch (e) {
       commit(REGISTER_FAILED, e.message);
@@ -76,3 +76,15 @@ export const actions = {
     }
   }
 };
+
+export interface LoginPayload {
+  email: string;
+  password: string;
+}
+
+export interface RegisterPayload {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName?: string;
+}

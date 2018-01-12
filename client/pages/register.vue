@@ -1,7 +1,7 @@
 <template>
   <div>
-    <auth-form title="Register"
-               :alert-message="alertMessage">
+    <AppAuthForm title="Register"
+                 :alert-message="alertMessage">
       <form @submit.prevent="handleSubmit"
             novalidate>
         <v-text-field required
@@ -31,21 +31,22 @@
                :loading="loading"
                type="submit">Submit</v-btn>
       </form>
-    </auth-form>
+    </AppAuthForm>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Component, { Action, State, Vue, namespace } from 'vue-class';
 
-import { AuthForm } from '~/components';
-import { handleError, validateSubmit } from '~/utils';
+import AppAuthForm from '../components/AppAuthForm.vue';
+import { RegisterPayload } from '../store/auth';
+import { handleErrors, validate } from '../utils';
 
-const AuthModuleAction = namespace('auth', Action);
-const AuthModuleState = namespace('auth', State);
+const AuthAction = namespace('auth', Action);
+const AuthState = namespace('auth', State);
 
 @Component({
-  components: { AuthForm }
+  components: { AppAuthForm }
 })
 export default class Register extends Vue {
   alertMessage = '';
@@ -54,12 +55,12 @@ export default class Register extends Vue {
   firstName = '';
   lastName = '';
 
-  @AuthModuleAction register;
-  @AuthModuleState loading;
+  @AuthState loading: boolean;
+  @AuthAction register: (payload: RegisterPayload) => void;
 
   async handleSubmit() {
     this.alertMessage = '';
-    await validateSubmit(this.$validator);
+    await validate(this.$validator);
     try {
       await this.register({
         email: this.email,
@@ -69,7 +70,7 @@ export default class Register extends Vue {
       });
       this.$router.push('/login');
     } catch (e) {
-      this.alertMessage = handleError(this.errors, e);
+      this.alertMessage = handleErrors(this.$validator.errors, e);
     }
   }
 }

@@ -17,21 +17,19 @@
     ],
     "module": "commonjs",
     "moduleResolution": "node",
-    "baseUrl": "./client",
+    "baseUrl": ".",
     "paths": {
       "vue-class": [
-        "./utils/vue-class"
-      ],
-      "~/*": [
-        "./*"
+        "./client/utils/vue-class"
       ]
     }
   },
   "include": [
-    "server"
+    "server",
+    "typings"
   ],
   "exclude": [
-    "node_modules",
-    "dist"
+    "dist",
+    "node_modules"
   ]
 }

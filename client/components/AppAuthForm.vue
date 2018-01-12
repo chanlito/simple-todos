@@ -24,12 +24,12 @@
 </template>
 
 
-<script>
+<script lang="ts">
 import Component, { Prop, Vue } from 'vue-class';
 
 @Component
 export default class AuthForm extends Vue {
-  @Prop(String) title;
-  @Prop(String) alertMessage;
+  @Prop(String) title: string;
+  @Prop(String) alertMessage: string;
 }
 </script>
