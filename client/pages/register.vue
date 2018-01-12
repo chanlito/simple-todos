@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts">
-import Component, { Action, State, Vue, namespace } from 'vue-class';
+import Component, { Action, State, Vue, namespace } from '@vue/ts';
 
 import AppAuthForm from '../components/AppAuthForm.vue';
 import { RegisterPayload } from '../store/auth';

@@ -36,7 +36,8 @@ module.exports = {
       plugins: ['transform-decorators-legacy', 'transform-class-properties']
     },
     extend(config) {
-      config.resolve.alias['vue-class'] = path.resolve('.', 'client', 'utils', 'vue-class');
+      config.resolve.alias['@vue/ts'] = path.resolve('.', 'client', 'utils', 'vue-ts');
+      config.resolve.alias['@vue/utils'] = path.resolve('.', 'client', 'utils');
     },
     vendor: ['nuxt-class-component', 'vue-property-decorator', 'vee-validate', 'vuetify']
   },

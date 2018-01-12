@@ -19,8 +19,11 @@
     "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
-      "vue-class": [
-        "./client/utils/vue-class"
+      "@vue/ts": [
+        "./client/utils/vue-ts"
+      ],
+      "@vue/utils": [
+        "./client/utils"
       ]
     }
   },

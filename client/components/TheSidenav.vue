@@ -32,10 +32,9 @@
           </v-list-tile>
 
           <v-list-tile v-for="{ icon, title, path } in sub"
-                       style="padding-left: 20px;"
                        :key="title"
                        :to="path">
-            <v-list-tile-action>
+            <v-list-tile-action style="padding-left: 12px;">
               <v-icon>{{ icon }}</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
@@ -61,7 +60,7 @@
 </template>
 
 <script lang="ts">
-import Component, { Getter, State, Vue, namespace } from 'vue-class';
+import Component, { Getter, State, Vue, namespace } from '@vue/ts';
 
 const AuthState = namespace('auth', State);
 const AuthGetter = namespace('auth', Getter);
@@ -73,13 +72,14 @@ export default class TheSideNav extends Vue {
     { icon: 'fa-user-plus', title: 'Register', path: '/register', level: 'guest' },
     { icon: 'fa-sign-in-alt', title: 'Log In', path: '/login', level: 'guest' },
     {
-      icon: 'fa-list',
-      title: 'Todos',
-      path: '/todos',
+      icon: 'fa-wrench',
+      title: 'Todos CRUD',
+      path: '#',
       level: 'auth',
       sub: [
-        { icon: 'fa-save', title: 'Add Todos', path: '/todos/add', level: 'auth' },
-        { icon: 'fa-trash', title: 'Remove Todos', path: '/todos/remove', level: 'auth' }
+        { icon: 'fa-list-ol', title: 'List', path: '/todos', level: 'auth' },
+        { icon: 'fa-save', title: 'Add', path: '/todos/add', level: 'auth' },
+        { icon: 'fa-trash-alt', title: 'Remove', path: '/todos/remove', level: 'auth' }
       ]
     },
     { icon: 'fa-sign-out-alt', title: 'Log Out', path: '/logout', level: 'auth' }

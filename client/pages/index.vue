@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import Component, { Getter, Vue } from 'vue-class';
+import Component, { Getter, Vue } from '@vue/ts';
 
 @Component
 export default class Index extends Vue {

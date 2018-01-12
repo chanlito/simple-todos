@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import Component, { Getter, Vue } from 'vue-class';
+import Component, { Getter, Vue } from '@vue/ts';
 
 import TheSideNav from '../components/TheSideNav.vue';
 

@@ -1,15 +1,18 @@
 <template>
   <v-container class="ma-0">
     <v-layout>
-
+      <AppTodoList />
     </v-layout>
   </v-container>
 </template>
 
-<script>
-export default {
-  async fetch({ store }) {
-    await store.dispatch('todos/fetchTodos');
-  }
-};
+<script lang="ts">
+import Component, { Vue } from '@vue/ts';
+
+import AppTodoList from '../components/AppTodoList.vue';
+
+@Component({
+  components: { AppTodoList }
+})
+export default class Todos extends Vue {}
 </script>

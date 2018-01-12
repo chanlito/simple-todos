@@ -25,7 +25,7 @@
 
 
 <script lang="ts">
-import Component, { Prop, Vue } from 'vue-class';
+import Component, { Prop, Vue } from '@vue/ts';
 
 @Component
 export default class AuthForm extends Vue {
