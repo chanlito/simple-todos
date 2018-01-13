@@ -1,8 +1,8 @@
-# Simple Todos 🗒
+# Simple Todos 📒
 
 ## Description
 
-**Simple Todos** is a project to show how REST APIs are built, it is powered by Nest Framework 😻 & Typescript 💙
+**Simple Todos** is a simple web application powered by Nuxt.js 💚 & Nest Framework 😻
 
 ## Environment Variables
 
