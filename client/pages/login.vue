@@ -38,7 +38,7 @@ const AuthState = namespace('auth', State);
   middleware: ['guest']
 })
 export default class Login extends Vue {
-  alertMessage = '';
+  alertMessage: string = '';
   email = '';
   password = '';
 

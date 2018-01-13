@@ -6,13 +6,14 @@ module.exports = function() {
     const tsLoader = {
       loader: 'ts-loader',
       options: {
-        appendTsSuffixTo: [/\.vue$/]
+        appendTsSuffixTo: [/\.vue$/],
+        transpileOnly: true
       }
     };
     // Add TypeScript loader
     config.module.rules.push({
       test: /((client|server)\.js)|(\.tsx?)$/,
-      exclude: /server/,
+      exclude: [/server/, /node_modules/],
       ...tsLoader
     });
     // Add TypeScript loader for vue files

@@ -1,5 +1,7 @@
-import { ActionTree, GetterTree } from 'vuex';
+import { AxiosError } from 'axios';
+import { ActionTree, GetterTree, MutationTree } from 'vuex';
 
+import { RootState, State } from '../store';
 import {
   LOGIN,
   LOGIN_FAILED,
@@ -11,7 +13,6 @@ import {
   REGISTER_FAILED,
   REGISTER_SUCCESS
 } from '../utils/mutation-types';
-import { RootState, State } from './';
 
 export const state = (): AuthState => ({
   loading: false,
@@ -25,7 +26,7 @@ export const getters: GetterTree<AuthState, RootState> = {
   }
 };
 
-export const mutations = {
+export const mutations: MutationTree<AuthState> = {
   [LOGIN](state) {
     state.loading = true;
     state.error = null;
@@ -84,6 +85,7 @@ export const actions: ActionTree<State, RootState> = {
       commit(LOGOUT_SUCCESS);
     } catch (e) {
       commit(LOGOUT_FAILED, e.message);
+      throw e;
     }
   },
   async register({ commit }, payload: RegisterPayload) {
@@ -101,7 +103,7 @@ export const actions: ActionTree<State, RootState> = {
 export interface AuthState {
   loading: boolean;
   authUser?: AuthUser;
-  error?: any;
+  error?: Error | AxiosError;
 }
 
 export interface AuthUser {

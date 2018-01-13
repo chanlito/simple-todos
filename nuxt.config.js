@@ -1,4 +1,5 @@
 const path = require('path');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = {
   // specify header defaults
@@ -22,24 +23,35 @@ module.exports = {
       { rel: 'stylesheet', href: 'https://unpkg.com/vuetify@next/dist/vuetify.min.css' }
     ]
   },
-  // customize loading
+  // customize loading bar
   loading: {
     color: '#4CAF50'
   },
   // specify build directory
-  buildDir: 'server/nuxt',
+  buildDir: 'server/build',
   // specify nuxt source directory
   srcDir: 'client',
-  // configure build
+  // configure webpack build
   build: {
-    babel: {
-      plugins: ['transform-decorators-legacy', 'transform-class-properties']
-    },
     extend(config) {
       config.resolve.alias['@vue/ts'] = path.resolve('.', 'client', 'utils', 'vue-ts');
       config.resolve.alias['@vue/utils'] = path.resolve('.', 'client', 'utils');
     },
-    vendor: ['nuxt-class-component', 'vue-property-decorator', 'vee-validate', 'vuetify']
+    plugins: [
+      new ForkTsCheckerWebpackPlugin({
+        vue: true,
+        watch: ['client']
+      })
+    ],
+    vendor: [
+      'axios',
+      'nuxt-class-component',
+      'vue-class-component',
+      'vue-property-decorator',
+      'vuex-class',
+      'vee-validate',
+      'vuetify'
+    ]
   },
   // specify additional nuxt plugins
   plugins: ['~/plugins/vee-validate', '~/plugins/vuetify'],

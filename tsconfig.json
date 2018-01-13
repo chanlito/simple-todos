@@ -21,9 +21,6 @@
     "paths": {
       "@vue/ts": [
         "./client/utils/vue-ts"
-      ],
-      "@vue/utils": [
-        "./client/utils"
       ]
     }
   },

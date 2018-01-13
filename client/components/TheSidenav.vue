@@ -18,19 +18,16 @@
         </v-list-tile>
       </v-list>
     </v-toolbar>
-
     <v-list dense>
       <template v-for="{ icon, title, path, sub } in activeLinks">
         <v-list-group v-if="sub && sub.length"
                       :key="title"
                       :prepend-icon="icon">
-
           <v-list-tile slot="activator">
             <v-list-tile-content>
               <v-list-tile-title>{{ title }}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-
           <v-list-tile v-for="{ icon, title, path } in sub"
                        :key="title"
                        :to="path">
@@ -41,9 +38,7 @@
               <v-list-tile-title>{{ title }}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-
         </v-list-group>
-
         <v-list-tile v-else
                      :key="title"
                      :to="path">
