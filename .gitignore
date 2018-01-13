@@ -24,11 +24,6 @@ dist
 server/nuxt
 server/build
 
-# public
-public/*
-public/uploads/*
-!public/uploads/.gitkeep
-
 # uploads
-client/static/uploads
+client/static/uploads/*
 !client/static/uploads/.gitkeep
