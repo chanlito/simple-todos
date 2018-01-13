@@ -14,13 +14,9 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: 'favicon.ico' },
-      {
-        rel: 'preload',
-        href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons',
-        as: 'style',
-        onload: "this.rel='stylesheet'"
-      },
-      { rel: 'stylesheet', href: 'https://unpkg.com/vuetify@next/dist/vuetify.min.css' }
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' },
+      { rel: 'stylesheet', href: 'https://unpkg.com/vuetify@next/dist/vuetify.min.css' },
+      { rel: 'stylesheet', href: 'https://use.fontawesome.com/releases/v5.0.4/css/all.css' }
     ]
   },
   // customize loading bar
@@ -48,7 +44,18 @@ module.exports = {
     ]
   },
   // specify additional nuxt plugins
-  plugins: ['~/plugins/vee-validate', '~/plugins/vuetify'],
+  plugins: [
+    {
+      src: '~/plugins/vue-socket.io',
+      ssr: false
+    },
+    '~/plugins/vee-validate',
+    '~/plugins/vuetify'
+  ],
   // specify additional nuxt modules
-  modules: ['@nuxtjs/axios', 'nuxtjs-extensions/dist/modules/typescript']
+  modules: [
+    '@nuxtjs/axios',
+    ['@nuxtjs/dotenv', { path: path.resolve('.') }],
+    'nuxtjs-extensions/dist/modules/typescript'
+  ]
 };

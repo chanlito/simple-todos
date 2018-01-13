@@ -24,7 +24,15 @@ import Component, { Getter, Vue } from 'nuxtjs-extensions';
 import TheSidenav from '../components/TheSidenav.vue';
 
 @Component({
-  components: { TheSidenav }
+  components: { TheSidenav },
+  sockets: {
+    connect: function() {
+      console.log('Connected!');
+    },
+    disconnect() {
+      console.log('Disconnected!');
+    }
+  }
 })
 export default class DefaultLayout extends Vue {
   drawer: boolean = false;
