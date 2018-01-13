@@ -3,11 +3,11 @@ import Vuetify from 'vuetify';
 
 Vue.use(Vuetify, {
   theme: {
-    primary: '#263238',
-    secondary: '#000a12',
-    accent: '#ff1744',
+    primary: '#ffeb3b',
+    secondary: '#c8b900',
+    accent: '#00c853',
     error: '#F44336',
-    warning: '#ffeb3b',
+    warning: '#ff9800',
     info: '#2196F3',
     success: '#4CAF50'
   }

@@ -3,15 +3,15 @@ import { ActionTree, GetterTree, MutationTree } from 'vuex';
 
 import { RootState, State } from '../store';
 import {
-  LOGIN,
-  LOGIN_FAILED,
-  LOGIN_SUCCESS,
-  LOGOUT,
-  LOGOUT_FAILED,
-  LOGOUT_SUCCESS,
-  REGISTER,
-  REGISTER_FAILED,
-  REGISTER_SUCCESS
+  SIGN_IN,
+  SIGN_IN_FAILED,
+  SIGN_IN_SUCCESS,
+  SIGN_OUT,
+  SIGN_OUT_FAILED,
+  SIGN_OUT_SUCCESS,
+  SIGN_UP,
+  SIGN_UP_FAILED,
+  SIGN_UP_SUCCESS
 } from '../utils/mutation-types';
 
 export const state = (): AuthState => ({
@@ -21,80 +21,80 @@ export const state = (): AuthState => ({
 });
 
 export const getters: GetterTree<AuthState, RootState> = {
-  isLoggedIn(state) {
-    return !!state.authUser;
-  }
+  isSignedIn: state => !!state.authUser,
+  firstName: state => state.authUser.profile.firstName,
+  lastName: state => state.authUser.profile.lastName
 };
 
 export const mutations: MutationTree<AuthState> = {
-  [LOGIN](state) {
+  [SIGN_IN](state) {
     state.loading = true;
     state.error = null;
   },
-  [LOGIN_SUCCESS](state, payload) {
+  [SIGN_IN_SUCCESS](state, payload) {
     state.loading = false;
     state.authUser = payload;
     state.error = null;
   },
-  [LOGIN_FAILED](state, error) {
+  [SIGN_IN_FAILED](state, error) {
     state.loading = false;
     state.error = error;
   },
-  [LOGOUT](state) {
+  [SIGN_OUT](state) {
     state.loading = true;
     state.error = null;
   },
-  [LOGOUT_SUCCESS](state) {
+  [SIGN_OUT_SUCCESS](state) {
     state.loading = false;
     state.authUser = null;
     state.error = null;
   },
-  [LOGOUT_FAILED](state, error) {
+  [SIGN_OUT_FAILED](state, error) {
     state.loading = false;
     state.error = error;
   },
-  [REGISTER](state) {
+  [SIGN_UP](state) {
     state.loading = true;
     state.error = null;
   },
-  [REGISTER_SUCCESS](state) {
+  [SIGN_UP_SUCCESS](state) {
     state.loading = false;
     state.error = null;
   },
-  [REGISTER_FAILED](state, error) {
+  [SIGN_UP_FAILED](state, error) {
     state.loading = false;
     state.error = error;
   }
 };
 
 export const actions: ActionTree<State, RootState> = {
-  async login({ commit }, payload: LoginPayload) {
+  async signIn({ commit }, payload: SignInPayload) {
     try {
-      commit(LOGIN);
-      const authUser = await this.$axios.$post('/auth/login', payload);
-      commit(LOGIN_SUCCESS, authUser);
+      commit(SIGN_IN);
+      const authUser = await this.$axios.$post('/auth/sign-in', payload);
+      commit(SIGN_IN_SUCCESS, authUser);
     } catch (e) {
-      commit(LOGIN_FAILED, e.message);
+      commit(SIGN_IN_FAILED, e.message);
       throw e;
     }
   },
-  async logout({ commit }) {
+  async signOut({ commit }) {
     try {
-      commit(LOGOUT);
-      await this.$axios.$post('/auth/logout');
-      commit(LOGOUT_SUCCESS);
+      commit(SIGN_OUT);
+      await this.$axios.$post('/auth/sign-out');
+      commit(SIGN_OUT_SUCCESS);
     } catch (e) {
-      commit(LOGOUT_FAILED, e.message);
+      commit(SIGN_OUT_FAILED, e.message);
       throw e;
     }
   },
-  async register({ commit }, payload: RegisterPayload) {
+  async signUp({ commit }, payload: SignUpPayload) {
     try {
-      commit(REGISTER);
-      await this.$axios.$post('/auth/register', payload);
-      commit(REGISTER_SUCCESS);
+      commit(SIGN_UP);
+      await this.$axios.$post('/auth/sign-up', payload);
+      commit(SIGN_UP_SUCCESS);
     } catch (e) {
-      commit(REGISTER_FAILED, e.message);
+      commit(SIGN_UP_FAILED, e.message);
       throw e;
     }
   }
@@ -127,12 +127,12 @@ export interface Profile {
   lastName?: string;
 }
 
-export interface LoginPayload {
+export interface SignInPayload {
   email: string;
   password: string;
 }
 
-export interface RegisterPayload {
+export interface SignUpPayload {
   email: string;
   password: string;
   firstName: string;

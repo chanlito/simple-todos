@@ -10,7 +10,7 @@
     "**/.DS_Store": true,
     ".nyc_output": true,
     ".vscode": true,
-    "node_modules": true,
+    "node_modules": false,
     "server/build": true
   },
   "git.autofetch": true,
@@ -30,9 +30,5 @@
     "javascriptreact",
     "vue"
   ],
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "search.exclude": {
-    "**/node_modules": true,
-    "**/bower_components": true
-  }
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

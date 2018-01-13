@@ -1,5 +1,4 @@
 const path = require('path');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = {
   // specify header defaults
@@ -14,10 +13,7 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'A simple todos project. Built with 💚 using Nuxt & Nest.' }
     ],
     link: [
-      // { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'icon', type: 'image/png', sizes: '32x32', href: 'https://vuejs.org/images/icons/favicon-32x32.png' },
-      { rel: 'icon', type: 'image/png', sizes: '96x96', href: 'https://vuejs.org/images/icons/favicon-96x96.png' },
-      { rel: 'icon', type: 'image/png', sizes: '16x16', href: 'https://vuejs.org/images/icons/favicon-16x16.png' },
+      { rel: 'icon', type: 'image/x-icon', href: 'favicon.ico' },
       { rel: 'stylesheet', href: 'https://use.fontawesome.com/releases/v5.0.3/css/all.css' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' },
       { rel: 'stylesheet', href: 'https://unpkg.com/vuetify@next/dist/vuetify.min.css' }
@@ -37,12 +33,6 @@ module.exports = {
       config.resolve.alias['@vue/ts'] = path.resolve('.', 'client', 'utils', 'vue-ts');
       config.resolve.alias['@vue/utils'] = path.resolve('.', 'client', 'utils');
     },
-    plugins: [
-      new ForkTsCheckerWebpackPlugin({
-        vue: true,
-        watch: ['client']
-      })
-    ],
     vendor: [
       'axios',
       'nuxt-class-component',
@@ -56,5 +46,5 @@ module.exports = {
   // specify additional nuxt plugins
   plugins: ['~/plugins/vee-validate', '~/plugins/vuetify'],
   // specify additional nuxt modules
-  modules: ['@nuxtjs/axios', '~/modules/typescript']
+  modules: ['@nuxtjs/axios', 'nuxtjs-extensions/dist/modules/typescript']
 };

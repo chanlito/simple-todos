@@ -1,7 +1,6 @@
 <template>
   <v-container fluid>
-    <v-jumbotron gradient="to top, #000a12, #263238, #000a12"
-                 dark>
+    <v-jumbotron>
       <v-container fill-height>
         <v-layout align-center>
           <v-flex text-xs-center>
@@ -16,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import Component, { Getter, Vue } from '@vue/ts';
+import Component, { Getter, Vue } from 'nuxtjs-extensions';
 
 @Component
 export default class Index extends Vue {

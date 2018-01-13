@@ -1,6 +1,6 @@
 <template>
   <div>
-    <AppAuthForm title="Register"
+    <AppAuthForm title="Sign Up"
                  :alert-message="alertMessage">
       <form @submit.prevent="handleSubmit"
             novalidate>
@@ -11,6 +11,7 @@
                       v-validate="'required|email'"
                       :error-messages="errors.collect('email')" />
         <v-text-field required
+                      type="password"
                       label="Password"
                       name="password"
                       v-model="password"
@@ -28,18 +29,19 @@
                       v-validate="'alpha_spaces'"
                       :error-messages="errors.collect('lastName')" />
         <v-btn color="primary"
+               light
                :loading="loading"
-               type="submit">Submit</v-btn>
+               type="submit">Sign Up Now</v-btn>
       </form>
     </AppAuthForm>
   </div>
 </template>
 
 <script lang="ts">
-import Component, { Action, State, Vue, namespace } from '@vue/ts';
+import Component, { Action, State, Vue, namespace } from 'nuxtjs-extensions';
 
 import AppAuthForm from '../components/AppAuthForm.vue';
-import { RegisterPayload } from '../store/auth';
+import { SignUpPayload } from '../store/auth';
 import { handleErrors, validate } from '../utils';
 
 const AuthAction = namespace('auth', Action);
@@ -48,7 +50,7 @@ const AuthState = namespace('auth', State);
 @Component({
   components: { AppAuthForm }
 })
-export default class Register extends Vue {
+export default class SignUpPage extends Vue {
   alertMessage = '';
   email = '';
   password = '';
@@ -56,19 +58,19 @@ export default class Register extends Vue {
   lastName = '';
 
   @AuthState loading: boolean;
-  @AuthAction register: (payload: RegisterPayload) => void;
+  @AuthAction signUp: (payload: SignUpPayload) => void;
 
   async handleSubmit() {
     this.alertMessage = '';
     await validate(this.$validator);
     try {
-      await this.register({
+      await this.signUp({
         email: this.email,
         password: this.password,
         firstName: this.firstName,
         lastName: this.lastName
       });
-      this.$router.push('/login');
+      this.$router.push('/sign-in');
     } catch (e) {
       this.alertMessage = handleErrors(this.$validator.errors, e);
     }

@@ -25,7 +25,7 @@
 
 
 <script lang="ts">
-import Component, { Prop, Vue } from '@vue/ts';
+import Component, { Prop, Vue } from 'nuxtjs-extensions';
 
 @Component
 export default class AuthForm extends Vue {

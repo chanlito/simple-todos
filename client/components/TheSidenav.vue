@@ -1,23 +1,21 @@
 <template>
   <div>
-    <v-toolbar v-if="isLoggedIn"
-               flat
-               class="transparent">
+    <v-toolbar v-if="isSignedIn"
+               color="primary"
+               flat>
       <v-list class="pa-0"
               two-lines>
-        <v-list-tile avatar>
-          <v-list-tile-avatar>
-            <img src="https://randomuser.me/api/portraits/men/85.jpg">
-          </v-list-tile-avatar>
+        <v-list-tile>
           <v-list-tile-content>
-            <v-list-tile-title>{{ authUser.firstName }}</v-list-tile-title>
+            <v-list-tile-title class="black--text">{{ firstName }} {{ lastName }}</v-list-tile-title>
           </v-list-tile-content>
           <v-list-tile-action>
-            <v-icon>settings</v-icon>
+            <v-icon class="black--text">settings</v-icon>
           </v-list-tile-action>
         </v-list-tile>
       </v-list>
     </v-toolbar>
+    <v-divider />
     <v-list dense>
       <template v-for="{ icon, title, path, sub } in activeLinks">
         <v-list-group v-if="sub && sub.length"
@@ -55,17 +53,16 @@
 </template>
 
 <script lang="ts">
-import Component, { Getter, State, Vue, namespace } from '@vue/ts';
+import Component, { Getter, Vue, namespace } from 'nuxtjs-extensions';
 
-const AuthState = namespace('auth', State);
 const AuthGetter = namespace('auth', Getter);
 
 @Component
 export default class TheSidenav extends Vue {
   links: NavLink[] = [
     { icon: 'fa-home', title: 'Home', path: '/', level: 'any' },
-    { icon: 'fa-user-plus', title: 'Register', path: '/register', level: 'guest' },
-    { icon: 'fa-sign-in-alt', title: 'Log In', path: '/login', level: 'guest' },
+    { icon: 'fa-user-plus', title: 'Sign Up', path: '/sign-up', level: 'guest' },
+    { icon: 'fa-sign-in-alt', title: 'Sign In', path: '/sign-in', level: 'guest' },
     {
       icon: 'fa-wrench',
       title: 'Todos CRUD',
@@ -77,14 +74,15 @@ export default class TheSidenav extends Vue {
         { icon: 'fa-trash-alt', title: 'Remove', path: '/todos/remove', level: 'auth' }
       ]
     },
-    { icon: 'fa-sign-out-alt', title: 'Log Out', path: '/logout', level: 'auth' }
+    { icon: 'fa-sign-out-alt', title: 'Sign Out', path: '/sign-out', level: 'auth' }
   ];
 
-  @AuthState authUser;
-  @AuthGetter isLoggedIn: boolean;
+  @AuthGetter isSignedIn: boolean;
+  @AuthGetter firstName: string;
+  @AuthGetter lastName: string;
 
   get activeLinks() {
-    return this.links.filter(({ level }) => level === 'any' || level === (this.isLoggedIn ? 'auth' : 'guest'));
+    return this.links.filter(({ level }) => level === 'any' || level === (this.isSignedIn ? 'auth' : 'guest'));
   }
 }
 

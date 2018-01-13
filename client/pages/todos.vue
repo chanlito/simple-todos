@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import Component, { Vue } from '@vue/ts';
+import Component, { Vue } from 'nuxtjs-extensions';
 
 import AppTodoList from '../components/AppTodoList.vue';
 

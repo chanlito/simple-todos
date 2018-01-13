@@ -1,5 +1,5 @@
 <template>
-  <AppAuthForm title="Login"
+  <AppAuthForm title="Sign In"
                :alert-message="alertMessage">
     <form @submit.prevent="handleSubmit"
           novalidate>
@@ -10,24 +10,26 @@
                     v-validate="'required'"
                     :error-messages="errors.collect('email')" />
       <v-text-field required
+                    type="password"
                     label="Password"
                     name="password"
                     v-model="password"
                     v-validate="'required'"
                     :error-messages="errors.collect('password')" />
       <v-btn color="primary"
+             light
              :loading="loading"
-             type="submit">Log In</v-btn>
+             type="submit">Sign In</v-btn>
       <v-btn outline>Forgot Password?</v-btn>
     </form>
   </AppAuthForm>
 </template>
 
 <script lang="ts">
-import Component, { Action, State, Vue, namespace } from '@vue/ts';
+import Component, { Action, State, Vue, namespace } from 'nuxtjs-extensions';
 
 import AppAuthForm from '../components/AppAuthForm.vue';
-import { LoginPayload } from '../store/auth';
+import { SignInPayload } from '../store/auth';
 import { handleErrors, validate } from '../utils';
 
 const AuthAction = namespace('auth', Action);
@@ -37,19 +39,19 @@ const AuthState = namespace('auth', State);
   components: { AppAuthForm },
   middleware: ['guest']
 })
-export default class Login extends Vue {
+export default class SignInPage extends Vue {
   alertMessage: string = '';
-  email = '';
-  password = '';
+  email: string = '';
+  password: string = '';
 
   @AuthState loading: boolean;
-  @AuthAction login: (payload: LoginPayload) => void;
+  @AuthAction signIn: (payload: SignInPayload) => void;
 
   async handleSubmit() {
     this.alertMessage = '';
     await validate(this.$validator);
     try {
-      await this.login({
+      await this.signIn({
         email: this.email,
         password: this.password
       });

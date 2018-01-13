@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import Component, { Vue } from '@vue/ts';
+import Component, { Vue } from 'nuxtjs-extensions';
 
 @Component
 export default class AppTodoList extends Vue {}
