@@ -27,7 +27,7 @@ import TheSideNav from '../components/TheSideNav.vue';
   components: { TheSideNav }
 })
 export default class DefaultLayout extends Vue {
-  drawer = false;
+  drawer: boolean = false;
   @Getter appName: string;
 }
 </script>
