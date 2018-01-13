@@ -66,7 +66,7 @@ const AuthState = namespace('auth', State);
 const AuthGetter = namespace('auth', Getter);
 
 @Component
-export default class TheSideNav extends Vue {
+export default class TheSidenav extends Vue {
   links: NavLink[] = [
     { icon: 'fa-home', title: 'Home', path: '/', level: 'any' },
     { icon: 'fa-user-plus', title: 'Register', path: '/register', level: 'guest' },

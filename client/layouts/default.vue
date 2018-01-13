@@ -3,7 +3,7 @@
     <v-navigation-drawer app
                          fixed
                          v-model="drawer">
-      <TheSideNav />
+      <TheSidenav />
     </v-navigation-drawer>
     <v-toolbar app
                color="primary"
@@ -21,10 +21,10 @@
 <script lang="ts">
 import Component, { Getter, Vue } from '@vue/ts';
 
-import TheSideNav from '../components/TheSideNav.vue';
+import TheSidenav from '../components/TheSidenav.vue';
 
 @Component({
-  components: { TheSideNav }
+  components: { TheSidenav }
 })
 export default class DefaultLayout extends Vue {
   drawer: boolean = false;
