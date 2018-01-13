@@ -9,7 +9,7 @@ import { Validate } from 'nestjs-extensions';
     lastName: 'string|max:255'
   }
 })
-export class RegisterDto {
+export class SignUpDto {
   @ApiModelProperty()
   email: string;
 
@@ -28,7 +28,7 @@ export class RegisterDto {
     password: 'required|string|max:255'
   }
 })
-export class LoginDto {
+export class SignInDto {
   @ApiModelProperty()
   email: string;
 

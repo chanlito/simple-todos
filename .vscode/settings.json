@@ -10,7 +10,8 @@
     "**/.DS_Store": true,
     ".nyc_output": true,
     ".vscode": true,
-    "node_modules": true
+    "node_modules": true,
+    "server/build": true
   },
   "git.autofetch": true,
   "vetur.format.defaultFormatter.html": "js-beautify-html",
@@ -29,5 +30,9 @@
     "javascriptreact",
     "vue"
   ],
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true
+  }
 }

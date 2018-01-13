@@ -1,5 +1,5 @@
 import { BadRequestException, Body, Controller, Post, Req } from '@nestjs/common';
-import { ApiOperation, ApiUseTags } from '@nestjs/swagger';
+import { ApiUseTags } from '@nestjs/swagger';
 import { compare, genSalt, hash } from 'bcryptjs';
 import { Request } from 'express';
 import { sign } from 'jsonwebtoken';
@@ -8,9 +8,7 @@ import { EntityManager } from 'typeorm';
 
 import { Profile, Role, User } from '../../entity';
 import { UserRepository } from '../../repository';
-import { LoginDto, RegisterDto } from './auth.dto';
-
-const { SECRET = '' } = process.env;
+import { SignInDto, SignUpDto } from './auth.dto';
 
 @ApiUseTags('auth')
 @Controller('auth')
@@ -20,9 +18,8 @@ export class AuthController {
     @InjectCustomRepository(User) private readonly userRepository: UserRepository
   ) {}
 
-  @ApiOperation({ title: 'Register a new user' })
-  @Post('register')
-  async register(@Body() body: RegisterDto) {
+  @Post('sign-up')
+  async signUp(@Body() body: SignUpDto) {
     await this.em.transaction(async em => {
       const userRole = await em.findOne(Role, { where: { name: 'user' } });
       if (!userRole) throw new Error('Role "user" is missing.');
@@ -43,9 +40,8 @@ export class AuthController {
     return { message: 'OK' };
   }
 
-  @ApiOperation({ title: 'Login a user' })
-  @Post('login')
-  async login(@Body() body: LoginDto, @Req() req: Request) {
+  @Post('sign-in')
+  async signIn(@Body() body: SignInDto, @Req() req: Request) {
     const user = await this.userRepository.findByEmail(body.email);
     if (!user) throw new BadRequestException('Email address does not exist.');
     const isCorrectPassword = await compare(body.password, user.password);
@@ -55,7 +51,7 @@ export class AuthController {
         id: user.id,
         email: user.email
       },
-      SECRET,
+      process.env.SECRET,
       {
         expiresIn: '24 hours',
         issuer: 'API League Team'
@@ -73,8 +69,8 @@ export class AuthController {
     return response;
   }
 
-  @Post('logout')
-  async logout(@Req() req: Request) {
+  @Post('sign-out')
+  async signOut(@Req() req: Request) {
     req.session.authUser = null;
     return { message: 'OK' };
   }

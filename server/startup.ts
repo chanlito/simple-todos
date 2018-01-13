@@ -63,7 +63,7 @@ export class Startup {
   }
 
   private async configureNestSwagger(app: INestApplication) {
-    const options = new DocumentBuilder().setTitle('Simple Todos').build();
+    const options = new DocumentBuilder().setBasePath('/api').setTitle('Simple Todos').build();
     const document = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup('/api/docs', app, document);
   }
