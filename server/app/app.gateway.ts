@@ -15,9 +15,9 @@ const { REDIS_HOST, REDIS_PORT, REDIS_AUTH_PASS } = process.env as any;
 
 @WebSocketGateway()
 @UseFilters(new WebsocketsExceptionFilter())
-export class WsGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
-  private logger = new Logger('WsGateway');
-  @WebSocketServer() private readonly io: SocketIO.Server;
+export class ApplicationGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
+  private logger = new Logger('AppGateway');
+  @WebSocketServer() public readonly io: SocketIO.Server;
 
   async afterInit(io: SocketIO.Server) {
     const options: redis.ClientOpts = { host: REDIS_HOST, port: REDIS_PORT, auth_pass: REDIS_AUTH_PASS };

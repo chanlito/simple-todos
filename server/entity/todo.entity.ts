@@ -3,12 +3,13 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
 
-import { User } from './user.entity';
+import { Favorite, User } from './';
 
 @Entity()
 export class Todo {
@@ -22,6 +23,9 @@ export class Todo {
   @Column({ default: false })
   isDone: boolean;
 
+  @Column({ default: true })
+  isPublic: boolean;
+
   @CreateDateColumn() createdDate: Date;
 
   @UpdateDateColumn() updatedDate: Date;
@@ -29,4 +33,7 @@ export class Todo {
   @OneToOne(type => User, user => user.todos, { onDelete: 'SET NULL' })
   @JoinColumn()
   user: User;
+
+  @OneToMany(type => Favorite, favorite => favorite.todo)
+  favorites: Favorite[];
 }

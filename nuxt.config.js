@@ -46,6 +46,10 @@ module.exports = {
   // specify additional nuxt plugins
   plugins: [
     {
+      src: '~/plugins/vue-notifications',
+      ssr: false
+    },
+    {
       src: '~/plugins/vue-socket.io',
       ssr: false
     },

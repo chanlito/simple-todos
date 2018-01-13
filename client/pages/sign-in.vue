@@ -1,6 +1,5 @@
 <template>
-  <AppAuthForm title="Sign In"
-               :alert-message="alertMessage">
+  <AppAuthForm title="Sign In">
     <form @submit.prevent="handleSubmit"
           novalidate>
       <v-text-field required
@@ -37,18 +36,26 @@ const AuthState = namespace('auth', State);
 
 @Component({
   components: { AppAuthForm },
-  middleware: ['guest']
+  middleware: ['guest'],
+  notifications: {
+    displaySignInError: {
+      icon: 'fas fa-exclamation-triangle',
+      position: 'bottomCenter',
+      title: 'Sign In Failed',
+      toastOnce: true,
+      type: 'error'
+    }
+  }
 })
 export default class SignInPage extends Vue {
-  alertMessage: string = '';
   email: string = '';
   password: string = '';
+  displaySignInError: ({ message: string }) => void;
 
   @AuthState loading: boolean;
   @AuthAction signIn: (payload: SignInPayload) => void;
 
   async handleSubmit() {
-    this.alertMessage = '';
     await validate(this.$validator);
     try {
       await this.signIn({
@@ -57,7 +64,8 @@ export default class SignInPage extends Vue {
       });
       this.$router.push('/');
     } catch (e) {
-      this.alertMessage = handleErrors(this.$validator.errors, e);
+      const message = handleErrors(this.$validator.errors, e);
+      this.displaySignInError({ message });
     }
   }
 }

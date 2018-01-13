@@ -1,13 +1,13 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { LoggerModule, MailerModule, RedisModule, TypeOrmModule } from 'nestjs-extensions';
 import { resolve as pathResolve } from 'path';
 
 import * as entities from '../entity';
 import * as repositories from '../repository';
 import { AppController } from './app.controller';
+import { ApplicationGateway } from './app.gateway';
 import { AuthModule } from './auth/auth.module';
 import { TodoModule } from './todo/todo.module';
-import { WsModule } from './ws/ws.module';
 
 const {
   MAILER_TYPE,
@@ -31,11 +31,11 @@ const {
   TYPEORM_SYNCHRONIZE
 } = process.env as any;
 
+@Global()
 @Module({
   modules: [
     AuthModule,
     TodoModule,
-    WsModule,
     LoggerModule.forRoot({
       types: ['console', 'files'],
       directory: pathResolve('.', 'logs')
@@ -74,6 +74,8 @@ const {
       }
     })
   ],
-  controllers: [AppController]
+  controllers: [AppController],
+  components: [ApplicationGateway],
+  exports: [ApplicationGateway]
 })
 export class ApplicationModule {}

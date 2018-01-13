@@ -16,13 +16,7 @@
       "es2015"
     ],
     "module": "commonjs",
-    "moduleResolution": "node",
-    "baseUrl": ".",
-    "paths": {
-      "@vue/ts": [
-        "./client/utils/vue-ts"
-      ]
-    }
+    "moduleResolution": "node"
   },
   "include": [
     "server",

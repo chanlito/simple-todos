@@ -9,9 +9,7 @@ import {
   UpdateDateColumn
 } from 'typeorm';
 
-import { Profile } from './profile.entity';
-import { Role } from './role.entity';
-import { Todo } from './todo.entity';
+import { Favorite, Profile, Role, Todo } from './';
 
 @Entity()
 export class User {
@@ -39,4 +37,7 @@ export class User {
 
   @OneToMany(type => Todo, todo => todo.user)
   todos: Todo[];
+
+  @OneToMany(type => Favorite, favorite => favorite.user)
+  favorites: Favorite[];
 }
