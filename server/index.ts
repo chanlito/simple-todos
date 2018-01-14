@@ -9,7 +9,7 @@ import { authorizationChecker } from './app/auth/auth.resolver';
 import { uniqueEmail } from './common/rules';
 import { Startup, StartupConfiguration } from './startup';
 
-const { PORT = 4200 } = process.env;
+const { NODE_ENV = 'development', PORT = 4200 } = process.env;
 
 const config: StartupConfiguration = {
   ApplicationModule,
@@ -28,8 +28,10 @@ const config: StartupConfiguration = {
 };
 
 new Startup(config).main().then(
-  async ({ app, nuxt }) => {
+  async ({ app, server }) => {
     await app.listen(+PORT);
+    const nuxt = await Startup.configureNuxt();
+    if (NODE_ENV !== 'production') await Startup.configureNuxtBuilder(nuxt);
     app.use(nuxt.render);
   },
   e => {

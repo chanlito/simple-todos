@@ -21,19 +21,26 @@ export class Startup {
 
   constructor(private config: StartupConfiguration) {}
 
+  static async configureNuxt() {
+    nuxtConfig.dev = process.env.NODE_ENV !== 'production';
+    return new Nuxt(nuxtConfig);
+  }
+
+  static async configureNuxtBuilder(nuxt) {
+    return new Builder(nuxt).build();
+  }
+
   async main() {
     const server = express();
     await this.configureExpressSettings(server);
     await this.configureExpressMiddleware(server);
-
-    const nuxt = await this.configureNuxt();
 
     const app = await NestFactory.create(this.config.ApplicationModule, server);
     app.setGlobalPrefix('api');
     await this.configureNestGlobals(app);
     await this.configureNestSwagger(app);
 
-    return { app, server, nuxt };
+    return { app, server };
   }
 
   private async configureExpressSettings(app: express.Application) {
@@ -63,19 +70,12 @@ export class Startup {
   }
 
   private async configureNestSwagger(app: INestApplication) {
-    const options = new DocumentBuilder().setBasePath('/api').setTitle('Simple Todos').build();
+    const options = new DocumentBuilder()
+      .setBasePath('/api')
+      .setTitle('Simple Todos')
+      .build();
     const document = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup('/api/docs', app, document);
-  }
-
-  private async configureNuxt() {
-    const isDev = (nuxtConfig.dev = process.env.NODE_ENV !== 'production');
-    const nuxt = new Nuxt(nuxtConfig);
-    if (isDev) {
-      const builder = new Builder(nuxt);
-      await builder.build();
-    }
-    return nuxt;
   }
 }
 

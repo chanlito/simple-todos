@@ -27,8 +27,7 @@
   "prettier.eslintIntegration": true,
   "eslint.validate": [
     "javascript",
-    "javascriptreact",
-    "vue"
+    "javascriptreact"
   ],
   "typescript.tsdk": "node_modules/typescript/lib"
 }

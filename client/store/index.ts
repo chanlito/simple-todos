@@ -2,6 +2,7 @@ import { ActionContext, ActionTree, GetterTree, MutationTree } from 'vuex';
 
 import { SIGN_IN_SUCCESS } from '../utils/mutation-types';
 import { AuthState, AuthUser } from './auth';
+import { TodoState } from './todo';
 
 export const state = (): State => ({
   appName: 'Simple Todos',
@@ -21,8 +22,12 @@ export const mutations: MutationTree<State> = {
 
 export const actions: RootActionTree<State, RootState> = {
   async nuxtServerInit({ commit }, { app, req }) {
-    const ip = await app.$axios.$get('http://icanhazip.com');
-    commit('SET_IP', ip);
+    try {
+      const ip = await app.$axios.$get('http://icanhazip.com');
+      commit('SET_IP', ip);
+    } catch (e) {
+      console.error('Could not get IP.', e.message);
+    }
     const authUser: AuthUser = req.session.authUser;
     if (authUser) commit(`auth/${SIGN_IN_SUCCESS}`, authUser);
   }
@@ -37,6 +42,7 @@ export interface State {
 
 export interface ModulesState {
   auth: AuthState;
+  todo: TodoState;
 }
 
 export interface RootActionTree<S, R> extends ActionTree<S, R> {

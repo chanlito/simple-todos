@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
-import { Auth, AuthUser, InjectCustomRepository, InjectEntityManager, InjectLogger, Logger } from 'nestjs-extensions';
+import { Auth, AuthUser, InjectCustomRepository, InjectEntityManager } from 'nestjs-extensions';
 import { EntityManager } from 'typeorm';
 
 import { isNumber, Roles } from '../../common';
@@ -14,7 +14,6 @@ import { CreateTodoDto, UpdateTodoDto } from './todo.dto';
 @Controller('todos')
 export class TodoController {
   constructor(
-    @InjectLogger() private readonly logger: Logger,
     @InjectEntityManager() private readonly em: EntityManager,
     @InjectCustomRepository(Todo) private readonly todoRepository: TodoRepository,
     private readonly appGateway: ApplicationGateway
@@ -28,7 +27,13 @@ export class TodoController {
     todo.description = body.description;
     todo.user = authUser;
     await this.em.save(Todo, todo);
-    this.appGateway.io.emit('todoCreated', { todo, createdBy: authUser.profile.fullName });
+
+    // inform everyone
+    if (todo.isPublic) {
+      this.appGateway.io.emit('todoCreated', {
+        createdBy: authUser.profile.fullName
+      });
+    }
     return todo;
   }
 
@@ -38,13 +43,10 @@ export class TodoController {
     @Query('limit', isNumber)
     limit: number = 10,
     @Query('offset', isNumber)
-    offset: number = 0,
-    @AuthUser({ required: true })
-    authUser?: User
+    offset: number = 0
   ) {
-    this.logger.info('Auth User', authUser);
-    const todos = await this.todoRepository.find({ take: limit, skip: offset });
-    return { data: todos };
+    const [todos, total] = await this.todoRepository.findPublicTodosAndCreatorsName({ limit, offset });
+    return { data: todos, metadata: { limit, offset, total } };
   }
 
   @Get(':id')

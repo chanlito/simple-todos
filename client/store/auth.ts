@@ -23,7 +23,8 @@ export const state = (): AuthState => ({
 export const getters: GetterTree<AuthState, RootState> = {
   isSignedIn: state => !!state.authUser,
   firstName: state => state.authUser.profile.firstName,
-  lastName: state => state.authUser.profile.lastName
+  lastName: state => state.authUser.profile.lastName,
+  accessToken: state => (state.authUser ? state.authUser.accessToken : null)
 };
 
 export const mutations: MutationTree<AuthState> = {
