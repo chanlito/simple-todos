@@ -48,7 +48,7 @@ export const actions: ActionTree<TodoState, RootState> = {
   async fetchTodos({ commit }, payload: FetchTodosPayload) {
     try {
       commit(FETCH_TODOS);
-      const response: FetchTodosResponse = await this.$axios.$get('/todos', payload);
+      const response: FetchTodosResponse = await (this.$axios as any).$get('/todos', payload);
       commit(FETCH_TODOS_SUCCESS, response);
     } catch (e) {
       commit(FETCH_TODOS_FAILED, e.message);
@@ -58,7 +58,7 @@ export const actions: ActionTree<TodoState, RootState> = {
 
 export interface TodoState {
   loading: boolean;
-  error?: Error | AxiosError;
+  error?: Error | AxiosError | null;
   data: Array<Todo & { user: User }>;
   metadata: ResponseMetadata;
 }

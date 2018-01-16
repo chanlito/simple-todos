@@ -72,7 +72,7 @@ export const actions: ActionTree<State, RootState> = {
   async signIn({ commit }, payload: SignInPayload) {
     try {
       commit(SIGN_IN);
-      const authUser = await this.$axios.$post('/auth/sign-in', payload);
+      const authUser = await (this.$axios as any).$post('/auth/sign-in', payload);
       commit(SIGN_IN_SUCCESS, authUser);
     } catch (e) {
       commit(SIGN_IN_FAILED, e.message);
@@ -82,7 +82,7 @@ export const actions: ActionTree<State, RootState> = {
   async signOut({ commit }) {
     try {
       commit(SIGN_OUT);
-      await this.$axios.$post('/auth/sign-out');
+      await (this.$axios as any).$post('/auth/sign-out');
       commit(SIGN_OUT_SUCCESS);
     } catch (e) {
       commit(SIGN_OUT_FAILED, e.message);
@@ -92,7 +92,7 @@ export const actions: ActionTree<State, RootState> = {
   async signUp({ commit }, payload: SignUpPayload) {
     try {
       commit(SIGN_UP);
-      await this.$axios.$post('/auth/sign-up', payload);
+      await (this.$axios as any).$post('/auth/sign-up', payload);
       commit(SIGN_UP_SUCCESS);
     } catch (e) {
       commit(SIGN_UP_FAILED, e.message);
@@ -103,8 +103,8 @@ export const actions: ActionTree<State, RootState> = {
 
 export interface AuthState {
   loading: boolean;
-  authUser?: AuthUser;
-  error?: Error | AxiosError;
+  authUser?: AuthUser | null;
+  error?: any;
 }
 
 export interface AuthUser {

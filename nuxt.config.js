@@ -1,5 +1,4 @@
 const path = require('path');
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 module.exports = {
   // specify header defaults
@@ -57,8 +56,7 @@ module.exports = {
       'vue-class-component',
       'vue-property-decorator',
       'vuex-class'
-    ],
-    plugins: [new TsconfigPathsPlugin({ configFile: './client/tsconfig.json' })]
+    ]
   },
   // specify additional nuxt plugins
   plugins: [
@@ -73,7 +71,8 @@ module.exports = {
   modules: [
     '@nuxtjs/axios',
     ['@nuxtjs/dotenv', { path: path.resolve('.') }],
-    'nuxtjs-extensions/dist/modules/typescript'
+    // 'nuxtjs-extensions/dist/modules/typescript'
+    '~modules/typescript'
   ],
   /**
    * Axios module config
