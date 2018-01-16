@@ -18,6 +18,7 @@
       <v-btn color="primary"
              light
              :loading="loading"
+             :disabled="loading"
              type="submit">Sign In</v-btn>
       <v-btn outline>Forgot Password?</v-btn>
     </form>

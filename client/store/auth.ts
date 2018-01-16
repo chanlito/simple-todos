@@ -22,8 +22,8 @@ export const state = (): AuthState => ({
 
 export const getters: GetterTree<AuthState, RootState> = {
   isSignedIn: state => !!state.authUser,
-  firstName: state => state.authUser.profile.firstName,
-  lastName: state => state.authUser.profile.lastName,
+  firstName: state => (state.authUser ? state.authUser.profile.firstName : null),
+  lastName: state => (state.authUser ? state.authUser.profile.lastName : null),
   accessToken: state => (state.authUser ? state.authUser.accessToken : null)
 };
 
