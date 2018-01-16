@@ -1,4 +1,4 @@
-import { NuxtContext } from '../interfaces/nuxt';
+import { NuxtContext } from 'nuxt';
 
 export default function({ store, redirect }: NuxtContext) {
   store.dispatch(`auth/signOut`);

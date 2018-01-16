@@ -41,7 +41,7 @@
 import Component, { Action, State, Vue, namespace } from 'nuxtjs-extensions';
 
 import AppAuthForm from '../components/AppAuthForm.vue';
-import { SignUpPayload } from '../store/auth';
+import { SignUpPayload } from '../store/auth.types';
 import { handleErrors, validate } from '../utils';
 
 const AuthAction = namespace('auth', Action);

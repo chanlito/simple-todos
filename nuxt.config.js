@@ -1,4 +1,8 @@
+require('dotenv/config');
+
 const path = require('path');
+
+const { PORT } = process.env;
 
 module.exports = {
   // specify header defaults
@@ -24,7 +28,7 @@ module.exports = {
     color: '#4CAF50'
   },
   // specify build directory
-  buildDir: 'build/client',
+  buildDir: 'server/build',
   // specify nuxt source directory
   srcDir: 'client',
   // configure webpack build
@@ -78,7 +82,7 @@ module.exports = {
    * Axios module config
    */
   axios: {
-    // baseURL: `http://127.0.0.1:${PORT}/api`,
+    baseURL: `http://127.0.0.1:${PORT}/api`,
     /**
      * Adds an interceptor to automatically set `withCredentials` config of axios
      * when requesting to baseUrl which allows passing authentication headers to backend.

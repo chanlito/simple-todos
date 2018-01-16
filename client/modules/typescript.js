@@ -1,5 +1,4 @@
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-// const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const path = require('path');
 const tsconfigLocation = path.resolve(__dirname, '../tsconfig.json');
 
@@ -37,8 +36,7 @@ module.exports = function() {
         tsconfig: tsconfigLocation,
         vue: true,
         watch: ['client']
-      }),
-      // new TsconfigPathsPlugin({ configFile: tsconfigLocation })
+      })
     );
   });
 };

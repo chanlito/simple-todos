@@ -6,7 +6,7 @@
     "start": "cross-env NODE_ENV=production node dist",
     "dev": "cross-env NODE_ENV=development nodemon",
     "test": "cross-env NODE_ENV=test nyc mocha --require test/index.ts --opts test/mocha.opts",
-    "prestart": "rimraf dist && npm run build && tsc",
+    "prestart": "rimraf dist && npm run build && tsc -p server",
     "build": "nuxt build"
   },
   "dependencies": {

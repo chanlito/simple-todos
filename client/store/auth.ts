@@ -1,7 +1,8 @@
-import { AxiosError } from 'axios';
+import { NuxtApp } from 'nuxt';
 import { ActionTree, GetterTree, MutationTree } from 'vuex';
 
-import { RootState, State } from '../store';
+import { AuthState, SignInPayload, SignUpPayload } from '../types/auth.types';
+import { RootState } from '../types/index.types';
 import {
   SIGN_IN,
   SIGN_IN_FAILED,
@@ -68,31 +69,31 @@ export const mutations: MutationTree<AuthState> = {
   }
 };
 
-export const actions: ActionTree<State, RootState> = {
-  async signIn({ commit }, payload: SignInPayload) {
+export const actions: ActionTree<AuthState, RootState> = {
+  async signIn(this: NuxtApp, { commit }, payload: SignInPayload) {
     try {
       commit(SIGN_IN);
-      const authUser = await (this.$axios as any).$post('/auth/sign-in', payload);
+      const authUser = await this.$axios.$post('/auth/sign-in', payload);
       commit(SIGN_IN_SUCCESS, authUser);
     } catch (e) {
       commit(SIGN_IN_FAILED, e.message);
       throw e;
     }
   },
-  async signOut({ commit }) {
+  async signOut(this: NuxtApp, { commit }) {
     try {
       commit(SIGN_OUT);
-      await (this.$axios as any).$post('/auth/sign-out');
+      await this.$axios.$post('/auth/sign-out');
       commit(SIGN_OUT_SUCCESS);
     } catch (e) {
       commit(SIGN_OUT_FAILED, e.message);
       throw e;
     }
   },
-  async signUp({ commit }, payload: SignUpPayload) {
+  async signUp(this: NuxtApp, { commit }, payload: SignUpPayload) {
     try {
       commit(SIGN_UP);
-      await (this.$axios as any).$post('/auth/sign-up', payload);
+      await this.$axios.$post('/auth/sign-up', payload);
       commit(SIGN_UP_SUCCESS);
     } catch (e) {
       commit(SIGN_UP_FAILED, e.message);
@@ -100,42 +101,3 @@ export const actions: ActionTree<State, RootState> = {
     }
   }
 };
-
-export interface AuthState {
-  loading: boolean;
-  authUser?: AuthUser | null;
-  error?: any;
-}
-
-export interface AuthUser {
-  id: number;
-  email: string;
-  createdDate: string;
-  updatedDate: string;
-  profile: Profile;
-  role: Role;
-  accessToken: string;
-}
-
-export interface Role {
-  id: number;
-  name: string;
-}
-
-export interface Profile {
-  id: number;
-  firstName: string;
-  lastName?: string;
-}
-
-export interface SignInPayload {
-  email: string;
-  password: string;
-}
-
-export interface SignUpPayload {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName?: string;
-}
