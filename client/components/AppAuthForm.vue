@@ -23,7 +23,6 @@
   </v-container>
 </template>
 
-
 <script lang="ts">
 import Component, { Prop, Vue } from 'nuxtjs-extensions';
 
