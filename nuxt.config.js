@@ -1,4 +1,5 @@
 const path = require('path');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 module.exports = {
   // specify header defaults
@@ -24,7 +25,7 @@ module.exports = {
     color: '#4CAF50'
   },
   // specify build directory
-  buildDir: 'server/build',
+  buildDir: 'build/client',
   // specify nuxt source directory
   srcDir: 'client',
   // configure webpack build
@@ -32,16 +33,32 @@ module.exports = {
     babel: {
       plugins: ['transform-decorators-legacy', 'transform-class-properties']
     },
-    // extend(config) {},
+    // filenames: {
+    //   app: '[name].[chunkhash].js'
+    // },
+    // extend(config, { isClient }) {
+    //   if (isClient) {
+    //     const { vendor } = config.entry;
+    //     const vendor2 = ['axios', 'vuetify', 'vee-validate'];
+    //     config.entry.vendor = vendor.filter(v => !vendor2.includes(v));
+    //     config.entry.vendor2 = vendor2;
+    //     const plugin = config.plugins.find(plugin => ~plugin.chunkNames.indexOf('vendor'));
+    //     const old = plugin.minChunks;
+    //     plugin.minChunks = function(module, count) {
+    //       return old(module, count) && !/(axios)|(vuetify)|(vee-validate)/.test(module.context);
+    //     };
+    //   }
+    // },
     vendor: [
       'axios',
+      'vuetify',
+      'vee-validate',
       'nuxt-class-component',
       'vue-class-component',
       'vue-property-decorator',
-      'vuex-class',
-      'vee-validate',
-      'vuetify'
-    ]
+      'vuex-class'
+    ],
+    plugins: [new TsconfigPathsPlugin({ configFile: './client/tsconfig.json' })]
   },
   // specify additional nuxt plugins
   plugins: [

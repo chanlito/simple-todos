@@ -1,0 +1,15 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "strict": true,
+    "target": "es5",
+    "lib": [
+      "dom",
+      "es6"
+    ],
+    "module": "es6",
+    "rootDir": ".",
+    "outDir": "../build/client"
+  },
+  "include": ["**/*.ts", "**/*.js"]
+}
