@@ -1,8 +1,8 @@
 import { NuxtContext } from 'nuxt';
 import { ActionContext, ActionTree } from 'vuex';
 
-import { AuthState } from './auth.types';
-import { TodoState } from './todo.types';
+import { AuthState } from './auth';
+import { TodoState } from './todo';
 
 export type RootState = State & ModulesState;
 

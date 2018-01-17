@@ -1,7 +1,7 @@
 import { ActionTree, GetterTree, MutationTree } from 'vuex';
 
-import { RootState } from '../types/index.types';
-import { FetchTodosPayload, FetchTodosResponse, TodoState } from '../types/todo.types';
+import { RootState } from '../types/store';
+import { FetchTodosPayload, FetchTodosResponse, TodoState, TodoViewModel } from '../types/store/todo';
 import { FETCH_TODOS, FETCH_TODOS_FAILED, FETCH_TODOS_SUCCESS } from '../utils/mutation-types';
 
 export const state = (): TodoState => ({
@@ -16,7 +16,7 @@ export const state = (): TodoState => ({
 });
 
 export const getters: GetterTree<TodoState, RootState> = {
-  todos(state) {
+  todos(state): TodoViewModel[] {
     return state.data.map(i => ({
       id: i.id,
       title: i.title,

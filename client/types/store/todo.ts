@@ -49,3 +49,11 @@ export interface ResponseMetadata {
   offset: number;
   total: number;
 }
+
+export interface TodoViewModel {
+  id: number;
+  title: string;
+  isDone: boolean;
+  isPublic: boolean;
+  createdBy: string;
+}

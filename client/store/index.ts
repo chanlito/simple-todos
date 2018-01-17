@@ -1,7 +1,7 @@
 import { GetterTree, MutationTree } from 'vuex';
 
-import { AuthUser } from '../types/auth.types';
-import { RootActionTree, RootState, State } from '../types/index.types';
+import { RootActionTree, RootState, State } from '../types/store';
+import { AuthUser } from '../types/store/auth';
 import { SIGN_IN_SUCCESS } from '../utils/mutation-types';
 
 export const state = (): State => ({

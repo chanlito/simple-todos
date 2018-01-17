@@ -1,8 +1,8 @@
 import { NuxtApp } from 'nuxt';
 import { ActionTree, GetterTree, MutationTree } from 'vuex';
 
-import { AuthState, SignInPayload, SignUpPayload } from '../types/auth.types';
-import { RootState } from '../types/index.types';
+import { RootState } from '../types/store';
+import { AuthState, SignInPayload, SignUpPayload } from '../types/store/auth';
 import {
   SIGN_IN,
   SIGN_IN_FAILED,

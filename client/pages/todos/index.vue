@@ -13,6 +13,8 @@
 <script lang="ts">
 import Component, { Getter, Vue, namespace } from 'nuxtjs-extensions';
 
+import { TodoViewModel } from '../../types/store/todo';
+
 const TodoGetter = namespace('todo', Getter);
 
 @Component({
@@ -21,14 +23,7 @@ const TodoGetter = namespace('todo', Getter);
   }
 })
 export default class Todos extends Vue {
-  @TodoGetter
-  todos: Array<{
-    id: number;
-    title: string;
-    isDone: boolean;
-    isPublic: boolean;
-    createdBy: string;
-  }>;
+  @TodoGetter todos: TodoViewModel[];
 
   async fetch({ store }) {
     await store.dispatch('todo/fetchTodos', { limit: 10, offset: 0 });
