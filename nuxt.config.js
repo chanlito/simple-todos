@@ -75,8 +75,8 @@ module.exports = {
   modules: [
     '@nuxtjs/axios',
     ['@nuxtjs/dotenv', { path: path.resolve('.') }],
-    // 'nuxtjs-extensions/dist/modules/typescript'
-    '~modules/typescript'
+    ['nuxtjs-extensions/typescript', { tsconfig: path.resolve(__dirname, 'client', 'tsconfig.json') }],
+    // '~modules/typescript'
   ],
   /**
    * Axios module config
