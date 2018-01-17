@@ -1,7 +1,8 @@
-import { AxiosError } from 'axios';
+import { NuxtApp } from 'nuxt';
 import { ActionTree, GetterTree, MutationTree } from 'vuex';
 
-import { RootState, State } from '../store';
+import { RootState } from '../types/store';
+import { AuthState, SignInPayload, SignUpPayload } from '../types/store/auth';
 import {
   SIGN_IN,
   SIGN_IN_FAILED,
@@ -22,8 +23,8 @@ export const state = (): AuthState => ({
 
 export const getters: GetterTree<AuthState, RootState> = {
   isSignedIn: state => !!state.authUser,
-  firstName: state => state.authUser.profile.firstName,
-  lastName: state => state.authUser.profile.lastName,
+  firstName: state => (state.authUser ? state.authUser.profile.firstName : null),
+  lastName: state => (state.authUser ? state.authUser.profile.lastName : null),
   accessToken: state => (state.authUser ? state.authUser.accessToken : null)
 };
 
@@ -68,8 +69,8 @@ export const mutations: MutationTree<AuthState> = {
   }
 };
 
-export const actions: ActionTree<State, RootState> = {
-  async signIn({ commit }, payload: SignInPayload) {
+export const actions: ActionTree<AuthState, RootState> = {
+  async signIn(this: NuxtApp, { commit }, payload: SignInPayload) {
     try {
       commit(SIGN_IN);
       const authUser = await this.$axios.$post('/auth/sign-in', payload);
@@ -79,7 +80,7 @@ export const actions: ActionTree<State, RootState> = {
       throw e;
     }
   },
-  async signOut({ commit }) {
+  async signOut(this: NuxtApp, { commit }) {
     try {
       commit(SIGN_OUT);
       await this.$axios.$post('/auth/sign-out');
@@ -89,7 +90,7 @@ export const actions: ActionTree<State, RootState> = {
       throw e;
     }
   },
-  async signUp({ commit }, payload: SignUpPayload) {
+  async signUp(this: NuxtApp, { commit }, payload: SignUpPayload) {
     try {
       commit(SIGN_UP);
       await this.$axios.$post('/auth/sign-up', payload);
@@ -100,42 +101,3 @@ export const actions: ActionTree<State, RootState> = {
     }
   }
 };
-
-export interface AuthState {
-  loading: boolean;
-  authUser?: AuthUser;
-  error?: Error | AxiosError;
-}
-
-export interface AuthUser {
-  id: number;
-  email: string;
-  createdDate: string;
-  updatedDate: string;
-  profile: Profile;
-  role: Role;
-  accessToken: string;
-}
-
-export interface Role {
-  id: number;
-  name: string;
-}
-
-export interface Profile {
-  id: number;
-  firstName: string;
-  lastName?: string;
-}
-
-export interface SignInPayload {
-  email: string;
-  password: string;
-}
-
-export interface SignUpPayload {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName?: string;
-}

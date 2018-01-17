@@ -1,19 +1,30 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
-import { Auth, AuthUser, InjectCustomRepository, InjectEntityManager } from 'nestjs-extensions';
+import {
+  Auth,
+  AuthUser,
+  InjectCustomRepository,
+  InjectEntityManager,
+  InjectModel,
+  InjectSequelize
+} from 'nestjs-extensions';
+import { Sequelize } from 'sequelize-typescript';
 import { EntityManager } from 'typeorm';
 
 import { isNumber, Roles } from '../../common';
 import { Todo, User } from '../../entity';
+import { Todo as T } from '../../model';
 import { TodoRepository } from '../../repository';
 import { ApplicationGateway } from '../app.gateway';
 import { TodoFromParam } from './todo.decorator';
-import { CreateTodoDto, UpdateTodoDto } from './todo.dto';
+import { CreateMultipleTodoDto, CreateTodoDto, UpdateTodoDto } from './todo.dto';
 
 @ApiUseTags('todos')
 @Controller('todos')
 export class TodoController {
   constructor(
+    @InjectModel(T) private readonly todoModel: typeof T,
+    @InjectSequelize() private readonly db: Sequelize,
     @InjectEntityManager() private readonly em: EntityManager,
     @InjectCustomRepository(Todo) private readonly todoRepository: TodoRepository,
     private readonly appGateway: ApplicationGateway
@@ -35,6 +46,14 @@ export class TodoController {
       });
     }
     return todo;
+  }
+
+  @Post('multiple')
+  async createMultipleTodo(@Body() body: CreateMultipleTodoDto, @AuthUser() authUser: User) {
+    return this.db.transaction(async t => {
+      const todos = await this.todoModel.bulkCreate(body.payload);
+      return todos;
+    });
   }
 
   @Auth(Roles.User)

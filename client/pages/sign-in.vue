@@ -18,6 +18,7 @@
       <v-btn color="primary"
              light
              :loading="loading"
+             :disabled="loading"
              type="submit">Sign In</v-btn>
       <v-btn outline>Forgot Password?</v-btn>
     </form>
@@ -28,7 +29,7 @@
 import Component, { Action, State, Vue, namespace } from 'nuxtjs-extensions';
 
 import AppAuthForm from '../components/AppAuthForm.vue';
-import { SignInPayload } from '../store/auth';
+import { SignInPayload } from '../store/auth.types';
 import { handleErrors, validate } from '../utils';
 
 const AuthAction = namespace('auth', Action);

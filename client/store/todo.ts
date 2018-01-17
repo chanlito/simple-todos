@@ -1,8 +1,8 @@
-import { AxiosError } from 'axios';
 import { ActionTree, GetterTree, MutationTree } from 'vuex';
 
+import { RootState } from '../types/store';
+import { FetchTodosPayload, FetchTodosResponse, TodoState, TodoViewModel } from '../types/store/todo';
 import { FETCH_TODOS, FETCH_TODOS_FAILED, FETCH_TODOS_SUCCESS } from '../utils/mutation-types';
-import { RootState } from './';
 
 export const state = (): TodoState => ({
   loading: false,
@@ -16,7 +16,7 @@ export const state = (): TodoState => ({
 });
 
 export const getters: GetterTree<TodoState, RootState> = {
-  todos(state) {
+  todos(state): TodoViewModel[] {
     return state.data.map(i => ({
       id: i.id,
       title: i.title,
@@ -48,60 +48,10 @@ export const actions: ActionTree<TodoState, RootState> = {
   async fetchTodos({ commit }, payload: FetchTodosPayload) {
     try {
       commit(FETCH_TODOS);
-      const response: FetchTodosResponse = await this.$axios.$get('/todos', payload);
+      const response: FetchTodosResponse = await (this.$axios as any).$get('/todos', payload);
       commit(FETCH_TODOS_SUCCESS, response);
     } catch (e) {
       commit(FETCH_TODOS_FAILED, e.message);
     }
   }
 };
-
-export interface TodoState {
-  loading: boolean;
-  error?: Error | AxiosError;
-  data: Array<Todo & { user: User }>;
-  metadata: ResponseMetadata;
-}
-
-export interface FetchTodosPayload {
-  limit: number;
-  offset: number;
-}
-
-export interface FetchTodosResponse {
-  data: Array<Todo & { user: User & { profile: Profile } }>;
-  metadata: ResponseMetadata;
-}
-
-export interface Todo {
-  id: number;
-  title: string;
-  description: string;
-  isDone: boolean;
-  isPublic: boolean;
-  createdDate: string;
-  updatedDate: string;
-}
-
-export interface User {
-  id: number;
-  email: string;
-  password: string;
-  createdDate: string;
-  updatedDate: string;
-  profile: Profile;
-}
-
-export interface Profile {
-  id: number;
-  firstName: string;
-  lastName: string;
-  createdDate: string;
-  updatedDate: string;
-}
-
-export interface ResponseMetadata {
-  limit: number;
-  offset: number;
-  total: number;
-}

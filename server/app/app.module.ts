@@ -1,8 +1,9 @@
 import { Global, Module } from '@nestjs/common';
-import { LoggerModule, MailerModule, RedisModule, TypeOrmModule } from 'nestjs-extensions';
+import { LoggerModule, MailerModule, RedisModule, SequelizeModule, TypeOrmModule } from 'nestjs-extensions';
 import { resolve as pathResolve } from 'path';
 
 import * as entities from '../entity';
+import * as models from '../model';
 import * as repositories from '../repository';
 import { AppController } from './app.controller';
 import { ApplicationGateway } from './app.gateway';
@@ -58,6 +59,19 @@ const {
       host: REDIS_HOST,
       port: REDIS_PORT,
       auth_pass: REDIS_AUTH_PASS
+    }),
+    SequelizeModule.forRoot({
+      config: {
+        host: TYPEORM_HOST,
+        port: TYPEORM_PORT,
+        database: TYPEORM_SCHEMA,
+        username: TYPEORM_USERNAME,
+        password: TYPEORM_PASSWORD,
+        dialect: TYPEORM_CONNECTION,
+        logging: TYPEORM_LOGGING === 'true' ? console.log : false
+      },
+      useCLS: true,
+      models: Object.keys(models).map(i => models[i])
     }),
     TypeOrmModule.forRoot({
       entities: Object.keys(entities).map(i => entities[i]),

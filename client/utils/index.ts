@@ -8,7 +8,7 @@ export function handleErrors(eb: ErrorBag, e: any) {
   const { status, data } = e.response;
   const { message, errors } = data;
   if (status === 422) {
-    errors.forEach(e => eb.add({ field: e.field, msg: e.message }));
+    errors.forEach((e: any) => eb.add({ field: e.field, msg: e.message }));
   } else {
     return message;
   }

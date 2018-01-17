@@ -19,6 +19,16 @@ export class CreateTodoDto {
 
 @Validate({
   rules: {
+    'payload.*.title': 'required|string',
+    'payload.*.description': 'string'
+  }
+})
+export class CreateMultipleTodoDto {
+  payload: CreateTodoDto[];
+}
+
+@Validate({
+  rules: {
     title: 'string',
     description: 'string'
   }

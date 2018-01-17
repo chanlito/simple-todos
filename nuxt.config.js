@@ -1,4 +1,8 @@
+require('dotenv/config');
+
 const path = require('path');
+
+const { PORT } = process.env;
 
 module.exports = {
   // specify header defaults
@@ -32,15 +36,30 @@ module.exports = {
     babel: {
       plugins: ['transform-decorators-legacy', 'transform-class-properties']
     },
-    // extend(config) {},
+    // filenames: {
+    //   app: '[name].[chunkhash].js'
+    // },
+    // extend(config, { isClient }) {
+    //   if (isClient) {
+    //     const { vendor } = config.entry;
+    //     const vendor2 = ['axios', 'vuetify', 'vee-validate'];
+    //     config.entry.vendor = vendor.filter(v => !vendor2.includes(v));
+    //     config.entry.vendor2 = vendor2;
+    //     const plugin = config.plugins.find(plugin => ~plugin.chunkNames.indexOf('vendor'));
+    //     const old = plugin.minChunks;
+    //     plugin.minChunks = function(module, count) {
+    //       return old(module, count) && !/(axios)|(vuetify)|(vee-validate)/.test(module.context);
+    //     };
+    //   }
+    // },
     vendor: [
       'axios',
+      'vuetify',
+      'vee-validate',
       'nuxt-class-component',
       'vue-class-component',
       'vue-property-decorator',
-      'vuex-class',
-      'vee-validate',
-      'vuetify'
+      'vuex-class'
     ]
   },
   // specify additional nuxt plugins
@@ -56,13 +75,14 @@ module.exports = {
   modules: [
     '@nuxtjs/axios',
     ['@nuxtjs/dotenv', { path: path.resolve('.') }],
-    'nuxtjs-extensions/dist/modules/typescript'
+    ['nuxtjs-extensions/typescript', { tsconfig: path.resolve(__dirname, 'client', 'tsconfig.json') }],
+    // '~modules/typescript'
   ],
   /**
    * Axios module config
    */
   axios: {
-    // baseURL: `http://127.0.0.1:${PORT}/api`,
+    baseURL: `http://127.0.0.1:${PORT}/api`,
     /**
      * Adds an interceptor to automatically set `withCredentials` config of axios
      * when requesting to baseUrl which allows passing authentication headers to backend.

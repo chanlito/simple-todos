@@ -1,8 +1,8 @@
-import { ActionContext, ActionTree, GetterTree, MutationTree } from 'vuex';
+import { GetterTree, MutationTree } from 'vuex';
 
+import { RootActionTree, RootState, State } from '../types/store';
+import { AuthUser } from '../types/store/auth';
 import { SIGN_IN_SUCCESS } from '../utils/mutation-types';
-import { AuthState, AuthUser } from './auth';
-import { TodoState } from './todo';
 
 export const state = (): State => ({
   appName: 'Simple Todos',
@@ -15,7 +15,7 @@ export const getters: GetterTree<State, RootState> = {
 };
 
 export const mutations: MutationTree<State> = {
-  SET_IP(state: RootState, payload) {
+  SET_IP(state: State, payload) {
     state.ip = payload;
   }
 };
@@ -32,26 +32,3 @@ export const actions: RootActionTree<State, RootState> = {
     if (authUser) commit(`auth/${SIGN_IN_SUCCESS}`, authUser);
   }
 };
-
-export type RootState = State & ModulesState;
-
-export interface State {
-  appName: string;
-  ip?: string;
-}
-
-export interface ModulesState {
-  auth: AuthState;
-  todo: TodoState;
-}
-
-export interface RootActionTree<S, R> extends ActionTree<S, R> {
-  nuxtServerInit(context: ActionContext<S, R>, NuxtContext): Promise<void>;
-}
-
-export interface NuxtContext {
-  app: any;
-  req: any;
-  res: any;
-  store: any;
-}
