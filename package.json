@@ -123,5 +123,38 @@
     ],
     "all": true,
     "report-dir": "./coverage"
+  },
+  "eslintConfig": {
+    "extends": ["eslint:recommended", "plugin:vue/recommended"],
+    "env": {
+      "node": true,
+      "browser": true
+    },
+    "parserOptions": {
+      "parser": "babel-eslint",
+      "ecmaVersion": 8
+    },
+    "rules": {
+      "import/no-unresolved": 0,
+      "import/no-unassigned-import": 0,
+      "semi": ["error", "always"],
+      "no-console": "off",
+      "vue/max-attributes-per-line": 0
+    }
+  },
+  "nodemonConfig": {
+    "watch": ["server", "nuxt.config.js"],
+    "ext": "js ts",
+    "ignore": ["server/**/*.spec.ts", "server/build/"],
+    "exec": "ts-node --type-check --project server server"
+  },
+  "prettier": {
+    "bracketSpacing": true,
+    "printWidth": 120,
+    "semi": true,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "none",
+    "useTabs": false
   }
 }

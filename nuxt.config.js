@@ -1,11 +1,11 @@
 require('dotenv/config');
-
 const path = require('path');
-
 const { PORT } = process.env;
 
 module.exports = {
-  // specify header defaults
+  /**
+   * Specify application header defaults
+   */
   head: {
     title: 'Simple Todos',
     meta: [
@@ -23,35 +23,27 @@ module.exports = {
       { rel: 'stylesheet', href: 'https://use.fontawesome.com/releases/v5.0.4/css/all.css' }
     ]
   },
-  // customize loading bar
+  /**
+   * Customize application loading bar
+   */
   loading: {
     color: '#4CAF50'
   },
-  // specify build directory
+  /**
+   * Specify build directory
+   */
   buildDir: 'server/build',
-  // specify nuxt source directory
+  /**
+   * Specify nuxt source directory
+   */
   srcDir: 'client',
-  // configure webpack build
+  /**
+   * Configure & extend Webpack build
+   */
   build: {
     babel: {
       plugins: ['transform-decorators-legacy', 'transform-class-properties']
     },
-    // filenames: {
-    //   app: '[name].[chunkhash].js'
-    // },
-    // extend(config, { isClient }) {
-    //   if (isClient) {
-    //     const { vendor } = config.entry;
-    //     const vendor2 = ['axios', 'vuetify', 'vee-validate'];
-    //     config.entry.vendor = vendor.filter(v => !vendor2.includes(v));
-    //     config.entry.vendor2 = vendor2;
-    //     const plugin = config.plugins.find(plugin => ~plugin.chunkNames.indexOf('vendor'));
-    //     const old = plugin.minChunks;
-    //     plugin.minChunks = function(module, count) {
-    //       return old(module, count) && !/(axios)|(vuetify)|(vee-validate)/.test(module.context);
-    //     };
-    //   }
-    // },
     vendor: [
       'axios',
       'vuetify',
@@ -62,7 +54,9 @@ module.exports = {
       'vuex-class'
     ]
   },
-  // specify additional nuxt plugins
+  /**
+   * Specify additional nuxt plugins
+   */
   plugins: [
     {
       src: '~/plugins/vue-notifications',
@@ -71,12 +65,13 @@ module.exports = {
     '~/plugins/vee-validate',
     '~/plugins/vuetify'
   ],
-  // specify additional nuxt modules
+  /**
+   * Specify additional nuxt modules
+   */
   modules: [
     '@nuxtjs/axios',
     ['@nuxtjs/dotenv', { path: path.resolve('.') }],
-    ['nuxtjs-extensions/typescript', { tsconfig: path.resolve(__dirname, 'client', 'tsconfig.json') }],
-    // '~modules/typescript'
+    ['nuxtjs-extensions/typescript', { tsconfig: path.resolve(__dirname, 'client', 'tsconfig.json') }]
   ],
   /**
    * Axios module config
@@ -123,7 +118,7 @@ module.exports = {
      *      axios.defaults.xsrfHeaderName = 'X-CSRF-TOKEN'
      *    }
      */
-    init: (axios, ctx) => {},
+    // init: (axios, ctx) => {},
     /**
      * If you want to disable the default error handler for some reason,
      * you can do it so by setting the option `disableDefaultErrorHandler` to `true`.

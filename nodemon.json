@@ -1,6 +1,0 @@
-{
-  "watch": ["server", "nuxt.config.js"],
-  "ext": "js ts",
-  "ignore": ["server/**/*.spec.ts", "server/nuxt/", "server/build/"],
-  "exec": "ts-node --type-check --project server server"
-}
