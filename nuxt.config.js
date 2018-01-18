@@ -77,12 +77,12 @@ module.exports = {
    * Axios module config
    */
   axios: {
-    baseURL: `http://127.0.0.1:${PORT}/api`,
+    // baseURL: `http://127.0.0.1:${PORT}/api`,
     /**
      * Adds an interceptor to automatically set `withCredentials` config of axios
      * when requesting to baseUrl which allows passing authentication headers to backend.
      */
-    credentials: false,
+    credentials: true,
     /**
      * Adds interceptors to log all responses and requests
      */

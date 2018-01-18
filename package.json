@@ -125,7 +125,10 @@
     "report-dir": "./coverage"
   },
   "eslintConfig": {
-    "extends": ["eslint:recommended", "plugin:vue/recommended"],
+    "extends": [
+      "eslint:recommended",
+      "plugin:vue/recommended"
+    ],
     "env": {
       "node": true,
       "browser": true
@@ -137,15 +140,24 @@
     "rules": {
       "import/no-unresolved": 0,
       "import/no-unassigned-import": 0,
-      "semi": ["error", "always"],
+      "semi": [
+        "error",
+        "always"
+      ],
       "no-console": "off",
       "vue/max-attributes-per-line": 0
     }
   },
   "nodemonConfig": {
-    "watch": ["server", "nuxt.config.js"],
+    "watch": [
+      "server",
+      "nuxt.config.js"
+    ],
     "ext": "js ts",
-    "ignore": ["server/**/*.spec.ts", "server/build/"],
+    "ignore": [
+      "server/**/*.spec.ts",
+      "server/build/"
+    ],
     "exec": "ts-node --type-check --project server server"
   },
   "prettier": {

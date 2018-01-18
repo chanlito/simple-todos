@@ -1,7 +1,6 @@
 import { INestApplication } from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import session = require('cookie-session');
 import * as cors from 'cors';
 import * as express from 'express';
 import * as morgan from 'morgan';
@@ -14,6 +13,7 @@ import {
 } from 'nestjs-extensions';
 import { Builder, Nuxt } from 'nuxt';
 
+const session = require('cookie-session');
 const nuxtConfig = require('../nuxt.config');
 
 export class Startup {
@@ -51,12 +51,13 @@ export class Startup {
 
   private async configureExpressMiddleware(app: express.Application) {
     app.use(morgan('dev'));
-    app.use(cors({ origin: true }));
+    app.use(cors({ origin: true, credentials: true,  }));
     app.use(
       session({
         name: '__session',
         keys: [process.env.SECRET, 'no-keys'],
-        maxAge: 24 * 60 * 60 * 1000 // 24 hours
+        maxAge: 24 * 60 * 60 * 1000, // 24 hours
+        httpOnly: true
       })
     );
   }
